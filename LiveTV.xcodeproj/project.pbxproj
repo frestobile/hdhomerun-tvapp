@@ -572,7 +572,7 @@
 					"$(PROJECT_DIR)/frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = MacMiniTest.LiveTV;
+				PRODUCT_BUNDLE_IDENTIFIER = "SevenViewSolutions--LLL.LiveTV";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "LiveTV/HDHomeRun-Bridging-Header.h";
@@ -610,7 +610,7 @@
 					"$(PROJECT_DIR)/frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = MacMiniTest.LiveTV;
+				PRODUCT_BUNDLE_IDENTIFIER = "SevenViewSolutions--LLL.LiveTV";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "LiveTV/HDHomeRun-Bridging-Header.h";

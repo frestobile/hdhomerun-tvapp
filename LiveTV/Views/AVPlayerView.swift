@@ -8,7 +8,7 @@
 import SwiftUI
 import AVKit
 
-struct PlayerView1: View {
+struct AVPlayerView: View {
     var streamURL: String?
     
     @State private var player: AVPlayer?
@@ -131,5 +131,5 @@ struct PlayerView1: View {
 }
 
 #Preview {
-    PlayerView1()
+    AVPlayerView()
 }

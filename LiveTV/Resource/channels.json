@@ -1,0 +1,285 @@
+[
+    {
+        "GuideNumber": "5.1",
+        "GuideName": "WPTV-TV",
+        "VideoCodec": "MPEG2",
+        "AudioCodec": "AC3",
+        "HD": 1,
+        "Favorite": 1,
+        "URL": "http://192.168.8.173:5004/auto/v5.1"
+    },
+    {
+        "GuideNumber": "5.3",
+        "GuideName": "LAFF",
+        "VideoCodec": "MPEG2",
+        "AudioCodec": "AC3",
+        "Favorite": 1,
+        "URL": "http://192.168.8.173:5004/auto/v5.3"
+    },
+    {
+        "GuideNumber": "5.5",
+        "GuideName": "GET",
+        "VideoCodec": "MPEG2",
+        "AudioCodec": "AC3",
+        "Favorite": 1,
+        "URL": "http://192.168.8.173:5004/auto/v5.5"
+    },
+    {
+        "GuideNumber": "9.1",
+        "GuideName": "WHDT",
+        "VideoCodec": "MPEG2",
+        "AudioCodec": "AC3",
+        "HD": 1,
+        "Favorite": 1,
+        "URL": "http://192.168.8.173:5004/auto/v9.1"
+    },
+    {
+        "GuideNumber": "9.2",
+        "GuideName": "CourtTV",
+        "VideoCodec": "MPEG2",
+        "AudioCodec": "AC3",
+        "Favorite": 1,
+        "URL": "http://192.168.8.173:5004/auto/v9.2"
+    },
+    {
+        "GuideNumber": "9.3",
+        "GuideName": "Scripps",
+        "VideoCodec": "MPEG2",
+        "AudioCodec": "AC3",
+        "Favorite": 1,
+        "URL": "http://192.168.8.173:5004/auto/v9.3"
+    },
+    {
+        "GuideNumber": "12.1",
+        "GuideName": "CBS",
+        "VideoCodec": "MPEG2",
+        "AudioCodec": "AC3",
+        "HD": 1,
+        "Favorite": 1,
+        "URL": "http://192.168.8.173:5004/auto/v12.1"
+    },
+    {
+        "GuideNumber": "12.2",
+        "GuideName": "Charge!",
+        "VideoCodec": "MPEG2",
+        "AudioCodec": "AC3",
+        "Favorite": 1,
+        "URL": "http://192.168.8.173:5004/auto/v12.2"
+    },
+    {
+        "GuideNumber": "12.3",
+        "GuideName": "Comet",
+        "VideoCodec": "MPEG2",
+        "AudioCodec": "AC3",
+        "Favorite": 1,
+        "URL": "http://192.168.8.173:5004/auto/v12.3"
+    },
+    {
+        "GuideNumber": "12.4",
+        "GuideName": "TheNest",
+        "VideoCodec": "MPEG2",
+        "AudioCodec": "AC3",
+        "Favorite": 1,
+        "URL": "http://192.168.8.173:5004/auto/v12.4"
+    },
+    {
+        "GuideNumber": "17.1",
+        "GuideName": "WLRN-HD",
+        "VideoCodec": "MPEG2",
+        "AudioCodec": "AC3",
+        "HD": 1,
+        "Favorite": 1,
+        "URL": "http://192.168.8.173:5004/auto/v17.1"
+    },
+    {
+        "GuideNumber": "23.1",
+        "GuideName": "WLTV-DT",
+        "VideoCodec": "MPEG2",
+        "AudioCodec": "AC3",
+        "HD": 1,
+        "Favorite": 1,
+        "URL": "http://192.168.8.173:5004/auto/v23.1"
+    },
+    {
+        "GuideNumber": "25.1",
+        "GuideName": "WPBF",
+        "VideoCodec": "MPEG2",
+        "AudioCodec": "AC3",
+        "HD": 1,
+        "Favorite": 1,
+        "URL": "http://192.168.8.173:5004/auto/v25.1"
+    },
+    {
+        "GuideNumber": "25.2",
+        "GuideName": "ESTRELL",
+        "VideoCodec": "MPEG2",
+        "AudioCodec": "AC3",
+        "Favorite": 1,
+        "URL": "http://192.168.8.173:5004/auto/v25.2"
+    },
+    {
+        "GuideNumber": "25.3",
+        "GuideName": "CRIME",
+        "VideoCodec": "MPEG2",
+        "AudioCodec": "AC3",
+        "Favorite": 1,
+        "URL": "http://192.168.8.173:5004/auto/v25.3"
+    },
+    {
+        "GuideNumber": "25.4",
+        "GuideName": "STORY",
+        "VideoCodec": "MPEG2",
+        "AudioCodec": "AC3",
+        "Favorite": 1,
+        "URL": "http://192.168.8.173:5004/auto/v25.4"
+    },
+    {
+        "GuideNumber": "25.5",
+        "GuideName": "MeTV",
+        "VideoCodec": "MPEG2",
+        "AudioCodec": "AC3",
+        "Favorite": 1,
+        "URL": "http://192.168.8.173:5004/auto/v25.5"
+    },
+    {
+        "GuideNumber": "29.1",
+        "GuideName": "Fox",
+        "VideoCodec": "MPEG2",
+        "AudioCodec": "AC3",
+        "HD": 1,
+        "Favorite": 1,
+        "URL": "http://192.168.8.173:5004/auto/v29.1"
+    },
+    {
+        "GuideNumber": "29.2",
+        "GuideName": "Bounce",
+        "VideoCodec": "MPEG2",
+        "AudioCodec": "AC3",
+        "Favorite": 1,
+        "URL": "http://192.168.8.173:5004/auto/v29.2"
+    },
+    {
+        "GuideNumber": "29.3",
+        "GuideName": "HEROES",
+        "VideoCodec": "MPEG2",
+        "AudioCodec": "AC3",
+        "Favorite": 1,
+        "URL": "http://192.168.8.173:5004/auto/v29.3"
+    },
+    {
+        "GuideNumber": "29.4",
+        "GuideName": "OxygnTC",
+        "VideoCodec": "MPEG2",
+        "AudioCodec": "AC3",
+        "Favorite": 1,
+        "URL": "http://192.168.8.173:5004/auto/v29.4"
+    },
+    {
+        "GuideNumber": "29.5",
+        "GuideName": "StartTV",
+        "VideoCodec": "MPEG2",
+        "AudioCodec": "AC3",
+        "Favorite": 1,
+        "URL": "http://192.168.8.173:5004/auto/v29.5"
+    },
+    {
+        "GuideNumber": "29.6",
+        "GuideName": "Quest",
+        "VideoCodec": "MPEG2",
+        "AudioCodec": "AC3",
+        "Favorite": 1,
+        "URL": "http://192.168.8.173:5004/auto/v29.6"
+    },
+    {
+        "GuideNumber": "29.7",
+        "GuideName": "WFLXOUT",
+        "VideoCodec": "MPEG2",
+        "AudioCodec": "AC3",
+        "Favorite": 1,
+        "URL": "http://192.168.8.173:5004/auto/v29.7"
+    },
+    {
+        "GuideNumber": "34.1",
+        "GuideName": "CW",
+        "VideoCodec": "MPEG2",
+        "AudioCodec": "AC3",
+        "HD": 1,
+        "Favorite": 1,
+        "URL": "http://192.168.8.173:5004/auto/v34.1"
+    },
+    {
+        "GuideNumber": "34.2",
+        "GuideName": "Catchy",
+        "VideoCodec": "MPEG2",
+        "AudioCodec": "AC3",
+        "Favorite": 1,
+        "URL": "http://192.168.8.173:5004/auto/v34.2"
+    },
+    {
+        "GuideNumber": "34.3",
+        "GuideName": "MyTV",
+        "VideoCodec": "MPEG2",
+        "AudioCodec": "AC3",
+        "Favorite": 1,
+        "URL": "http://192.168.8.173:5004/auto/v34.3"
+    },
+    {
+        "GuideNumber": "51.1",
+        "GuideName": "WSCV",
+        "VideoCodec": "MPEG2",
+        "AudioCodec": "AC3",
+        "HD": 1,
+        "Favorite": 1,
+        "URL": "http://192.168.8.173:5004/auto/v51.1"
+    },
+    {
+        "GuideNumber": "51.2",
+        "GuideName": "EXITOS",
+        "VideoCodec": "MPEG2",
+        "AudioCodec": "AC3",
+        "Favorite": 1,
+        "URL": "http://192.168.8.173:5004/auto/v51.2"
+    },
+    {
+        "GuideNumber": "67.1",
+        "GuideName": "ION",
+        "VideoCodec": "MPEG2",
+        "AudioCodec": "AC3",
+        "HD": 1,
+        "Favorite": 1,
+        "URL": "http://192.168.8.173:5004/auto/v67.1"
+    },
+    {
+        "GuideNumber": "67.2",
+        "GuideName": "CourtTV",
+        "VideoCodec": "MPEG2",
+        "AudioCodec": "AC3",
+        "Favorite": 1,
+        "URL": "http://192.168.8.173:5004/auto/v67.2"
+    },
+    {
+        "GuideNumber": "67.3",
+        "GuideName": "Mystery",
+        "VideoCodec": "MPEG2",
+        "AudioCodec": "AC3",
+        "Favorite": 1,
+        "URL": "http://192.168.8.173:5004/auto/v67.3"
+    },
+    {
+        "GuideNumber": "67.5",
+        "GuideName": "IONPlus",
+        "VideoCodec": "MPEG2",
+        "AudioCodec": "AC3",
+        "Favorite": 1,
+        "URL": "http://192.168.8.173:5004/auto/v67.5"
+    },
+    {
+        "GuideNumber": "69.1",
+        "GuideName": "WAMI-DT",
+        "VideoCodec": "MPEG2",
+        "AudioCodec": "AC3",
+        "HD": 1,
+        "Favorite": 1,
+        "URL": "http://192.168.8.173:5004/auto/v69.1"
+    }
+]

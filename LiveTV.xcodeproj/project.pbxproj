@@ -1,0 +1,764 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		3A22DB582C826E51002A0050 /* LiveTVApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A22DB572C826E51002A0050 /* LiveTVApp.swift */; };
+		3A22DB5A2C826E51002A0050 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A22DB592C826E51002A0050 /* MainView.swift */; };
+		3A22DB5C2C826E53002A0050 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3A22DB5B2C826E53002A0050 /* Assets.xcassets */; };
+		3A22DB5F2C826E53002A0050 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3A22DB5E2C826E53002A0050 /* Preview Assets.xcassets */; };
+		3A22DB612C826E53002A0050 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A22DB602C826E53002A0050 /* Persistence.swift */; };
+		3A22DB642C826E53002A0050 /* LiveTV.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3A22DB622C826E53002A0050 /* LiveTV.xcdatamodeld */; };
+		3A22DB6E2C826E53002A0050 /* LiveTVTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A22DB6D2C826E53002A0050 /* LiveTVTests.swift */; };
+		3A22DB782C826E53002A0050 /* LiveTVUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A22DB772C826E53002A0050 /* LiveTVUITests.swift */; };
+		3A22DB7A2C826E53002A0050 /* LiveTVUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A22DB792C826E53002A0050 /* LiveTVUITestsLaunchTests.swift */; };
+		A5195A772C9A644E003194DF /* libpthread.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = A5195A762C9A6445003194DF /* libpthread.tbd */; };
+		A53FB35C2C9B675D000EE49C /* LiveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A53FB35B2C9B675D000EE49C /* LiveView.swift */; };
+		A53FB35E2C9B67EA000EE49C /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A53FB35D2C9B67EA000EE49C /* SettingsView.swift */; };
+		A53FB3612C9B6B02000EE49C /* TunersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A53FB3602C9B6B02000EE49C /* TunersView.swift */; };
+		A53FB3632C9B6B32000EE49C /* SourcesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A53FB3622C9B6B32000EE49C /* SourcesView.swift */; };
+		A53FB3652C9B6B5C000EE49C /* PlaybackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A53FB3642C9B6B5B000EE49C /* PlaybackView.swift */; };
+		A53FB3682C9B7807000EE49C /* HDHomeRunModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A53FB3672C9B7807000EE49C /* HDHomeRunModel.swift */; };
+		A54660722C9D7A3C005F60B1 /* channels.json in Resources */ = {isa = PBXBuildFile; fileRef = A546606F2C9D7A3C005F60B1 /* channels.json */; };
+		A54660732C9D7A3C005F60B1 /* device.json in Resources */ = {isa = PBXBuildFile; fileRef = A54660702C9D7A3C005F60B1 /* device.json */; };
+		A54660752C9D9C9E005F60B1 /* VLCVideoPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A54660742C9D9C9E005F60B1 /* VLCVideoPlayer.swift */; };
+		A54660772C9D9D5B005F60B1 /* ChannelDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A54660762C9D9D5B005F60B1 /* ChannelDetailView.swift */; };
+		A547727A2CA28C0000772700 /* HDHomeRun_tvOS_Framework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A54772792CA28C0000772700 /* HDHomeRun_tvOS_Framework.framework */; };
+		A547727B2CA28C0000772700 /* HDHomeRun_tvOS_Framework.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A54772792CA28C0000772700 /* HDHomeRun_tvOS_Framework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		A547727E2CA28C3000772700 /* TVVLCKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A547727D2CA28C3000772700 /* TVVLCKit.framework */; };
+		A547727F2CA28C3000772700 /* TVVLCKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A547727D2CA28C3000772700 /* TVVLCKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		A5539DF92C9CBCA7000B972B /* PlayerView1.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5539DF82C9CBCA7000B972B /* PlayerView1.swift */; };
+		A5539DFB2C9CC3DF000B972B /* CloudKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5539DFA2C9CC3DF000B972B /* CloudKitManager.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		3A22DB6A2C826E53002A0050 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3A22DB4C2C826E51002A0050 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3A22DB532C826E51002A0050;
+			remoteInfo = LiveTV;
+		};
+		3A22DB742C826E53002A0050 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3A22DB4C2C826E51002A0050 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3A22DB532C826E51002A0050;
+			remoteInfo = LiveTV;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		A547727C2CA28C0000772700 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				A547727B2CA28C0000772700 /* HDHomeRun_tvOS_Framework.framework in Embed Frameworks */,
+				A547727F2CA28C3000772700 /* TVVLCKit.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		3A22DB542C826E51002A0050 /* LiveTV.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LiveTV.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		3A22DB572C826E51002A0050 /* LiveTVApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveTVApp.swift; sourceTree = "<group>"; };
+		3A22DB592C826E51002A0050 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		3A22DB5B2C826E53002A0050 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		3A22DB5E2C826E53002A0050 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		3A22DB602C826E53002A0050 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
+		3A22DB632C826E53002A0050 /* LiveTV.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = LiveTV.xcdatamodel; sourceTree = "<group>"; };
+		3A22DB692C826E53002A0050 /* LiveTVTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LiveTVTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		3A22DB6D2C826E53002A0050 /* LiveTVTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveTVTests.swift; sourceTree = "<group>"; };
+		3A22DB732C826E53002A0050 /* LiveTVUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LiveTVUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		3A22DB772C826E53002A0050 /* LiveTVUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveTVUITests.swift; sourceTree = "<group>"; };
+		3A22DB792C826E53002A0050 /* LiveTVUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveTVUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		A5195A762C9A6445003194DF /* libpthread.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libpthread.tbd; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS.sdk/usr/lib/libpthread.tbd; sourceTree = DEVELOPER_DIR; };
+		A5195A782C9A65AF003194DF /* HDHomeRun-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "HDHomeRun-Bridging-Header.h"; sourceTree = "<group>"; };
+		A53FB35B2C9B675D000EE49C /* LiveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveView.swift; sourceTree = "<group>"; };
+		A53FB35D2C9B67EA000EE49C /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		A53FB3602C9B6B02000EE49C /* TunersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TunersView.swift; sourceTree = "<group>"; };
+		A53FB3622C9B6B32000EE49C /* SourcesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourcesView.swift; sourceTree = "<group>"; };
+		A53FB3642C9B6B5B000EE49C /* PlaybackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaybackView.swift; sourceTree = "<group>"; };
+		A53FB3672C9B7807000EE49C /* HDHomeRunModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HDHomeRunModel.swift; sourceTree = "<group>"; };
+		A546606F2C9D7A3C005F60B1 /* channels.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = channels.json; sourceTree = "<group>"; };
+		A54660702C9D7A3C005F60B1 /* device.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = device.json; sourceTree = "<group>"; };
+		A54660742C9D9C9E005F60B1 /* VLCVideoPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VLCVideoPlayer.swift; sourceTree = "<group>"; };
+		A54660762C9D9D5B005F60B1 /* ChannelDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelDetailView.swift; sourceTree = "<group>"; };
+		A54660782C9DA2CD005F60B1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		A54772792CA28C0000772700 /* HDHomeRun_tvOS_Framework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HDHomeRun_tvOS_Framework.framework; path = frameworks/HDHomeRun_tvOS_Framework.framework; sourceTree = "<group>"; };
+		A547727D2CA28C3000772700 /* TVVLCKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TVVLCKit.framework; path = frameworks/TVVLCKit.framework; sourceTree = "<group>"; };
+		A5539DF82C9CBCA7000B972B /* PlayerView1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerView1.swift; sourceTree = "<group>"; };
+		A5539DFA2C9CC3DF000B972B /* CloudKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitManager.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		3A22DB512C826E51002A0050 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A547727A2CA28C0000772700 /* HDHomeRun_tvOS_Framework.framework in Frameworks */,
+				A5195A772C9A644E003194DF /* libpthread.tbd in Frameworks */,
+				A547727E2CA28C3000772700 /* TVVLCKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3A22DB662C826E53002A0050 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3A22DB702C826E53002A0050 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		3A22DB4B2C826E51002A0050 = {
+			isa = PBXGroup;
+			children = (
+				3A22DB562C826E51002A0050 /* LiveTV */,
+				3A22DB6C2C826E53002A0050 /* LiveTVTests */,
+				3A22DB762C826E53002A0050 /* LiveTVUITests */,
+				3A22DB552C826E51002A0050 /* Products */,
+				A5195A712C9A63ED003194DF /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		3A22DB552C826E51002A0050 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				3A22DB542C826E51002A0050 /* LiveTV.app */,
+				3A22DB692C826E53002A0050 /* LiveTVTests.xctest */,
+				3A22DB732C826E53002A0050 /* LiveTVUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		3A22DB562C826E51002A0050 /* LiveTV */ = {
+			isa = PBXGroup;
+			children = (
+				A54660782C9DA2CD005F60B1 /* Info.plist */,
+				A54660712C9D7A3C005F60B1 /* Resource */,
+				A5AE5E032C9CC6D900DB60EE /* Manager */,
+				A53FB3662C9B77E7000EE49C /* Models */,
+				A53FB35F2C9B6A90000EE49C /* Views */,
+				3A22DB572C826E51002A0050 /* LiveTVApp.swift */,
+				3A22DB592C826E51002A0050 /* MainView.swift */,
+				3A22DB5B2C826E53002A0050 /* Assets.xcassets */,
+				3A22DB602C826E53002A0050 /* Persistence.swift */,
+				3A22DB622C826E53002A0050 /* LiveTV.xcdatamodeld */,
+				A5195A782C9A65AF003194DF /* HDHomeRun-Bridging-Header.h */,
+				3A22DB5D2C826E53002A0050 /* Preview Content */,
+			);
+			path = LiveTV;
+			sourceTree = "<group>";
+		};
+		3A22DB5D2C826E53002A0050 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				3A22DB5E2C826E53002A0050 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		3A22DB6C2C826E53002A0050 /* LiveTVTests */ = {
+			isa = PBXGroup;
+			children = (
+				3A22DB6D2C826E53002A0050 /* LiveTVTests.swift */,
+			);
+			path = LiveTVTests;
+			sourceTree = "<group>";
+		};
+		3A22DB762C826E53002A0050 /* LiveTVUITests */ = {
+			isa = PBXGroup;
+			children = (
+				3A22DB772C826E53002A0050 /* LiveTVUITests.swift */,
+				3A22DB792C826E53002A0050 /* LiveTVUITestsLaunchTests.swift */,
+			);
+			path = LiveTVUITests;
+			sourceTree = "<group>";
+		};
+		A5195A712C9A63ED003194DF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A547727D2CA28C3000772700 /* TVVLCKit.framework */,
+				A54772792CA28C0000772700 /* HDHomeRun_tvOS_Framework.framework */,
+				A5195A762C9A6445003194DF /* libpthread.tbd */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		A53FB35F2C9B6A90000EE49C /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				A53FB35B2C9B675D000EE49C /* LiveView.swift */,
+				A53FB35D2C9B67EA000EE49C /* SettingsView.swift */,
+				A53FB3602C9B6B02000EE49C /* TunersView.swift */,
+				A53FB3622C9B6B32000EE49C /* SourcesView.swift */,
+				A53FB3642C9B6B5B000EE49C /* PlaybackView.swift */,
+				A5539DF82C9CBCA7000B972B /* PlayerView1.swift */,
+				A54660742C9D9C9E005F60B1 /* VLCVideoPlayer.swift */,
+				A54660762C9D9D5B005F60B1 /* ChannelDetailView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		A53FB3662C9B77E7000EE49C /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				A53FB3672C9B7807000EE49C /* HDHomeRunModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		A54660712C9D7A3C005F60B1 /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				A546606F2C9D7A3C005F60B1 /* channels.json */,
+				A54660702C9D7A3C005F60B1 /* device.json */,
+			);
+			path = Resource;
+			sourceTree = "<group>";
+		};
+		A5AE5E032C9CC6D900DB60EE /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				A5539DFA2C9CC3DF000B972B /* CloudKitManager.swift */,
+			);
+			path = Manager;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		3A22DB532C826E51002A0050 /* LiveTV */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3A22DB7D2C826E53002A0050 /* Build configuration list for PBXNativeTarget "LiveTV" */;
+			buildPhases = (
+				3A22DB502C826E51002A0050 /* Sources */,
+				3A22DB512C826E51002A0050 /* Frameworks */,
+				3A22DB522C826E51002A0050 /* Resources */,
+				A547727C2CA28C0000772700 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = LiveTV;
+			productName = LiveTV;
+			productReference = 3A22DB542C826E51002A0050 /* LiveTV.app */;
+			productType = "com.apple.product-type.application";
+		};
+		3A22DB682C826E53002A0050 /* LiveTVTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3A22DB802C826E53002A0050 /* Build configuration list for PBXNativeTarget "LiveTVTests" */;
+			buildPhases = (
+				3A22DB652C826E53002A0050 /* Sources */,
+				3A22DB662C826E53002A0050 /* Frameworks */,
+				3A22DB672C826E53002A0050 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				3A22DB6B2C826E53002A0050 /* PBXTargetDependency */,
+			);
+			name = LiveTVTests;
+			productName = LiveTVTests;
+			productReference = 3A22DB692C826E53002A0050 /* LiveTVTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		3A22DB722C826E53002A0050 /* LiveTVUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3A22DB832C826E53002A0050 /* Build configuration list for PBXNativeTarget "LiveTVUITests" */;
+			buildPhases = (
+				3A22DB6F2C826E53002A0050 /* Sources */,
+				3A22DB702C826E53002A0050 /* Frameworks */,
+				3A22DB712C826E53002A0050 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				3A22DB752C826E53002A0050 /* PBXTargetDependency */,
+			);
+			name = LiveTVUITests;
+			productName = LiveTVUITests;
+			productReference = 3A22DB732C826E53002A0050 /* LiveTVUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		3A22DB4C2C826E51002A0050 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1540;
+				LastUpgradeCheck = 1540;
+				TargetAttributes = {
+					3A22DB532C826E51002A0050 = {
+						CreatedOnToolsVersion = 15.4;
+					};
+					3A22DB682C826E53002A0050 = {
+						CreatedOnToolsVersion = 15.4;
+						TestTargetID = 3A22DB532C826E51002A0050;
+					};
+					3A22DB722C826E53002A0050 = {
+						CreatedOnToolsVersion = 15.4;
+						TestTargetID = 3A22DB532C826E51002A0050;
+					};
+				};
+			};
+			buildConfigurationList = 3A22DB4F2C826E51002A0050 /* Build configuration list for PBXProject "LiveTV" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 3A22DB4B2C826E51002A0050;
+			productRefGroup = 3A22DB552C826E51002A0050 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				3A22DB532C826E51002A0050 /* LiveTV */,
+				3A22DB682C826E53002A0050 /* LiveTVTests */,
+				3A22DB722C826E53002A0050 /* LiveTVUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		3A22DB522C826E51002A0050 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A54660732C9D7A3C005F60B1 /* device.json in Resources */,
+				A54660722C9D7A3C005F60B1 /* channels.json in Resources */,
+				3A22DB5F2C826E53002A0050 /* Preview Assets.xcassets in Resources */,
+				3A22DB5C2C826E53002A0050 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3A22DB672C826E53002A0050 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3A22DB712C826E53002A0050 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		3A22DB502C826E51002A0050 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A53FB35E2C9B67EA000EE49C /* SettingsView.swift in Sources */,
+				A54660772C9D9D5B005F60B1 /* ChannelDetailView.swift in Sources */,
+				A53FB35C2C9B675D000EE49C /* LiveView.swift in Sources */,
+				3A22DB612C826E53002A0050 /* Persistence.swift in Sources */,
+				A54660752C9D9C9E005F60B1 /* VLCVideoPlayer.swift in Sources */,
+				A5539DF92C9CBCA7000B972B /* PlayerView1.swift in Sources */,
+				A53FB3652C9B6B5C000EE49C /* PlaybackView.swift in Sources */,
+				3A22DB642C826E53002A0050 /* LiveTV.xcdatamodeld in Sources */,
+				3A22DB5A2C826E51002A0050 /* MainView.swift in Sources */,
+				3A22DB582C826E51002A0050 /* LiveTVApp.swift in Sources */,
+				A53FB3632C9B6B32000EE49C /* SourcesView.swift in Sources */,
+				A53FB3682C9B7807000EE49C /* HDHomeRunModel.swift in Sources */,
+				A53FB3612C9B6B02000EE49C /* TunersView.swift in Sources */,
+				A5539DFB2C9CC3DF000B972B /* CloudKitManager.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3A22DB652C826E53002A0050 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3A22DB6E2C826E53002A0050 /* LiveTVTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3A22DB6F2C826E53002A0050 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3A22DB7A2C826E53002A0050 /* LiveTVUITestsLaunchTests.swift in Sources */,
+				3A22DB782C826E53002A0050 /* LiveTVUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		3A22DB6B2C826E53002A0050 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3A22DB532C826E51002A0050 /* LiveTV */;
+			targetProxy = 3A22DB6A2C826E53002A0050 /* PBXContainerItemProxy */;
+		};
+		3A22DB752C826E53002A0050 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3A22DB532C826E51002A0050 /* LiveTV */;
+			targetProxy = 3A22DB742C826E53002A0050 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		3A22DB7B2C826E53002A0050 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = appletvos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TVOS_DEPLOYMENT_TARGET = 17.5;
+			};
+			name = Debug;
+		};
+		3A22DB7C2C826E53002A0050 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = appletvos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				TVOS_DEPLOYMENT_TARGET = 17.5;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		3A22DB7E2C826E53002A0050 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development: Kaido Karl Klamp (8NWD7P3MTT)";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "Apple Development: Kaido Karl Klamp (8NWD7P3MTT)";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"LiveTV/Preview Content\"";
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=appletvos*]" = 5GG82Q493W;
+				ENABLE_PREVIEWS = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/frameworks",
+				);
+				GENERATE_INFOPLIST_FILE = YES;
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/libhdhomerun/**";
+				INFOPLIST_FILE = LiveTV/Info.plist;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIUserInterfaceStyle = Automatic;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.app.LiveTV;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=appletvos*]" = test_dev;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "LiveTV/HDHomeRun-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 14.0;
+			};
+			name = Debug;
+		};
+		3A22DB7F2C826E53002A0050 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Distribution: VISERVICE OU (5GG82Q493W)";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "Apple Distribution: VISERVICE OU (5GG82Q493W)";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"LiveTV/Preview Content\"";
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=appletvos*]" = 5GG82Q493W;
+				ENABLE_PREVIEWS = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/frameworks",
+				);
+				"FRAMEWORK_SEARCH_PATHS[arch=*]" = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/LiveTV/Framework",
+					"$(SRCROOT)/../Pods/TVVLCKit-unstable",
+				);
+				GENERATE_INFOPLIST_FILE = YES;
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/libhdhomerun/**";
+				INFOPLIST_FILE = LiveTV/Info.plist;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIUserInterfaceStyle = Automatic;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.app.LiveTV;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=appletvos*]" = VIS_Test;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "LiveTV/HDHomeRun-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 14.0;
+			};
+			name = Release;
+		};
+		3A22DB812C826E53002A0050 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "SevenViewSolutions--LLC.LiveTVTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 3;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LiveTV.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/LiveTV";
+				TVOS_DEPLOYMENT_TARGET = 17.5;
+			};
+			name = Debug;
+		};
+		3A22DB822C826E53002A0050 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "SevenViewSolutions--LLC.LiveTVTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 3;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LiveTV.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/LiveTV";
+				TVOS_DEPLOYMENT_TARGET = 17.5;
+			};
+			name = Release;
+		};
+		3A22DB842C826E53002A0050 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "SevenViewSolutions--LLC.LiveTVUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 3;
+				TEST_TARGET_NAME = LiveTV;
+			};
+			name = Debug;
+		};
+		3A22DB852C826E53002A0050 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "SevenViewSolutions--LLC.LiveTVUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 3;
+				TEST_TARGET_NAME = LiveTV;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		3A22DB4F2C826E51002A0050 /* Build configuration list for PBXProject "LiveTV" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3A22DB7B2C826E53002A0050 /* Debug */,
+				3A22DB7C2C826E53002A0050 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3A22DB7D2C826E53002A0050 /* Build configuration list for PBXNativeTarget "LiveTV" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3A22DB7E2C826E53002A0050 /* Debug */,
+				3A22DB7F2C826E53002A0050 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3A22DB802C826E53002A0050 /* Build configuration list for PBXNativeTarget "LiveTVTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3A22DB812C826E53002A0050 /* Debug */,
+				3A22DB822C826E53002A0050 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3A22DB832C826E53002A0050 /* Build configuration list for PBXNativeTarget "LiveTVUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3A22DB842C826E53002A0050 /* Debug */,
+				3A22DB852C826E53002A0050 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		3A22DB622C826E53002A0050 /* LiveTV.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				3A22DB632C826E53002A0050 /* LiveTV.xcdatamodel */,
+			);
+			currentVersion = 3A22DB632C826E53002A0050 /* LiveTV.xcdatamodel */;
+			path = LiveTV.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = 3A22DB4C2C826E51002A0050 /* Project object */;
+}

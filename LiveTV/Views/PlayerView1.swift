@@ -7,10 +7,9 @@
 
 import SwiftUI
 import AVKit
-import TVVLCKit
 
 struct PlayerView1: View {
-    var streamURL: URL?
+    var streamURL: String?
     
     @State private var player: AVPlayer?
     @State private var availableAudioTracks: [AVMediaSelectionOption] = []
@@ -86,7 +85,7 @@ struct PlayerView1: View {
     }
     
     private func initializePlayer() {
-        player = AVPlayer(url: streamURL!)
+        player = AVPlayer(url: URL(string: "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4")!)
         guard let currentItem = player?.currentItem else { return }
         
         // Fetch the available audio and subtitle tracks

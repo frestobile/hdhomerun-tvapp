@@ -50,9 +50,9 @@ class HDHomeRunModel: ObservableObject {
             print("No devices found or an error occurred")
         }
         self.isLoading = false
-        if self.devices.isEmpty {
-            self.showAlert = true
-        }
+//        if self.devices.isEmpty {
+//            self.showAlert = true
+//        }
         
     }
     
@@ -70,9 +70,9 @@ class HDHomeRunModel: ObservableObject {
             }
         }.resume()
         self.isLoading = false
-        if self.channels.isEmpty {
-            self.showAlert = true
-        }
+//        if self.channels.isEmpty {
+//            self.showAlert = true
+//        }
     }
     
     

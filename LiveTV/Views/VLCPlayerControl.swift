@@ -203,13 +203,13 @@ class VLCPlayerController: UIViewController, VLCMediaPlayerDelegate {
         switch gesture.direction {
             case .right:
                 // Fast forward by 10 seconds
-            let newTime = time!.intValue + 10000
+            let newTime = time.intValue + 10000
                 mediaPlayer.time = VLCTime(int: newTime)
                 updateStatusLabel(with: "Fast Forward")
                 
             case .left:
                 // Rewind by 10 seconds
-            let newTime = time!.intValue - 10000
+            let newTime = time.intValue - 10000
                 mediaPlayer.time = VLCTime(int: newTime)
                 updateStatusLabel(with: "Rewind")
                 

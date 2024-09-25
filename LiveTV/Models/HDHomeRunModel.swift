@@ -15,13 +15,9 @@ class HDHomeRunModel: ObservableObject {
     @Published var showAlert: Bool = false
     @Published var isLoading: Bool = true
     
-    @Published var device: Device?
+    @Published var selectedDevice: Device?
     
     private var dataManager = DeviceDataManager()
-        
-    init() {
-        deviceList = dataManager.loadDevices()
-    }
     
     func discoverDevices() {
         deviceList = []
@@ -43,7 +39,7 @@ class HDHomeRunModel: ObservableObject {
                         if let decodedDevice = try? decoder.decode(HDHomeRunDevice.self, from: data) {
                             DispatchQueue.main.async {
                                 self.devices.append(decodedDevice)
-                                let newDevice = Device(ip: "http://\(ip)/", name: decodedDevice.DeviceID, active: false)
+                                let newDevice = Device(ip: "http://\(ip)", name: decodedDevice.FriendlyName, active: false)
                                 self.deviceList.append(newDevice)
                             }
                         }
@@ -56,15 +52,11 @@ class HDHomeRunModel: ObservableObject {
             print("No devices found or an error occurred")
         }
         self.isLoading = false
-//        if self.devices.isEmpty {
-//            self.showAlert = true
-//        }
-        
     }
     
     func getChannelList(lineupUrl: String) {
         
-        let url = URL(string: lineupUrl)!
+        let url = URL(string: "\(lineupUrl)/lineup.json")!
         URLSession.shared.dataTask(with: url) { data, response, error in
             if let data = data {
                 let decoder = JSONDecoder()
@@ -79,6 +71,22 @@ class HDHomeRunModel: ObservableObject {
 //        if self.channels.isEmpty {
 //            self.showAlert = true
 //        }
+    }
+    
+    func getActiveDevice() {
+        selectedDevice = dataManager.loadSelectedDevice()
+        if selectedDevice == nil {
+            self.showAlert = true
+        }
+        self.isLoading = false
+    }
+    
+    func getSavedDevices() {
+        deviceList = dataManager.loadDevices()
+        if deviceList.isEmpty {
+            self.showAlert = true
+        }
+        self.isLoading = false
     }
     
     
@@ -168,15 +176,14 @@ class HDHomeRunModel: ObservableObject {
                 deviceList[index].active! = false
             }
             saveDevices()  // Save the updated devices to storage
+            selectedDevice = deviceList[index]
             dataManager.setSelectedDevice(deviceList[index])
         }
     }
     
-    
     // Save the current list of devices to UserDefaults
     private func saveDevices() {
         dataManager.saveDevices(deviceList)
-        
     }
     
     // Function to format the IP address

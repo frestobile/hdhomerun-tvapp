@@ -61,11 +61,11 @@ struct SourcesView: View {
                 
                 // Add Device Manually Section
                 HStack {
-                    TextField("Enter Device Name", text: $manualIP)
+                    TextField("Enter Device Name", text: $manualDeviceName)
                         .keyboardType(.numbersAndPunctuation)
-                    TextField("Enter Device IP", text: $manualDeviceName)
+                    TextField("Enter Device IP", text: $manualIP)
                         .keyboardType(.numbersAndPunctuation)
-                    var ipAddress = "http://\(manualIP)/"
+                    var ipAddress = "http://\(manualIP)"
                     Button("Add Device") {
                         model.addDevice(ip: ipAddress, name: manualDeviceName)
                         manualIP = ""  // Clear input after adding
@@ -85,9 +85,14 @@ struct SourcesView: View {
                 .padding()
             }
             .onAppear {
-                model.discoverDevices()
-//                model.loadDevicedata()
-
+                model.getSavedDevices()
+            }
+            .alert(isPresented: $model.showAlert) {
+                Alert(
+                    title: Text("No HDHomeRun Devices"),
+                    message: Text("We couldn't find saved HDHomeRun device. Please discover the device or register manually."),
+                    dismissButton: .default(Text("OK"))
+                )
             }
             .navigationTitle("HDHomeRun Sources")
         }

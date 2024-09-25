@@ -29,7 +29,7 @@ struct SettingsView: View {
             }
             
             NavigationLink(
-                destination: PlaybackView(),
+                destination: PlaysettingView(),
                 tag: SettingsMenu.playback,
                 selection: $selectedSettingsMenu
             ) {

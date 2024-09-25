@@ -67,10 +67,9 @@ class VLCPlayerViewController: UIViewController, VLCMediaPlayerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupPlayer()
-//        setupControls()
+        setupControls()
         setupGestures()
         setupTimeLabels()
-        setupRemoteControlGestures()
         setupLoadingIndicator()
         // Enable remote control events
         becomeFirstResponder()  // Enables receiving remote control events
@@ -80,37 +79,7 @@ class VLCPlayerViewController: UIViewController, VLCMediaPlayerDelegate {
         return true  // Make the controller able to receive remote control events
     }
     
-    // MARK: - Remote Control Gesture Setup
-    func setupRemoteControlGestures() {
-        // Play/Pause gesture using tap
-        let playPauseGesture = UITapGestureRecognizer(target: self, action: #selector(handlePlayPauseGesture(_:)))
-        playPauseGesture.allowedPressTypes = [NSNumber(value: UIPress.PressType.playPause.rawValue)]
-        self.view.addGestureRecognizer(playPauseGesture)
-        
-//        // Swipe right for fast forward
-//        let fastForwardGesture = UISwipeGestureRecognizer(target: self, action: #selector(handleFastForwardGesture(_:)))
-//        fastForwardGesture.direction = .right
-//        self.view.addGestureRecognizer(fastForwardGesture)
-//        
-//        // Swipe left for rewind
-//        let rewindGesture = UISwipeGestureRecognizer(target: self, action: #selector(handleRewindGesture(_:)))
-//        rewindGesture.direction = .left
-//        self.view.addGestureRecognizer(rewindGesture)
-//        
-//        // Pan gesture for seek
-//        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePanGesture(_:)))
-//        self.view.addGestureRecognizer(panGesture)
-    }
-    
-    // MARK: - Gesture Handlers
-    @objc func handlePlayPauseGesture(_ gesture: UITapGestureRecognizer) {
-        if mediaPlayer.isPlaying {
-            mediaPlayer.pause()
-        } else {
-            mediaPlayer.play()
-        }
-    }
-    // Step 1: Set up the player with VLC media
+    // MARK: - Step 1: Set up the player with VLC media
     func setupPlayer() {
         videoView.frame = self.view.bounds
         self.view.addSubview(videoView)
@@ -121,7 +90,7 @@ class VLCPlayerViewController: UIViewController, VLCMediaPlayerDelegate {
         mediaPlayer.play()
     }
     
-    // Step 2: Set up player controls inside the video view with icons
+    // MARK: - Step 2: Set up player controls inside the video view with icons
     func setupControls() {
         // Create control buttons with icons
         playPauseButton = createIconButton(systemIconName: "playpause.fill", action: #selector(playPauseTapped))

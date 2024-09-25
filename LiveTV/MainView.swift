@@ -13,13 +13,11 @@ struct MainView: View {
         NavigationView {
             VStack {
                 if model.isLoading {
-                    ProgressView("Fetching Devices...")
-                } else if model.devices.isEmpty {
-                    Text("No Devices Available")
+                    ProgressView("Loading an Active Device")
                 } else {
                     List {
                         NavigationLink(
-                            destination: LiveView(lineupUrl: model.devices[0].LineupURL),
+                            destination: LiveView(lineupUrl: model.selectedDevice!.ip),
                             tag: Menu.liveTV,
                             selection: $selectedMenu
                         ) {
@@ -37,13 +35,12 @@ struct MainView: View {
                 }
             }
             .onAppear {
-                model.discoverDevices()
-//                model.loadDevicedata()
+                model.getActiveDevice()
             }
             .alert(isPresented: $model.showAlert) {
                 Alert(
-                    title: Text("No HDHomeRun Devices Found"),
-                    message: Text("We couldn't find any HDHomeRun devices on your network. Please check your device and network."),
+                    title: Text("No Active HDHomeRun Devices Found"),
+                    message: Text("We couldn't find Activated HDHomeRun device on your network. Please Active a device in Settings"),
                     dismissButton: .default(Text("OK"))
                 
                 )
@@ -64,14 +61,4 @@ struct MainView_Previews: PreviewProvider {
         MainView()
     }
 }
-
-
-
-//struct SettingsView_Previews: PreviewProvider {
-//    @State static var selectedSettingsMenu: SettingsMenu? = nil
-//    
-//    static var previews: some View {
-//        SettingsView(selectedSettingsMenu: $selectedSettingsMenu)
-//    }
-//}
 

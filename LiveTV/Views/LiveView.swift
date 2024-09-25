@@ -29,18 +29,15 @@ struct LiveView: View {
                                     Text("HD")
                                         .foregroundColor(.blue)
                                 }
-                            }
-                            
+                            }       
                         }
                     }
-                    
-                    
                 }
             }
         }
         .onAppear {
-            model.getChannelList(lineupUrl: lineupUrl)
-//            model.loadChanneldata()
+//            model.getChannelList(lineupUrl: lineupUrl)
+            model.loadChanneldata()
         }
         .alert(isPresented: $model.showAlert) {
             Alert(
@@ -53,9 +50,9 @@ struct LiveView: View {
     }
 }
 
-//#Preview {
-//    LiveView()
-//}
+#Preview {
+    LiveView(lineupUrl: "http://192.168.8.173/lineup.json")
+}
 //struct LiveTVView_Previews: PreviewProvider {
 //    static var previews: some View {
 //        LiveView()

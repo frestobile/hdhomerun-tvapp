@@ -9,46 +9,32 @@ import SwiftUI
 import AVKit
 import AVFoundation
 import TVVLCKit
-// SwiftUI wrapper for AVPlayerViewController
-struct VLCPlayerView: UIViewControllerRepresentable {
-    let streamURL: URL
 
-    // Create the AVPlayerViewController to play the stream
-    func makeUIViewController(context: Context) -> UIViewController {
-        let playerVC = VLCPlayerViewController(url: streamURL)
-        return playerVC
-    }
-    
-    func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
-        // Nothing to update for now
-    }
-}
+struct VideoPlayerView: UIViewRepresentable {
+    var playerWrapper: VLCPlayerWrapper
 
-class VLCPlayerViewController: UIViewController {
-    var mediaPlayer = VLCMediaPlayer()
-    var videoView: UIView = UIView()
-    let streamURL: URL
-    
-    init(url: URL) {
-        self.streamURL = url
-        super.init(nibName: nil, bundle: nil)
+    func makeUIView(context: Context) -> UIView {
+        let view = UIView()
+        // Safely unwrap drawable to avoid force unwrapping nil
+       if let playerView = playerWrapper.mediaPlayer?.drawable as? UIView {
+           view.addSubview(playerView)
+           playerView.translatesAutoresizingMaskIntoConstraints = false
+
+           NSLayoutConstraint.activate([
+               playerView.topAnchor.constraint(equalTo: view.topAnchor),
+               playerView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+               playerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+               playerView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+           ])
+       } else {
+           print("Error: mediaPlayer drawable is nil")
+       }
+
+//        playerWrapper.setupPiP(with: playerView) // Setup PiP
+        return view
     }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setupPlayer()
-    }
-    
-    func setupPlayer() {
-        videoView.frame = self.view.bounds
-        self.view.addSubview(videoView)
-        
-        mediaPlayer.drawable = videoView
-        mediaPlayer.media = VLCMedia(url: streamURL)
-        mediaPlayer.play()
+
+    func updateUIView(_ uiView: UIView, context: Context) {
+        // No-op
     }
 }

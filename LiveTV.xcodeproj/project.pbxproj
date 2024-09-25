@@ -33,6 +33,8 @@
 		A54660772C9D9D5B005F60B1 /* ChannelDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A54660762C9D9D5B005F60B1 /* ChannelDetailView.swift */; };
 		A5539DF92C9CBCA7000B972B /* AVPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5539DF82C9CBCA7000B972B /* AVPlayerView.swift */; };
 		A5539DFB2C9CC3DF000B972B /* CloudKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5539DFA2C9CC3DF000B972B /* CloudKitManager.swift */; };
+		A5C2E5312CA35D29006F89D5 /* DeviceDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5C2E5302CA35D29006F89D5 /* DeviceDataManager.swift */; };
+		A5C2E5332CA3A9B8006F89D5 /* VLCPlayerWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5C2E5322CA3A9B7006F89D5 /* VLCPlayerWrapper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -97,6 +99,8 @@
 		A54660782C9DA2CD005F60B1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		A5539DF82C9CBCA7000B972B /* AVPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVPlayerView.swift; sourceTree = "<group>"; };
 		A5539DFA2C9CC3DF000B972B /* CloudKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitManager.swift; sourceTree = "<group>"; };
+		A5C2E5302CA35D29006F89D5 /* DeviceDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceDataManager.swift; sourceTree = "<group>"; };
+		A5C2E5322CA3A9B7006F89D5 /* VLCPlayerWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VLCPlayerWrapper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -213,6 +217,7 @@
 				A5539DF82C9CBCA7000B972B /* AVPlayerView.swift */,
 				A54660742C9D9C9E005F60B1 /* VLCPlayerView.swift */,
 				A54660762C9D9D5B005F60B1 /* ChannelDetailView.swift */,
+				A5C2E5322CA3A9B7006F89D5 /* VLCPlayerWrapper.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -238,6 +243,7 @@
 			isa = PBXGroup;
 			children = (
 				A5539DFA2C9CC3DF000B972B /* CloudKitManager.swift */,
+				A5C2E5302CA35D29006F89D5 /* DeviceDataManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -379,8 +385,10 @@
 				A54660772C9D9D5B005F60B1 /* ChannelDetailView.swift in Sources */,
 				A53FB35C2C9B675D000EE49C /* LiveView.swift in Sources */,
 				3A22DB612C826E53002A0050 /* Persistence.swift in Sources */,
+				A5C2E5332CA3A9B8006F89D5 /* VLCPlayerWrapper.swift in Sources */,
 				A54660752C9D9C9E005F60B1 /* VLCPlayerView.swift in Sources */,
 				A5539DF92C9CBCA7000B972B /* AVPlayerView.swift in Sources */,
+				A5C2E5312CA35D29006F89D5 /* DeviceDataManager.swift in Sources */,
 				A53FB3652C9B6B5C000EE49C /* PlaybackView.swift in Sources */,
 				3A22DB642C826E53002A0050 /* LiveTV.xcdatamodeld in Sources */,
 				3A22DB5A2C826E51002A0050 /* MainView.swift in Sources */,

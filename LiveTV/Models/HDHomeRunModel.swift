@@ -11,16 +11,20 @@ import SwiftUI
 class HDHomeRunModel: ObservableObject {
     @Published var devices: [HDHomeRunDevice] = []
     @Published var channels: [HDHomeRunChannel] = []
+    @Published var deviceList: [Device] = []
     @Published var showAlert: Bool = false
     @Published var isLoading: Bool = true
-        
-//    init(devices: [HDHomeRunDevice], channels: [HDHomeRunChannel], showAlert: Bool) {
-//        self.devices = devices
-//        self.channels = channels
-//        self.showAlert = showAlert
-//    }
     
-    func descoverDevices() {
+    @Published var device: Device?
+    
+    private var dataManager = DeviceDataManager()
+        
+    init() {
+        deviceList = dataManager.loadDevices()
+    }
+    
+    func discoverDevices() {
+        deviceList = []
         hdhomerun_debug_enable(nil)
         var devices = [hdhomerun_discover_device_t](repeating: hdhomerun_discover_device_t(), count: 10)
         let devicePointer = UnsafeMutablePointer(&devices)
@@ -39,6 +43,8 @@ class HDHomeRunModel: ObservableObject {
                         if let decodedDevice = try? decoder.decode(HDHomeRunDevice.self, from: data) {
                             DispatchQueue.main.async {
                                 self.devices.append(decodedDevice)
+                                let newDevice = Device(ip: "http://\(ip)/", name: decodedDevice.DeviceID, active: false)
+                                self.deviceList.append(newDevice)
                             }
                         }
                     }
@@ -78,6 +84,7 @@ class HDHomeRunModel: ObservableObject {
     
     func loadDevicedata() {
 //        var devices = [HDHomeRunDevice]()
+        deviceList = []
         if let url = Bundle.main.url(forResource: "device", withExtension: "json") {
             do {
                 // load data from the json file
@@ -87,6 +94,11 @@ class HDHomeRunModel: ObservableObject {
                 let deviceData = try decoder.decode([HDHomeRunDevice].self, from: data)
                 
                 self.devices = deviceData
+                for device in deviceData.prefix(deviceData.count) {
+                    let newDevice = Device(ip: device.BaseURL, name: device.DeviceID, active: false)
+                    self.deviceList.append(newDevice)
+                }
+                
                 
             } catch {
                 print("Error loading or decoding JSON file: \(error)")
@@ -124,6 +136,49 @@ class HDHomeRunModel: ObservableObject {
         }
     }
     
+    // Manually add a device by its IP address
+    func addDevice(ip: String, name: String) {
+        if deviceList.contains(where: { $0.ip == ip }) {
+            return
+        }
+        let newDevice = Device(ip: ip, name: name, active: false)
+        deviceList.append(newDevice)
+        saveDevices()  // Save the updated devices to storage
+    }
+    
+    // Remove a device
+    func removeDevice(at indexSet: IndexSet) {
+        deviceList.remove(atOffsets: indexSet)
+        saveDevices()  // Save the updated devices to storage
+    }
+
+    // Enforce that only one device can be enabled at a time
+    func toggleDevice(_ device: Device) {
+        if let index = deviceList.firstIndex(where: { $0.id == device.id }) {
+            // If the device is being enabled, disable all other devices
+            if !device.active! {
+                // Disable all other devices
+                for i in 0..<deviceList.count {
+                    deviceList[i].active! = false
+                }
+                // Enable the selected device
+                deviceList[index].active! = true
+            } else {
+                // If the device is being disabled, just disable it
+                deviceList[index].active! = false
+            }
+            saveDevices()  // Save the updated devices to storage
+            dataManager.setSelectedDevice(deviceList[index])
+        }
+    }
+    
+    
+    // Save the current list of devices to UserDefaults
+    private func saveDevices() {
+        dataManager.saveDevices(deviceList)
+        
+    }
+    
     // Function to format the IP address
     func formatIPAddress(_ ipAddr: UInt32) -> String {
         let octet1 = (ipAddr >> 24) & 0xFF
@@ -157,5 +212,19 @@ struct HDHomeRunChannel: Codable {
     let HD: Int?
     let Favorite: Int?
     let URL: String
+}
+
+// Devices
+struct Device: Codable, Identifiable {
+    let id = UUID()
+    let ip: String
+    let name: String
+    var active: Bool?
+    
+    init(ip: String, name: String, active: Bool = false) {
+        self.ip = ip
+        self.name = name
+        self.active = active
+    }
 }
 

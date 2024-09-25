@@ -31,6 +31,10 @@ class VLCPlayerViewController: UIViewController, VLCMediaPlayerDelegate {
     // Loading indicator for buffering
     var loadingIndicator: UIActivityIndicatorView!
     
+    override var preferredFocusEnvironments: [UIFocusEnvironment] {
+            return [self.view]
+        }
+    
     // Control buttons
     var playPauseButton: UIButton!
     var stopButton: UIButton!
@@ -63,10 +67,10 @@ class VLCPlayerViewController: UIViewController, VLCMediaPlayerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupPlayer()
-        setupControls()
+//        setupControls()
         setupGestures()
         setupTimeLabels()
-        
+        setupRemoteControlGestures()
         setupLoadingIndicator()
         // Enable remote control events
         becomeFirstResponder()  // Enables receiving remote control events
@@ -74,6 +78,37 @@ class VLCPlayerViewController: UIViewController, VLCMediaPlayerDelegate {
     
     override var canBecomeFirstResponder: Bool {
         return true  // Make the controller able to receive remote control events
+    }
+    
+    // MARK: - Remote Control Gesture Setup
+    func setupRemoteControlGestures() {
+        // Play/Pause gesture using tap
+        let playPauseGesture = UITapGestureRecognizer(target: self, action: #selector(handlePlayPauseGesture(_:)))
+        playPauseGesture.allowedPressTypes = [NSNumber(value: UIPress.PressType.playPause.rawValue)]
+        self.view.addGestureRecognizer(playPauseGesture)
+        
+//        // Swipe right for fast forward
+//        let fastForwardGesture = UISwipeGestureRecognizer(target: self, action: #selector(handleFastForwardGesture(_:)))
+//        fastForwardGesture.direction = .right
+//        self.view.addGestureRecognizer(fastForwardGesture)
+//        
+//        // Swipe left for rewind
+//        let rewindGesture = UISwipeGestureRecognizer(target: self, action: #selector(handleRewindGesture(_:)))
+//        rewindGesture.direction = .left
+//        self.view.addGestureRecognizer(rewindGesture)
+//        
+//        // Pan gesture for seek
+//        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePanGesture(_:)))
+//        self.view.addGestureRecognizer(panGesture)
+    }
+    
+    // MARK: - Gesture Handlers
+    @objc func handlePlayPauseGesture(_ gesture: UITapGestureRecognizer) {
+        if mediaPlayer.isPlaying {
+            mediaPlayer.pause()
+        } else {
+            mediaPlayer.play()
+        }
     }
     // Step 1: Set up the player with VLC media
     func setupPlayer() {

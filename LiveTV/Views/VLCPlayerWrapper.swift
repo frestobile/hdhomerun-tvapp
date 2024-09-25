@@ -19,14 +19,41 @@ class VLCPlayerWrapper: NSObject, ObservableObject, VLCMediaPlayerDelegate {
     @Published var isPlaying: Bool = false
     @Published var errorOccurred: Bool = false
     @Published var isBuffering: Bool = false // Track buffering state
+    @Published var isPlayerReady: Bool = false
     
     var retryCount = 0
     let maxRetries = 3
+    let retryDelay = 5.0 // Delay before retry in seconds
+    var timer: Timer?
 
     override init() {
         super.init()
+//        mediaPlayer = VLCMediaPlayer()
+//        mediaPlayer?.delegate = self
+        setupPlayer()
+    }
+    
+    // Initialize the media player
+    func setupPlayer() {
+        stopRetryTimer() // Stop any previous timers
+        retryCount = 0
+        initializePlayer()
+    }
+    
+    private func initializePlayer() {
         mediaPlayer = VLCMediaPlayer()
         mediaPlayer?.delegate = self
+
+        // Ensure drawable is created before playback
+        if let drawableView = mediaPlayer?.drawable as? UIView {
+            playerView = drawableView
+            isPlayerReady = true
+            print("Player initialized successfully")
+        } else {
+            logError("MediaPlayer drawable is nil")
+            isPlayerReady = false
+            handleError() // Start the retry process if initialization fails
+        }
     }
 
     func setupPiP(with view: UIView) {
@@ -40,9 +67,14 @@ class VLCPlayerWrapper: NSObject, ObservableObject, VLCMediaPlayerDelegate {
     }
 
     func playStream(url: URL) {
-        mediaPlayer?.media = VLCMedia(url: url)
-        mediaPlayer?.play()
-        isPlaying = true
+        if isPlayerReady {
+            mediaPlayer?.media = VLCMedia(url: url)
+            mediaPlayer?.play()
+            isPlaying = true
+        } else {
+            logError("Player is not ready, cannot play stream")
+            errorOccurred = true
+        }
     }
 
     func pause() {
@@ -99,6 +131,26 @@ class VLCPlayerWrapper: NSObject, ObservableObject, VLCMediaPlayerDelegate {
             print("Maximum retries reached. Failed to load stream.")
             errorOccurred = true
         }
+    }
+    
+    // Start a retry timer
+    private func startRetryTimer() {
+        stopRetryTimer() // Ensure any previous timers are stopped
+        timer = Timer.scheduledTimer(withTimeInterval: retryDelay, repeats: false) { [weak self] _ in
+            self?.initializePlayer()
+        }
+    }
+
+    // Stop the retry timer
+    private func stopRetryTimer() {
+        timer?.invalidate()
+        timer = nil
+    }
+    
+    // Error logging
+    private func logError(_ message: String) {
+        // Add any external logging here if needed
+        print("Error: \(message)")
     }
 }
 

@@ -37,8 +37,8 @@ struct MainView: View {
                 }
             }
             .onAppear {
-//                model.discoverDevices()
-                model.loadDevicedata()
+                model.discoverDevices()
+//                model.loadDevicedata()
             }
             .alert(isPresented: $model.showAlert) {
                 Alert(

@@ -79,14 +79,15 @@ struct SourcesView: View {
 
                 // Discover Devices Button
                 Button("Discover Devices") {
-//                    model.discoverDevices()
-                    model.loadDevicedata()
+                    model.discoverDevices()
+//                    model.loadDevicedata()
                 }
                 .padding()
             }
             .onAppear {
-//                model.discoverDevices()
-                model.loadDevicedata()
+                model.discoverDevices()
+//                model.loadDevicedata()
+
             }
             .navigationTitle("HDHomeRun Sources")
         }

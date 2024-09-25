@@ -56,6 +56,7 @@ class HDHomeRunModel: ObservableObject {
     
     func getChannelList(lineupUrl: String) {
         
+        print(lineupUrl)
         let url = URL(string: "\(lineupUrl)/lineup.json")!
         URLSession.shared.dataTask(with: url) { data, response, error in
             if let data = data {
@@ -77,6 +78,8 @@ class HDHomeRunModel: ObservableObject {
         selectedDevice = dataManager.loadSelectedDevice()
         if selectedDevice == nil {
             self.showAlert = true
+        } else {
+            print(selectedDevice!.ip)
         }
         self.isLoading = false
     }

@@ -17,7 +17,7 @@ struct MainView: View {
                 } else {
                     List {
                         NavigationLink(
-                            destination: LiveView(lineupUrl: model.selectedDevice!.ip),
+                            destination: LiveView(lineupUrl: model.selectedDevice == nil ? "http://192.168.8.173" : model.selectedDevice!.ip),
                             tag: Menu.liveTV,
                             selection: $selectedMenu
                         ) {

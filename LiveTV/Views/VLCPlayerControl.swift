@@ -55,7 +55,7 @@ class VLCPlayerController: UIViewController, VLCMediaPlayerDelegate {
         setupStatusLabel()  // Set up the status label
         setupActivityIndicator()  // Set up activity indicator for loading
         
-        startStatusTimer()
+//        startStatusTimer()
     }
     
     func setupPlayer() {
@@ -70,79 +70,79 @@ class VLCPlayerController: UIViewController, VLCMediaPlayerDelegate {
     }
     
     // MARK: - Timer to Poll Player Status
-    func startStatusTimer() {
-        statusTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(checkPlayerState), userInfo: nil, repeats: true)
-    }
-    
-    @objc func checkPlayerState() {
-        let currentStatus = getPlayerStatus()
-        print(currentStatus)
-    }
-    
-    // MARK: - VLCMediaPlayerDelegate: Called when the media player's state changes
-//    func mediaPlayerStateChanged(_ aNotification: Notification) {
-//        switch mediaPlayer.state {
-//        case .opening:
-//            updateStatusLabel(with: "Loading...")
-//            activityIndicator.startAnimating()  // Show spinner while loading
-//
-//        case .buffering:
-//            updateStatusLabel(with: "Buffering...")
-//            activityIndicator.startAnimating()  // Keep showing spinner while buffering
-//
-//        case .playing:
-//            updateStatusLabel(with: "Playing")
-//            activityIndicator.stopAnimating()  // Hide spinner when playing
-//
-//        case .ended, .error:
-//            updateStatusLabel(with: "Stopped")
-//            activityIndicator.stopAnimating()  // Hide spinner when stopped or error occurs
-//
-//        default:
-//            break
-//        }
+//    func startStatusTimer() {
+//        statusTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(checkPlayerState), userInfo: nil, repeats: true)
+//    }
+//    
+//    @objc func checkPlayerState() {
+//        let currentStatus = getPlayerStatus()
+//        print(currentStatus)
 //    }
     
-    // Called when mediaPlayer's state changes
+    // MARK: - VLCMediaPlayerDelegate: Called when the media player's state changes
     func mediaPlayerStateChanged(_ aNotification: Notification) {
-        let statusMessage = getPlayerStatus()
-        updateStatusLabel(with: statusMessage)
-    }
-
-    // Called when mediaPlayer is buffering, shows buffering percentage
-    func mediaPlayerBuffering(_ aNotification: Notification!) {
-        let bufferingProgress = mediaPlayer.position * 100  // VLC provides buffering percentage as a float (0.0 to 1.0)
-        updateStatusLabel(with: "Buffering: \(Int(bufferingProgress))%")
-    }
-
-    // Called when mediaPlayer's time changes (useful for showing remaining time)
-    func mediaPlayerTimeChanged(_ aNotification: Notification) {
-        let currentTime = mediaPlayer.time
-        let totalTime = mediaPlayer.media?.length
-        let remainingTime = totalTime!.intValue - currentTime.intValue  // Remaining time in milliseconds
-        let formattedRemainingTime = formatTime(milliseconds: Int(remainingTime))
-            updateStatusLabel(with: "Remaining Time: \(formattedRemainingTime)")
-        
-    }
-    // MARK: - Check Media Player Status
-    func getPlayerStatus() -> String {
         switch mediaPlayer.state {
+        case .opening:
+            updateStatusLabel(with: "Loading...")
+            activityIndicator.startAnimating()  // Show spinner while loading
+
         case .buffering:
-            return "Buffering"
-        case .ended:
-            return "Ended"
-        case .error:
-            return "Error"
-        case .paused:
-            return "Paused"
+            updateStatusLabel(with: "Buffering...")
+            activityIndicator.startAnimating()  // Keep showing spinner while buffering
+
         case .playing:
-            return "Playing"
-        case .stopped:
-            return "Stopped"
+            updateStatusLabel(with: "Playing")
+            activityIndicator.stopAnimating()  // Hide spinner when playing
+
+        case .ended, .error:
+            updateStatusLabel(with: "Stopped")
+            activityIndicator.stopAnimating()  // Hide spinner when stopped or error occurs
+
         default:
-            return "Unknown"
+            break
         }
     }
+    
+//    // Called when mediaPlayer's state changes
+//    func mediaPlayerStateChanged(_ aNotification: Notification) {
+//        let statusMessage = getPlayerStatus()
+//        updateStatusLabel(with: statusMessage)
+//    }
+//
+//    // Called when mediaPlayer is buffering, shows buffering percentage
+//    func mediaPlayerBuffering(_ aNotification: Notification!) {
+//        let bufferingProgress = mediaPlayer.position * 100  // VLC provides buffering percentage as a float (0.0 to 1.0)
+//        updateStatusLabel(with: "Buffering: \(Int(bufferingProgress))%")
+//    }
+//
+//    // Called when mediaPlayer's time changes (useful for showing remaining time)
+//    func mediaPlayerTimeChanged(_ aNotification: Notification) {
+//        let currentTime = mediaPlayer.time
+//        let totalTime = mediaPlayer.media?.length
+//        let remainingTime = totalTime!.intValue - currentTime!.intValue  // Remaining time in milliseconds
+//        let formattedRemainingTime = formatTime(milliseconds: Int(remainingTime))
+//            updateStatusLabel(with: "Remaining Time: \(formattedRemainingTime)")
+//        
+//    }
+//    // MARK: - Check Media Player Status
+//    func getPlayerStatus() -> String {
+//        switch mediaPlayer.state {
+//        case .buffering:
+//            return "Buffering"
+//        case .ended:
+//            return "Ended"
+//        case .error:
+//            return "Error"
+//        case .paused:
+//            return "Paused"
+//        case .playing:
+//            return "Playing"
+//        case .stopped:
+//            return "Stopped"
+//        default:
+//            return "Unknown"
+//        }
+//    }
 
     // MARK: - Helper Method to Format Time
     func formatTime(milliseconds: Int) -> String {
@@ -198,16 +198,18 @@ class VLCPlayerController: UIViewController, VLCMediaPlayerDelegate {
     // MARK: - Handle swipe gestures for fast forward, rewind, or scrubbing
     @objc func handleSwipeGesture(_ gesture: UISwipeGestureRecognizer) {
         let time = mediaPlayer.time
+        print(gesture.direction.self)
+        
         switch gesture.direction {
             case .right:
                 // Fast forward by 10 seconds
-                let newTime = time.intValue + 10000
+            let newTime = time!.intValue + 10000
                 mediaPlayer.time = VLCTime(int: newTime)
                 updateStatusLabel(with: "Fast Forward")
                 
             case .left:
                 // Rewind by 10 seconds
-                let newTime = time.intValue - 10000
+            let newTime = time!.intValue - 10000
                 mediaPlayer.time = VLCTime(int: newTime)
                 updateStatusLabel(with: "Rewind")
                 
@@ -245,8 +247,8 @@ class VLCPlayerController: UIViewController, VLCMediaPlayerDelegate {
    
    // Perform scrubbing (up to move forward, down to move backward)
    func handleScrubbing(_ isForward: Bool) {
-        let time = mediaPlayer.time
-           let newPosition = mediaPlayer.position + (isForward ? 0.02 : -0.02)
+//        let time = mediaPlayer.time
+           let newPosition = mediaPlayer.position + (isForward ? 0.05 : -0.00)
            mediaPlayer.position = max(min(newPosition, 1.0), 0.0)  // Ensure position is within bounds
            updateStatusLabel(with: "Scrubbing \(isForward ? "Forward" : "Backward")")
        

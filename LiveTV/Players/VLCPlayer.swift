@@ -90,22 +90,6 @@ class VLCController: UIViewController, VLCMediaPlayerDelegate {
         showStatusMessage(statusMessage)
     }
 
-//    // Called when mediaPlayer is buffering, shows buffering percentage
-//    func mediaPlayerBuffering(_ aNotification: Notification!) {
-//        let bufferingProgress = mediaPlayer.position * 100  // VLC provides buffering percentage as a float (0.0 to 1.0)
-//        showStatusMessage("Buffering: \(Int(bufferingProgress))%")
-//    }
-//
-//    // Called when mediaPlayer's time changes (useful for showing remaining time)
-//    func mediaPlayerTimeChanged(_ aNotification: Notification) {
-//        let currentTime = mediaPlayer.time
-//        let totalTime = mediaPlayer.media?.length
-//        let remainingTime = totalTime!.intValue - currentTime.intValue  // Remaining time in milliseconds
-//        let formattedRemainingTime = formatTime(milliseconds: Int(remainingTime))
-//        showStatusMessage("Remaining Time: \(formattedRemainingTime)")
-//        
-//    }
-
     // MARK: - Helper Method to Format Time
     func formatTime(milliseconds: Int) -> String {
         let seconds = (milliseconds / 1000) % 60

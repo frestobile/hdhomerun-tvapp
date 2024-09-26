@@ -69,16 +69,6 @@ class VLCPlayerController: UIViewController, VLCMediaPlayerDelegate {
         updateStatusLabel(with: "Playing")
     }
     
-    // MARK: - Timer to Poll Player Status
-//    func startStatusTimer() {
-//        statusTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(checkPlayerState), userInfo: nil, repeats: true)
-//    }
-//    
-//    @objc func checkPlayerState() {
-//        let currentStatus = getPlayerStatus()
-//        print(currentStatus)
-//    }
-    
     // MARK: - VLCMediaPlayerDelegate: Called when the media player's state changes
     func mediaPlayerStateChanged(_ aNotification: Notification) {
         switch mediaPlayer.state {
@@ -103,46 +93,6 @@ class VLCPlayerController: UIViewController, VLCMediaPlayerDelegate {
         }
     }
     
-//    // Called when mediaPlayer's state changes
-//    func mediaPlayerStateChanged(_ aNotification: Notification) {
-//        let statusMessage = getPlayerStatus()
-//        updateStatusLabel(with: statusMessage)
-//    }
-//
-//    // Called when mediaPlayer is buffering, shows buffering percentage
-//    func mediaPlayerBuffering(_ aNotification: Notification!) {
-//        let bufferingProgress = mediaPlayer.position * 100  // VLC provides buffering percentage as a float (0.0 to 1.0)
-//        updateStatusLabel(with: "Buffering: \(Int(bufferingProgress))%")
-//    }
-//
-//    // Called when mediaPlayer's time changes (useful for showing remaining time)
-//    func mediaPlayerTimeChanged(_ aNotification: Notification) {
-//        let currentTime = mediaPlayer.time
-//        let totalTime = mediaPlayer.media?.length
-//        let remainingTime = totalTime!.intValue - currentTime!.intValue  // Remaining time in milliseconds
-//        let formattedRemainingTime = formatTime(milliseconds: Int(remainingTime))
-//            updateStatusLabel(with: "Remaining Time: \(formattedRemainingTime)")
-//        
-//    }
-//    // MARK: - Check Media Player Status
-//    func getPlayerStatus() -> String {
-//        switch mediaPlayer.state {
-//        case .buffering:
-//            return "Buffering"
-//        case .ended:
-//            return "Ended"
-//        case .error:
-//            return "Error"
-//        case .paused:
-//            return "Paused"
-//        case .playing:
-//            return "Playing"
-//        case .stopped:
-//            return "Stopped"
-//        default:
-//            return "Unknown"
-//        }
-//    }
 
     // MARK: - Helper Method to Format Time
     func formatTime(milliseconds: Int) -> String {
@@ -164,28 +114,29 @@ class VLCPlayerController: UIViewController, VLCMediaPlayerDelegate {
         tapGesture.allowedPressTypes = [NSNumber(value: UIPress.PressType.playPause.rawValue)]
         self.view.addGestureRecognizer(tapGesture)
         
-        // Swipe Right for Fast Forward
+        let tapRewind = UITapGestureRecognizer(target: self, action: #selector(handleRewindGesture(_:)))
+        tapRewind.allowedPressTypes = [NSNumber(value: UIPress.PressType.leftArrow.rawValue)]
+        self.view.addGestureRecognizer(tapRewind)
+        
+        let tapForward = UITapGestureRecognizer(target: self, action: #selector(handleFastForwardGesture(_:)))
+        tapForward.allowedPressTypes = [NSNumber(value: UIPress.PressType.leftArrow.rawValue)]
+        self.view.addGestureRecognizer(tapForward)
+        
+        
         let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipeGesture(_:)))
         swipeRight.direction = .right
         self.view.addGestureRecognizer(swipeRight)
-        
+
         // Swipe Left for Rewind
         let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipeGesture(_:)))
         swipeLeft.direction = .left
         self.view.addGestureRecognizer(swipeLeft)
-        
-        // Swipe Up/Down for optional scrubbing (advanced)
-        let swipeUp = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipeGesture(_:)))
-        swipeUp.direction = .up
-        self.view.addGestureRecognizer(swipeUp)
-        
-        let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipeGesture(_:)))
-        swipeDown.direction = .down
-        self.view.addGestureRecognizer(swipeDown)
+    
     }
     
     // Handle tap gestures (Play/Pause)
     @objc func handleTapGesture(_ gesture: UITapGestureRecognizer) {
+        
         if mediaPlayer.isPlaying {
             mediaPlayer.pause()
             updateStatusLabel(with: "Paused")
@@ -195,35 +146,36 @@ class VLCPlayerController: UIViewController, VLCMediaPlayerDelegate {
         }
     }
     
+    @objc func handleFastForwardGesture(_ gesture: UISwipeGestureRecognizer) {
+        let time = mediaPlayer.time
+        let newTime = time.intValue + 10000
+        seekToTime(newTime: Int(Int32(newTime)))
+    }
+
+    @objc func handleRewindGesture(_ gesture: UISwipeGestureRecognizer) {
+        let time = mediaPlayer.time
+        let newTime = time.intValue - 10000
+        seekToTime(newTime: Int(Int32(newTime)))
+    }
+    
     // MARK: - Handle swipe gestures for fast forward, rewind, or scrubbing
     @objc func handleSwipeGesture(_ gesture: UISwipeGestureRecognizer) {
         let time = mediaPlayer.time
         print(gesture.direction.self)
         
         switch gesture.direction {
+               
             case .right:
-                // Fast forward by 10 seconds
-            let newTime = time.intValue + 10000
-                mediaPlayer.time = VLCTime(int: newTime)
-                updateStatusLabel(with: "Fast Forward")
+                // Scrub forward (optional)
+                let newPosition = mediaPlayer.position + 0.05  // Move forward by 5%
+                mediaPlayer.position = min(newPosition, 1.0)
+                updateStatusLabel(with: "Scrubbing Forward")
                 
             case .left:
-                // Rewind by 10 seconds
-            let newTime = time.intValue - 10000
-                mediaPlayer.time = VLCTime(int: newTime)
-                updateStatusLabel(with: "Rewind")
-                
-//            case .up:
-//                // Scrub forward (optional)
-//                let newPosition = mediaPlayer.position + 0.05  // Move forward by 5%
-//                mediaPlayer.position = min(newPosition, 1.0)
-//                updateStatusLabel(with: "Scrubbing Forward")
-//                
-//            case .down:
-//                // Scrub backward (optional)
-//                let newPosition = mediaPlayer.position - 0.05  // Move backward by 5%
-//                mediaPlayer.position = max(newPosition, 0.0)
-//                updateStatusLabel(with: "Scrubbing Backward")
+                // Scrub backward (optional)
+                let newPosition = mediaPlayer.position - 0.05  // Move backward by 5%
+                mediaPlayer.position = max(newPosition, 0.0)
+                updateStatusLabel(with: "Scrubbing Backward")
             case .up, .down:
                 if !isScrubbing {
                     startBuffering()
@@ -270,6 +222,15 @@ class VLCPlayerController: UIViewController, VLCMediaPlayerDelegate {
        self.view.addSubview(activityIndicator)
    }
     
+    // Seek to a specific time in milliseconds
+    func seekToTime(newTime: Int) {
+        guard let mediaLength = mediaPlayer.media?.length else { return }
+        
+        // Ensure we don't seek beyond the media length or before 0
+        let clampedTime = max(0, min(newTime, Int(mediaLength.intValue)))
+        mediaPlayer.time = VLCTime(int: Int32(clampedTime))  // Seek to the new time
+    }
+
     // Setup the feedback label for playback status
     func setupStatusLabel() {
         statusLabel.frame = CGRect(x: 20, y: 20, width: 200, height: 50)

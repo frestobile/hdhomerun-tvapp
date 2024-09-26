@@ -33,6 +33,11 @@
 		A54660772C9D9D5B005F60B1 /* ChannelDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A54660762C9D9D5B005F60B1 /* ChannelDetailView.swift */; };
 		A5BF95472CA4D334009195EB /* VLCPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5BF95462CA4D334009195EB /* VLCPlayer.swift */; };
 		A5BF95492CA4DDC3009195EB /* VLCPlayerCustom.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5BF95482CA4DDC3009195EB /* VLCPlayerCustom.swift */; };
+		A5BF954C2CA4E877009195EB /* PlaybackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5BF954B2CA4E877009195EB /* PlaybackView.swift */; };
+		A5BF954E2CA4E8C4009195EB /* VideoPlayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5BF954D2CA4E8C4009195EB /* VideoPlayerViewModel.swift */; };
+		A5BF95502CA4EC83009195EB /* CustomPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5BF954F2CA4EC83009195EB /* CustomPlayer.swift */; };
+		A5BF95522CA51073009195EB /* AVPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5BF95512CA51073009195EB /* AVPlayerView.swift */; };
+		A5BF95542CA5162E009195EB /* CombinePlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5BF95532CA5162E009195EB /* CombinePlayer.swift */; };
 		A5C2E5312CA35D29006F89D5 /* DeviceDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5C2E5302CA35D29006F89D5 /* DeviceDataManager.swift */; };
 		A5C2E5332CA3A9B8006F89D5 /* VLCPlayerControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5C2E5322CA3A9B7006F89D5 /* VLCPlayerControl.swift */; };
 /* End PBXBuildFile section */
@@ -99,6 +104,11 @@
 		A54660782C9DA2CD005F60B1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		A5BF95462CA4D334009195EB /* VLCPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VLCPlayer.swift; sourceTree = "<group>"; };
 		A5BF95482CA4DDC3009195EB /* VLCPlayerCustom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VLCPlayerCustom.swift; sourceTree = "<group>"; };
+		A5BF954B2CA4E877009195EB /* PlaybackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaybackView.swift; sourceTree = "<group>"; };
+		A5BF954D2CA4E8C4009195EB /* VideoPlayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerViewModel.swift; sourceTree = "<group>"; };
+		A5BF954F2CA4EC83009195EB /* CustomPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPlayer.swift; sourceTree = "<group>"; };
+		A5BF95512CA51073009195EB /* AVPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVPlayerView.swift; sourceTree = "<group>"; };
+		A5BF95532CA5162E009195EB /* CombinePlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombinePlayer.swift; sourceTree = "<group>"; };
 		A5C2E5302CA35D29006F89D5 /* DeviceDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceDataManager.swift; sourceTree = "<group>"; };
 		A5C2E5322CA3A9B7006F89D5 /* VLCPlayerControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VLCPlayerControl.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -155,6 +165,7 @@
 		3A22DB562C826E51002A0050 /* LiveTV */ = {
 			isa = PBXGroup;
 			children = (
+				A5BF954A2CA4E835009195EB /* Players */,
 				A54660782C9DA2CD005F60B1 /* Info.plist */,
 				A54660712C9D7A3C005F60B1 /* Resource */,
 				A5AE5E032C9CC6D900DB60EE /* Manager */,
@@ -214,11 +225,8 @@
 				A53FB3602C9B6B02000EE49C /* TunersView.swift */,
 				A53FB3622C9B6B32000EE49C /* SourcesView.swift */,
 				A53FB3642C9B6B5B000EE49C /* PlaysettingView.swift */,
-				A54660742C9D9C9E005F60B1 /* VLCPlayerView.swift */,
 				A54660762C9D9D5B005F60B1 /* ChannelDetailView.swift */,
-				A5C2E5322CA3A9B7006F89D5 /* VLCPlayerControl.swift */,
-				A5BF95462CA4D334009195EB /* VLCPlayer.swift */,
-				A5BF95482CA4DDC3009195EB /* VLCPlayerCustom.swift */,
+				A5BF954B2CA4E877009195EB /* PlaybackView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -227,6 +235,7 @@
 			isa = PBXGroup;
 			children = (
 				A53FB3672C9B7807000EE49C /* HDHomeRunModel.swift */,
+				A5BF954D2CA4E8C4009195EB /* VideoPlayerViewModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -246,6 +255,20 @@
 				A5C2E5302CA35D29006F89D5 /* DeviceDataManager.swift */,
 			);
 			path = Manager;
+			sourceTree = "<group>";
+		};
+		A5BF954A2CA4E835009195EB /* Players */ = {
+			isa = PBXGroup;
+			children = (
+				A54660742C9D9C9E005F60B1 /* VLCPlayerView.swift */,
+				A5C2E5322CA3A9B7006F89D5 /* VLCPlayerControl.swift */,
+				A5BF95462CA4D334009195EB /* VLCPlayer.swift */,
+				A5BF95482CA4DDC3009195EB /* VLCPlayerCustom.swift */,
+				A5BF954F2CA4EC83009195EB /* CustomPlayer.swift */,
+				A5BF95512CA51073009195EB /* AVPlayerView.swift */,
+				A5BF95532CA5162E009195EB /* CombinePlayer.swift */,
+			);
+			path = Players;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -384,11 +407,16 @@
 				A53FB35E2C9B67EA000EE49C /* SettingsView.swift in Sources */,
 				A54660772C9D9D5B005F60B1 /* ChannelDetailView.swift in Sources */,
 				A53FB35C2C9B675D000EE49C /* LiveView.swift in Sources */,
+				A5BF954C2CA4E877009195EB /* PlaybackView.swift in Sources */,
+				A5BF95522CA51073009195EB /* AVPlayerView.swift in Sources */,
 				3A22DB612C826E53002A0050 /* Persistence.swift in Sources */,
 				A5C2E5332CA3A9B8006F89D5 /* VLCPlayerControl.swift in Sources */,
 				A54660752C9D9C9E005F60B1 /* VLCPlayerView.swift in Sources */,
 				A5C2E5312CA35D29006F89D5 /* DeviceDataManager.swift in Sources */,
+				A5BF95542CA5162E009195EB /* CombinePlayer.swift in Sources */,
 				A53FB3652C9B6B5C000EE49C /* PlaysettingView.swift in Sources */,
+				A5BF954E2CA4E8C4009195EB /* VideoPlayerViewModel.swift in Sources */,
+				A5BF95502CA4EC83009195EB /* CustomPlayer.swift in Sources */,
 				3A22DB642C826E53002A0050 /* LiveTV.xcdatamodeld in Sources */,
 				A5BF95472CA4D334009195EB /* VLCPlayer.swift in Sources */,
 				3A22DB5A2C826E51002A0050 /* MainView.swift in Sources */,

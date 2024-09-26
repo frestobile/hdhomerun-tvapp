@@ -44,8 +44,11 @@ class CombineController: UIViewController, VLCMediaPlayerDelegate {
     var isScrubbing = false
     var scrubPosition: CGFloat = 0.0
     
-    var avController: AVPlayerViewController?
-    var progressUpdateTimer: Timer?
+    let networkCache: Int = 10000 // Increase to 10 seconds for better rewind performance
+    let fileCache: Int = 5000    // Increase to 10 seconds for local files
+    let readTimeout: Int = 30000  // 60 seconds
+    let bufferSize: Int = 102400
+    let rtspFrameBufferSize: Int = 2048
     
     init(url: URL) {
         self.streamURL = url
@@ -75,12 +78,18 @@ class CombineController: UIViewController, VLCMediaPlayerDelegate {
         
         mediaPlayer.drawable = videoView
         let media = VLCMedia(url: streamURL)
-        media.addOptions([
-            "network-caching": 3000,
-            "live-caching": 5000,
-            "clock-jitter": 0,
-            "clock-synchro": 1,
-        ])
+
+        media.addOption(":network-caching=\(networkCache)")
+        media.addOption(":live-caching=\(networkCache)")
+        media.addOption(":prefetch-buffer-size=\(bufferSize)")
+        media.addOption(":rtsp-frame-buffer-size=\(rtspFrameBufferSize)")
+        media.addOption(":read-timeout=\(readTimeout)")
+        media.addOption(":rtsp-tcp")
+        media.addOption(":drop-late-frames")
+        media.addOption(":skip-frames")
+        media.addOption(":clock-jitter=0")
+        media.addOption(":clock-synchro=0")
+        
         mediaPlayer.media = media
         mediaPlayer.delegate = self  // Set the delegate to observe player state
         mediaPlayer.play()
@@ -335,24 +344,5 @@ class CombineController: UIViewController, VLCMediaPlayerDelegate {
         totalTimeLabel.text = formatTime(milliseconds: Int(total))
     }
     
-    // MARK: - Progress Bar Sync
-
-    // Start a timer to update the progress bar at regular intervals
-    func startProgressTimer() {
-        progressUpdateTimer = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(updateProgress), userInfo: nil, repeats: true)
-    }
-
-    // Update the progress bar based on VLC's current playback position
-    @objc func updateProgress() {
-        guard let avController = avController else { return }
-        guard let mediaLength = mediaPlayer.media?.length.intValue else { return }
-        
-        // Update AVKit's progress bar with VLC's current playback position
-        let currentTime = mediaPlayer.time.intValue / 1000
-        let progress = Float(currentTime) / Float(mediaLength)
-        
-        avController.contentOverlayView?.isHidden = false // Show progress bar
-        avController.player?.seek(to: CMTimeMake(value: Int64(currentTime), timescale: 1))
-    }
 }
 

@@ -9,7 +9,7 @@ import TVVLCKit
 import UIKit
 import SwiftUI
 
-// SwiftUI wrapper for AVPlayerViewController
+// MARK: - SwiftUI wrapper for VLCPlayerViewController
 struct VLCPlayerCustom: UIViewControllerRepresentable {
     let streamURL: URL
 
@@ -79,6 +79,25 @@ class PlayerViewController: UIViewController {
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePanGesture(_:)))
         self.view.addGestureRecognizer(panGesture)
     }
+    
+    // MARK: - Handling Remote Button Press Events
+    override func pressesBegan(_ presses: Set<UIPress>, with event: UIPressesEvent?) {
+        for press in presses {
+            switch press.type {
+            case .playPause:
+                togglePlayPause()
+            case .leftArrow:
+                rewind()
+            case .rightArrow:
+                fastForward()
+            case .menu:
+                stopPlayback()
+
+            default:
+                super.pressesBegan(presses, with: event)
+            }
+        }
+    }
 
     // MARK: - Gesture Handlers
     @objc func handlePlayPauseGesture(_ gesture: UITapGestureRecognizer) {
@@ -114,4 +133,27 @@ class PlayerViewController: UIViewController {
     func seekTo(time: Int32) {
         mediaPlayer.time = VLCTime(int: time)
     }
+    
+    // MARK: - Player Control Methods
+    
+    func togglePlayPause() {
+        if mediaPlayer.isPlaying {
+            mediaPlayer.pause()
+        } else {
+            mediaPlayer.play()
+        }
+    }
+    
+    func rewind() {
+        let currentTime = mediaPlayer.time.intValue
+        let rewindTime = max(currentTime - 10000, 0)  // Rewind 10 seconds
+        mediaPlayer.time = VLCTime(int: rewindTime)
+    }
+    
+    func fastForward() {
+        let currentTime = mediaPlayer.time.intValue
+        let forwardTime = currentTime + 10000  // Forward 10 seconds
+        mediaPlayer.time = VLCTime(int: forwardTime)
+    }
+    
 }

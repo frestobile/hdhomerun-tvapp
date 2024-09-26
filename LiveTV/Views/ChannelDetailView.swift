@@ -20,7 +20,7 @@ struct ChannelDetailView: View {
                 Text("Invalid stream URL")
             }
         }
-        .navigationTitle("Now Playing")
+        
     }
 }
 

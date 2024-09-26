@@ -5,7 +5,6 @@
 //  Created by CodingGuru on 9/25/24.
 //
 
-import Foundation
 import UIKit
 import TVVLCKit
 import SwiftUI
@@ -139,17 +138,17 @@ class CombineController: UIViewController, VLCMediaPlayerDelegate {
     
     @objc func handleTapRight(_ gesture: UITapGestureRecognizer) {
         print("Tapped Right")
-//        if mediaPlayer.isPlaying {
-//            mediaPlayer.pause()
-//            updateStatusLabel(with: "Paused")
-//        } else {
-//            mediaPlayer.play()
-//            updateStatusLabel(with: "Playing")
-//        }
-        let currentMilliseconds = mediaPlayer.time.intValue
-        let newTime = currentMilliseconds + 10000
-        seekToTime(newTime: Int(newTime))
-        updateStatusLabel(with: "Fast Forward 10s")
+        if mediaPlayer.isPlaying {
+            mediaPlayer.pause()
+            updateStatusLabel(with: "Paused")
+        } else {
+            mediaPlayer.play()
+            updateStatusLabel(with: "Playing")
+        }
+//        let currentMilliseconds = mediaPlayer.time.intValue
+//        let newTime = currentMilliseconds + 10000
+//        seekToTime(newTime: Int(newTime))
+//        updateStatusLabel(with: "Fast Forward 10s")
     }
     
     @objc func handleTapLeft(_ gesture: UITapGestureRecognizer) {
@@ -166,14 +165,11 @@ class CombineController: UIViewController, VLCMediaPlayerDelegate {
 //        seekToTime(newTime: Int(newTime))
 //        updateStatusLabel(with: "Rewind 10s")
         
-        
-//        let newPosition = mediaPlayer.position + 0.1  // Move forward by 5%
-//        mediaPlayer.position = min(newPosition, 1.0)
-//        updateStatusLabel(with: "Scrubbing Forward")
     }
     
     // Handle tap gestures (Play/Pause)
     @objc func handleTapGesture(_ gesture: UITapGestureRecognizer) {
+        print("Play/Pause")
         if mediaPlayer.isPlaying {
             mediaPlayer.pause()
             updateStatusLabel(with: "Paused")
@@ -187,21 +183,22 @@ class CombineController: UIViewController, VLCMediaPlayerDelegate {
     // Handle swipe gestures for fast forward, rewind
     @objc func handleSwipeGesture(_ gesture: UISwipeGestureRecognizer) {
        
-        let currentMilliseconds = mediaPlayer.time.intValue  // Current playback time in milliseconds
+        let currentMilliseconds = mediaPlayer.time.intValue
         
         switch gesture.direction {
         case .right:
             // Fast forward by 10 seconds
-            let newTime = currentMilliseconds + 30000
+            print("Swipe right!")
+            let newTime = currentMilliseconds + 10000
             seekToTime(newTime: Int(newTime))
             updateStatusLabel(with: "Fast Forward 30s")
             
         case .left:
             // Rewind by 10 seconds
-            let newTime = currentMilliseconds - 30000
+            let newTime = currentMilliseconds - 10000
             seekToTime(newTime: Int(newTime))
             updateStatusLabel(with: "Rewind 30s")
-            
+            print("Swipe left!")
         default:
             break
         }
@@ -214,6 +211,7 @@ class CombineController: UIViewController, VLCMediaPlayerDelegate {
         // Ensure we don't seek beyond the media length or before 0
         let clampedTime = max(0, min(newTime, Int(mediaLength.intValue)))
         mediaPlayer.time = VLCTime(int: Int32(clampedTime))  // Seek to the new time
+        
     }
     
     // Setup the activity indicator (spinner) for buffering/loading

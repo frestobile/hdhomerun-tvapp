@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 import TVVLCKit
 import SwiftUI
+import MediaPlayer
 
 struct VLCPlayer: UIViewControllerRepresentable {
     let streamURL: URL
@@ -28,6 +29,10 @@ class VLCController: UIViewController, VLCMediaPlayerDelegate {
     var videoView: UIView = UIView()
     var statusLabel: UILabel = UILabel()  // Label to display player status
     let streamURL: URL
+    
+    // Gesture properties for scrubbing
+   var isScrubbing = false
+   var scrubPosition: CGFloat = 0.0
 
     init(url: URL) {
         self.streamURL = url
@@ -41,7 +46,9 @@ class VLCController: UIViewController, VLCMediaPlayerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupPlayer()
-        setupStatusLabel()  // Setup status label
+        setupRemoteCommandCenter()  // Remote control support
+        setupGestureRecognizers()   // Scrubbing control support
+        setupStatusLabel()
     }
     
     // MARK: - Setup player
@@ -54,13 +61,12 @@ class VLCController: UIViewController, VLCMediaPlayerDelegate {
         mediaPlayer.delegate = self  // Set VLCMediaPlayerDelegate
         mediaPlayer.play()
         
-        showStatusMessage("Playing")  // Show "Playing" initially
+        showStatusMessage("Loading...")  // Show "Playing" initially
     }
     
     // MARK: - Setup Status Label
     func setupStatusLabel() {
-        statusLabel.frame = CGRect(x: 0, y: 0, width: 300, height: 50)
-        statusLabel.center = self.view.center
+        statusLabel.frame = CGRect(x: 20, y: 20, width: 300, height: 50)
         statusLabel.textAlignment = .center
         statusLabel.textColor = .white
         statusLabel.font = UIFont.systemFont(ofSize: 24, weight: .bold)
@@ -71,23 +77,93 @@ class VLCController: UIViewController, VLCMediaPlayerDelegate {
         self.view.addSubview(statusLabel)
     }
     
+    // MARK: - Remote Control Setup
+    func setupRemoteCommandCenter() {
+        let commandCenter = MPRemoteCommandCenter.shared()
+
+        commandCenter.playCommand.addTarget { [unowned self] event in
+            if !mediaPlayer.isPlaying {
+                mediaPlayer.play()
+                return .success
+            }
+            return .commandFailed
+        }
+
+        commandCenter.pauseCommand.addTarget { [unowned self] event in
+            if mediaPlayer.isPlaying {
+                mediaPlayer.pause()
+                return .success
+            }
+            return .commandFailed
+        }
+
+        commandCenter.stopCommand.addTarget { [unowned self] event in
+            mediaPlayer.stop()
+            return .success
+        }
+
+        commandCenter.skipBackwardCommand.preferredIntervals = [10] // Set skip intervals
+        commandCenter.skipBackwardCommand.addTarget { [unowned self] event in
+            if let event = event as? MPSkipIntervalCommandEvent {
+                seek(seconds: -event.interval)
+                return .success
+            }
+            return .commandFailed
+        }
+
+        commandCenter.skipForwardCommand.preferredIntervals = [10] // Set skip intervals
+        commandCenter.skipForwardCommand.addTarget { [unowned self] event in
+            if let event = event as? MPSkipIntervalCommandEvent {
+                seek(seconds: event.interval)
+                return .success
+            }
+            return .commandFailed
+        }
+    }
+    
+    // MARK: - Scrubbing Support
+    func setupGestureRecognizers() {
+        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePanGesture(_:)))
+        self.view.addGestureRecognizer(panGesture)
+    }
+    
+    @objc func handlePanGesture(_ gesture: UIPanGestureRecognizer) {
+        let translation = gesture.translation(in: self.view)
+        let velocity = gesture.velocity(in: self.view)
+        
+        switch gesture.state {
+        case .began:
+            isScrubbing = true
+            mediaPlayer.pause()
+        case .changed:
+            scrubPosition = calculateScrubPosition(velocity: velocity.x)
+            mediaPlayer.position = Float(scrubPosition)
+        case .ended, .cancelled, .failed:
+            isScrubbing = false
+            mediaPlayer.play()
+        default:
+            break
+        }
+    }
+    
+    func calculateScrubPosition(velocity: CGFloat) -> CGFloat {
+        let maxPosition: CGFloat = 1.0 // VLC's position is a percentage value between 0.0 and 1.0
+        let minPosition: CGFloat = 0.0
+        var newPosition = mediaPlayer.position + Float(velocity) / 10000 // Adjust sensitivity as needed
+        newPosition = Float(max(minPosition, min(maxPosition, CGFloat(newPosition))))
+        return CGFloat(newPosition)
+    }
+    
     // MARK: - Show and Hide Status Message
     func showStatusMessage(_ message: String) {
         statusLabel.text = message
         statusLabel.alpha = 1  // Make label visible
         
-        // Hide after 2 seconds
+        // Hide after 3 seconds
         UIView.animate(withDuration: 0.5, delay: 3.0, options: .curveEaseOut, animations: {
-            self.statusLabel.alpha = 0  // Fade out
+            self.statusLabel.text = ""
+            self.statusLabel.alpha = 0
         }, completion: nil)
-    }
-
-    // MARK: - VLCMediaPlayerDelegate Methods
-    
-    // Called when mediaPlayer's state changes
-    func mediaPlayerStateChanged(_ aNotification: Notification) {
-        let statusMessage = getPlayerStatus()
-        showStatusMessage(statusMessage)
     }
 
     // MARK: - Helper Method to Format Time
@@ -102,78 +178,32 @@ class VLCController: UIViewController, VLCMediaPlayerDelegate {
             return String(format: "%02d:%02d", minutes, seconds)
         }
     }
-
-    // MARK: - Check Media Player Status
-    func getPlayerStatus() -> String {
-        switch mediaPlayer.state {
-        case .buffering:
-            return "Buffering"
-        case .ended:
-            return "Ended"
-        case .error:
-            return "Error"
-        case .paused:
-            return "Paused"
-        case .playing:
-            return "Playing"
-        case .stopped:
-            return "Stopped"
-        default:
-            return "Unknown"
-        }
-    }
     
-    // MARK: - Handling Remote Button Press Events
-    override func pressesBegan(_ presses: Set<UIPress>, with event: UIPressesEvent?) {
-        for press in presses {
-            switch press.type {
-            case .playPause:
-                togglePlayPause()
-            case .leftArrow:
-                rewind()
-            case .rightArrow:
-                fastForward()
-            case .menu:
-                stopPlayback()
-
-            default:
-                super.pressesBegan(presses, with: event)
-            }
-        }
+    // MARK: - Helper for seeking
+    func seek(seconds: Double) {
+        guard let mediaLength = mediaPlayer.media?.length.intValue else { return }
+        let currentTime = mediaPlayer.time.intValue / 1000
         
-        // Show current status after button press
-        let currentStatus = getPlayerStatus()
-        showStatusMessage(currentStatus)
+        let newTime = Int(currentTime) + Int(seconds)
+        
+        mediaPlayer.time = VLCTime(int: Int32(max(0, min(newTime, Int(mediaLength)))))
     }
-
-    // MARK: - Player Control Methods
     
-    func togglePlayPause() {
-        if mediaPlayer.isPlaying {
-            mediaPlayer.pause()
-            showStatusMessage("Paused")
-        } else {
-            mediaPlayer.play()
+    // MARK: - VLCMediaPlayerDelegate
+    func mediaPlayerStateChanged(_ aNotification: Notification) {
+        switch mediaPlayer.state {
+        case .opening:
+            showStatusMessage("Loading...")
+        case .buffering:
+            showStatusMessage("Buffering...")
+        case .playing:
             showStatusMessage("Playing")
+        case .ended, .error:
+            showStatusMessage("Stopped")
+    
+        default:
+            break
         }
     }
-    
-    func rewind() {
-        let currentTime = mediaPlayer.time.intValue
-        let rewindTime = max(currentTime - 10000, 0)  // Rewind 10 seconds
-        mediaPlayer.time = VLCTime(int: rewindTime)
-        showStatusMessage("Rewinding")
-    }
-    
-    func fastForward() {
-        let currentTime = mediaPlayer.time.intValue
-        let forwardTime = currentTime + 10000  // Forward 10 seconds
-        mediaPlayer.time = VLCTime(int: forwardTime)
-        showStatusMessage("Fast Forwarding")
-    }
-    
-    func stopPlayback() {
-        mediaPlayer.stop()
-        showStatusMessage("Stopped")
-    }
+
 }

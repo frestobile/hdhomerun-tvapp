@@ -37,9 +37,15 @@ class CombineController: UIViewController, VLCMediaPlayerDelegate {
     var activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView(style: .large)
     
     // Time interval for fast forward/rewind (e.g., 10 seconds)
-    let seekInterval: Int = 10000  // 10 seconds in milliseconds
+    let seekInterval: Int32 = 10000  // 10 seconds in milliseconds
     var currentTimeLabel = UILabel()  // Label to show current playing time
     var totalTimeLabel = UILabel()
+    
+    var isScrubbing = false
+    var scrubPosition: CGFloat = 0.0
+    
+    var avController: AVPlayerViewController?
+    var progressUpdateTimer: Timer?
     
     init(url: URL) {
         self.streamURL = url
@@ -59,6 +65,7 @@ class CombineController: UIViewController, VLCMediaPlayerDelegate {
         setupStatusLabel()  // Set up the status label
         setupActivityIndicator()  // Set up activity indicator for loading
         setupUIComponents()
+//        startProgressTimer()
     }
     
     // MARK: - Setup the VLC player and delegate
@@ -69,18 +76,17 @@ class CombineController: UIViewController, VLCMediaPlayerDelegate {
         mediaPlayer.drawable = videoView
         let media = VLCMedia(url: streamURL)
         media.addOptions([
-            "network-caching": 1000,
-            "file-caching":2000,
-            "live-caching": 3000,
+            "network-caching": 3000,
+            "live-caching": 5000,
             "clock-jitter": 0,
             "clock-synchro": 1,
-//            "avcodec-hw": "any",
         ])
         mediaPlayer.media = media
         mediaPlayer.delegate = self  // Set the delegate to observe player state
         mediaPlayer.play()
         updateStatusLabel(with: "Loading...")
         activityIndicator.startAnimating()  // Show spinner when loading starts
+        
     }
     
     // MARK: - Setup the AVPlayerLayer for remote control
@@ -167,6 +173,35 @@ class CombineController: UIViewController, VLCMediaPlayerDelegate {
         let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipeGesture(_:)))
         swipeLeft.direction = .left
         self.view.addGestureRecognizer(swipeLeft)
+        
+        // Scrubbing forward/backward with pan gesture
+        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePanGesture(_:)))
+        self.view.addGestureRecognizer(panGesture)
+    }
+    
+    // MARK: - Handle panGesture
+    @objc func handlePanGesture(_ gesture: UIPanGestureRecognizer) {
+        print("Pan Gesture")
+        let translation = gesture.translation(in: self.view)
+        let velocity = gesture.velocity(in: self.view)
+        
+        switch gesture.state {
+        case .began, .changed:
+            isScrubbing = true
+            scrubPosition = calculateScrubPosition(velocity: velocity.x)
+            mediaPlayer.position = Float(scrubPosition)
+        case .ended, .cancelled, .failed:
+            isScrubbing = false
+        default:
+            break
+        }
+    }
+    func calculateScrubPosition(velocity: CGFloat) -> CGFloat {
+        let maxPosition: CGFloat = 1.0 // VLC's position is a percentage value between 0.0 and 1.0
+        let minPosition: CGFloat = 0.0
+        var newPosition = mediaPlayer.position + Float(velocity) / 10000 // Adjust sensitivity as needed
+        newPosition = Float(max(minPosition, min(maxPosition, CGFloat(newPosition))))
+        return CGFloat(newPosition)
     }
     
     // MARK: - Handle rewind, fast forward
@@ -220,7 +255,7 @@ class CombineController: UIViewController, VLCMediaPlayerDelegate {
     }
     
     //MARK: - Seek to a specific time in milliseconds
-    func seek(seconds: Int, isForward: Bool) {
+    func seek(seconds: Int32, isForward: Bool) {
         guard let mediaLength = mediaPlayer.media?.length.intValue else { return }
         let currentTime = mediaPlayer.time.intValue
         var newTime = 0
@@ -298,6 +333,26 @@ class CombineController: UIViewController, VLCMediaPlayerDelegate {
 
         currentTimeLabel.text = formatTime(milliseconds: Int(current))
         totalTimeLabel.text = formatTime(milliseconds: Int(total))
+    }
+    
+    // MARK: - Progress Bar Sync
+
+    // Start a timer to update the progress bar at regular intervals
+    func startProgressTimer() {
+        progressUpdateTimer = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(updateProgress), userInfo: nil, repeats: true)
+    }
+
+    // Update the progress bar based on VLC's current playback position
+    @objc func updateProgress() {
+        guard let avController = avController else { return }
+        guard let mediaLength = mediaPlayer.media?.length.intValue else { return }
+        
+        // Update AVKit's progress bar with VLC's current playback position
+        let currentTime = mediaPlayer.time.intValue / 1000
+        let progress = Float(currentTime) / Float(mediaLength)
+        
+        avController.contentOverlayView?.isHidden = false // Show progress bar
+        avController.player?.seek(to: CMTimeMake(value: Int64(currentTime), timescale: 1))
     }
 }
 

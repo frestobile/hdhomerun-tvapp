@@ -114,15 +114,6 @@ class VLCPlayerController: UIViewController, VLCMediaPlayerDelegate {
         tapGesture.allowedPressTypes = [NSNumber(value: UIPress.PressType.playPause.rawValue)]
         self.view.addGestureRecognizer(tapGesture)
         
-        let tapRewind = UITapGestureRecognizer(target: self, action: #selector(handleRewindGesture(_:)))
-        tapRewind.allowedPressTypes = [NSNumber(value: UIPress.PressType.leftArrow.rawValue)]
-        self.view.addGestureRecognizer(tapRewind)
-        
-        let tapForward = UITapGestureRecognizer(target: self, action: #selector(handleFastForwardGesture(_:)))
-        tapForward.allowedPressTypes = [NSNumber(value: UIPress.PressType.leftArrow.rawValue)]
-        self.view.addGestureRecognizer(tapForward)
-        
-        
         let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipeGesture(_:)))
         swipeRight.direction = .right
         self.view.addGestureRecognizer(swipeRight)
@@ -146,22 +137,9 @@ class VLCPlayerController: UIViewController, VLCMediaPlayerDelegate {
         }
     }
     
-    @objc func handleFastForwardGesture(_ gesture: UISwipeGestureRecognizer) {
-        let time = mediaPlayer.time
-        let newTime = time.intValue + 10000
-        seekToTime(newTime: Int(Int32(newTime)))
-    }
-
-    @objc func handleRewindGesture(_ gesture: UISwipeGestureRecognizer) {
-        let time = mediaPlayer.time
-        let newTime = time.intValue - 10000
-        seekToTime(newTime: Int(Int32(newTime)))
-    }
     
     // MARK: - Handle swipe gestures for fast forward, rewind, or scrubbing
     @objc func handleSwipeGesture(_ gesture: UISwipeGestureRecognizer) {
-        let time = mediaPlayer.time
-        print(gesture.direction.self)
         
         switch gesture.direction {
                

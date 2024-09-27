@@ -41,8 +41,9 @@ class CombineController: UIViewController, VLCMediaPlayerDelegate {
     var currentTimeLabel = UILabel()  // Label to show current playing time
     var totalTimeLabel = UILabel()
     
+    var canSeek = false
     var isScrubbing = false
-    var scrubPosition: CGFloat = 0.0
+    var lastScrubTime: Int = 0
     
     let networkCache: Int = 10000 // Increase to 10 seconds for better rewind performance
     let fileCache: Int = 5000    // Increase to 10 seconds for local files
@@ -94,7 +95,7 @@ class CombineController: UIViewController, VLCMediaPlayerDelegate {
         mediaPlayer.play()
         updateStatusLabel(with: "Loading...")
 //        activityIndicator.startAnimating()  // Show spinner when loading starts
-        
+        checkStreamCapabilities()
     }
     
     // MARK: - Setup the AVPlayerLayer for remote control
@@ -152,6 +153,23 @@ class CombineController: UIViewController, VLCMediaPlayerDelegate {
         self.view.addSubview(totalTimeLabel)
     }
     
+    // Check if the stream is live and whether it supports seeking
+    func checkStreamCapabilities() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            if self.mediaPlayer.media!.length.intValue <= 0 {
+                // Length is unknown, likely a live stream
+                self.canSeek = false
+            } else {
+                // Stream has a known length, determine if it's seekable
+                self.canSeek = self.mediaPlayer.isSeekable
+            }
+
+            if !self.canSeek {
+                print("The stream does not support seeking")
+            }
+        }
+    }
+    
     // MARK: - Gesture recognizers for remote controls
     func setupGestureRecognizers() {
         // Play/Pause on Tap
@@ -191,24 +209,30 @@ class CombineController: UIViewController, VLCMediaPlayerDelegate {
     @objc func handlePanGesture(_ gesture: UIPanGestureRecognizer) {
         print("Pan Gesture")
         let velocity = gesture.velocity(in: self.view)
+        let translation = gesture.translation(in: self.view)
         
-        switch gesture.state {
-        case .began, .changed:
-            isScrubbing = true
-            scrubPosition = calculateScrubPosition(velocity: velocity.x)
-            mediaPlayer.position = Float(scrubPosition)
-        case .ended, .cancelled, .failed:
-            isScrubbing = false
-        default:
-            break
+        // Horizontal swipe detected
+        if abs(translation.x) > abs(translation.y) {
+            if gesture.state == .began {
+                isScrubbing = true
+                lastScrubTime = Int(mediaPlayer.time.intValue / 1000) // Current time in seconds
+            }
+
+            // Update scrubbing based on swipe direction
+            if isScrubbing {
+                let scrubAmount = Int(translation.x / 10) // Adjust sensitivity
+                let newTime = max(0, lastScrubTime + scrubAmount)
+                scrub(to: newTime)
+            }
+
+            if gesture.state == .ended {
+                isScrubbing = false
+            }
         }
     }
-    func calculateScrubPosition(velocity: CGFloat) -> CGFloat {
-        let maxPosition: CGFloat = 1.0 // VLC's position is a percentage value between 0.0 and 1.0
-        let minPosition: CGFloat = 0.0
-        var newPosition = mediaPlayer.position + Float(velocity) / 10000 // Adjust sensitivity as needed
-        newPosition = Float(max(minPosition, min(maxPosition, CGFloat(newPosition))))
-        return CGFloat(newPosition)
+    
+    func scrub(to timeInSeconds: Int) {
+        mediaPlayer.time = VLCTime(number: NSNumber(value: timeInSeconds * 1000))
     }
     
     // MARK: - Handle rewind, fast forward
@@ -243,6 +267,7 @@ class CombineController: UIViewController, VLCMediaPlayerDelegate {
     @objc func handleTapMenu(_ gesture: UITapGestureRecognizer) {
         print("stop")
         mediaPlayer.stop()
+        self.dismiss(animated: true, completion: nil)
     }
     
     // MARK: - Handle swipe gestures for fast forward, rewind

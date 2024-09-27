@@ -66,9 +66,8 @@ class CombineController: UIViewController, VLCMediaPlayerDelegate {
         setupAVPlayerLayer()  // Set up the AVPlayerLayer for remote control
         setupGestureRecognizers()  // Set up gesture recognizers for rewind/forward
         setupStatusLabel()  // Set up the status label
-        setupActivityIndicator()  // Set up activity indicator for loading
+//        setupActivityIndicator()  // Set up activity indicator for loading
         setupUIComponents()
-//        startProgressTimer()
     }
     
     // MARK: - Setup the VLC player and delegate
@@ -94,7 +93,7 @@ class CombineController: UIViewController, VLCMediaPlayerDelegate {
         mediaPlayer.delegate = self  // Set the delegate to observe player state
         mediaPlayer.play()
         updateStatusLabel(with: "Loading...")
-        activityIndicator.startAnimating()  // Show spinner when loading starts
+//        activityIndicator.startAnimating()  // Show spinner when loading starts
         
     }
     
@@ -191,7 +190,6 @@ class CombineController: UIViewController, VLCMediaPlayerDelegate {
     // MARK: - Handle panGesture
     @objc func handlePanGesture(_ gesture: UIPanGestureRecognizer) {
         print("Pan Gesture")
-        let translation = gesture.translation(in: self.view)
         let velocity = gesture.velocity(in: self.view)
         
         switch gesture.state {
@@ -243,6 +241,7 @@ class CombineController: UIViewController, VLCMediaPlayerDelegate {
     
     // MARK: - Handle function for Menu tap
     @objc func handleTapMenu(_ gesture: UITapGestureRecognizer) {
+        print("stop")
         mediaPlayer.stop()
     }
     

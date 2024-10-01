@@ -68,7 +68,7 @@ class CombineController: UIViewController, VLCMediaPlayerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         documentPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
-        
+        processStream()
         setupAVPlayerLayer()  // Set up the AVPlayerLayer for remote control
         setupGestureRecognizers()  // Set up gesture recognizers for rewind/forward
         setupStatusLabel()  // Set up the status label

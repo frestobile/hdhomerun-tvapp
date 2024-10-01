@@ -6,9 +6,9 @@ target 'LiveTV' do
   use_frameworks!
 
   # Pods for LiveTV
-  pod 'TVVLCKit', '~>3.3.0'
+  #pod 'TVVLCKit', '~>3.3.0'
   #pod 'ffmpeg-kit-tvos-full', '~> 6.0'
-  #pod 'IJKMediaPlayer'
+  pod 'GCDWebServer'
 
   target 'LiveTVTests' do
     inherit! :search_paths

@@ -14,7 +14,7 @@ struct ChannelDetailView: View {
             // Check if the URL is valid before creating the player view
             
             if let url = URL(string: streamURL) {
-                CombinePlayer(streamURL: url)
+                AVPlayerView(streamURL: url)
                     .edgesIgnoringSafeArea(.all)
             } else {
                 Text("Invalid stream URL")

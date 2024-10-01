@@ -43,7 +43,7 @@ struct LiveView: View {
 //                            }
 //                        }
                         
-                        NavigationLink(destination: ChannelDetailView(streamURL: "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4")) {
+                        NavigationLink(destination: ChannelDetailView(streamURL: channel.URL)) {
                             HStack {
                                 Text("\(channel.GuideNumber) - \(channel.GuideName)")
                                 Spacer()
@@ -58,8 +58,8 @@ struct LiveView: View {
             }
         }
         .onAppear {
-//            model.getChannelList(lineupUrl: lineupUrl)
-            model.loadChanneldata()
+            model.getChannelList(lineupUrl: lineupUrl)
+//            model.loadChanneldata()
         }
         .alert(isPresented: $model.showAlert) {
             Alert(
@@ -75,8 +75,4 @@ struct LiveView: View {
 #Preview {
     LiveView(lineupUrl: "http://192.168.8.173/lineup.json")
 }
-//struct LiveTVView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        LiveView()
-//    }
-//}
+

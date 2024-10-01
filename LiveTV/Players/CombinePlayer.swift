@@ -9,6 +9,7 @@ import UIKit
 import TVVLCKit
 import SwiftUI
 import AVKit
+import GCDWebServer
 
 struct CombinePlayer: UIViewControllerRepresentable {
     let streamURL: URL
@@ -51,6 +52,10 @@ class CombineController: UIViewController, VLCMediaPlayerDelegate {
     let bufferSize: Int = 102400
     let rtspFrameBufferSize: Int = 2048
     
+    var webServer: GCDWebServer!
+    let playlistName = "playlist.m3u8"
+    var documentPath: URL!
+    
     init(url: URL) {
         self.streamURL = url
         super.init(nibName: nil, bundle: nil)
@@ -62,13 +67,15 @@ class CombineController: UIViewController, VLCMediaPlayerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        documentPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
         
-        setupPlayer()
         setupAVPlayerLayer()  // Set up the AVPlayerLayer for remote control
         setupGestureRecognizers()  // Set up gesture recognizers for rewind/forward
         setupStatusLabel()  // Set up the status label
 //        setupActivityIndicator()  // Set up activity indicator for loading
         setupUIComponents()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: setupPlayer)
     }
     
     // MARK: - Setup the VLC player and delegate
@@ -77,7 +84,12 @@ class CombineController: UIViewController, VLCMediaPlayerDelegate {
         self.view.addSubview(videoView)
         
         mediaPlayer.drawable = videoView
-        let media = VLCMedia(url: streamURL)
+//        let outputStreamURL = documentPath.appendingPathComponent(playlistName)
+        let outputStreamURL = webServer.serverURL?.appendingPathComponent(playlistName)
+        
+        print(outputStreamURL?.absoluteString as Any)
+        
+        let media = VLCMedia(url: outputStreamURL!)
 
         media.addOption(":network-caching=\(networkCache)")
         media.addOption(":live-caching=\(networkCache)")
@@ -95,9 +107,54 @@ class CombineController: UIViewController, VLCMediaPlayerDelegate {
         mediaPlayer.play()
         updateStatusLabel(with: "Loading...")
 //        activityIndicator.startAnimating()  // Show spinner when loading starts
-        checkStreamCapabilities()
+//        checkStreamCapabilities()
     }
     
+    // Start local HTTP server to serve the HLS files
+    func startLocalHTTPServer() {
+        webServer = GCDWebServer()
+        // Serve files from the Document directory (HLS playlist and segments)
+        webServer.addGETHandler(forBasePath: "/", directoryPath: documentPath.path, indexFilename: nil, cacheAge: 3600, allowRangeRequests: true)
+        // Start the web server on port 9000
+        webServer.start(withPort: 9000, bonjourName: "Local WebServer")
+        print("Local server started at: \(webServer.serverURL?.absoluteString ?? "")")
+    }
+    
+    // MARK: - Process the stream using FFmpeg
+    func processStream() {
+        let inputUrlString = streamURL.absoluteString
+
+        let outputStreamURL = documentPath.appendingPathComponent(playlistName)
+        
+        // FFmpeg command to create HLS
+        let ffmpegCommand = """
+        -i \(inputUrlString) -codec: copy -start_number 0 -hls_time 5 -hls_list_size 0 -hls_flags delete_segments -f hls -hls_segment_filename "\(documentPath.appendingPathComponent("segment_%03d.ts").path)" "\(outputStreamURL.path)"
+        """
+
+        // Execute the FFmpeg command
+        FFmpegKit.executeAsync(ffmpegCommand) { [weak self] session in
+            guard let self = self else { return }
+            let returnCode = session?.getReturnCode()
+            
+            // Log the FFmpeg output
+            session?.getLogs()?.forEach { log in
+                print((log as AnyObject).getMessage() as Any)
+            }
+            
+            // Ensure FFmpeg processing succeeded
+            if ReturnCode.isSuccess(returnCode) {
+                print("FFmpeg processing succeeded.")
+//                DispatchQueue.main.async {
+//                    self.waitForPlaylist(outputURL: outputStreamURL) // Wait for the playlist to be ready
+//                }
+            } else {
+                print("FFmpeg processing failed with return code: \(String(describing: returnCode))")
+                DispatchQueue.main.async {
+//                    self.activityIndicator.stopAnimating() // Stop loading indicator
+                }
+            }
+        }
+    }
     // MARK: - Setup the AVPlayerLayer for remote control
     func setupAVPlayerLayer() {
         avPlayerLayer = AVPlayerLayer(player: avPlayer)  // Create AVPlayerLayer for control

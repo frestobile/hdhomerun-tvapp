@@ -50,7 +50,6 @@
 		A57309692CAB116F00B6CC48 /* libswresample.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A57309672CAB116F00B6CC48 /* libswresample.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A573096B2CAB117F00B6CC48 /* libswscale.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A573096A2CAB117F00B6CC48 /* libswscale.framework */; };
 		A573096C2CAB117F00B6CC48 /* libswscale.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A573096A2CAB117F00B6CC48 /* libswscale.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		A5BF954E2CA4E8C4009195EB /* VideoPlayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5BF954D2CA4E8C4009195EB /* VideoPlayerViewModel.swift */; };
 		A5BF95522CA51073009195EB /* AVPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5BF95512CA51073009195EB /* AVPlayerView.swift */; };
 		A5BF95542CA5162E009195EB /* CombinePlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5BF95532CA5162E009195EB /* CombinePlayer.swift */; };
 		A5C2E5312CA35D29006F89D5 /* DeviceDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5C2E5302CA35D29006F89D5 /* DeviceDataManager.swift */; };
@@ -136,7 +135,6 @@
 		A57309592CAB114600B6CC48 /* libavutil.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libavutil.framework; path = "frameworks/libavutil.xcframework/tvos-arm64_x86_64-simulator/libavutil.framework"; sourceTree = "<group>"; };
 		A57309672CAB116F00B6CC48 /* libswresample.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libswresample.framework; path = "frameworks/libswresample.xcframework/tvos-arm64_x86_64-simulator/libswresample.framework"; sourceTree = "<group>"; };
 		A573096A2CAB117F00B6CC48 /* libswscale.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libswscale.framework; path = "frameworks/libswscale.xcframework/tvos-arm64_x86_64-simulator/libswscale.framework"; sourceTree = "<group>"; };
-		A5BF954D2CA4E8C4009195EB /* VideoPlayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerViewModel.swift; sourceTree = "<group>"; };
 		A5BF95512CA51073009195EB /* AVPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVPlayerView.swift; sourceTree = "<group>"; };
 		A5BF95532CA5162E009195EB /* CombinePlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombinePlayer.swift; sourceTree = "<group>"; };
 		A5C2E5302CA35D29006F89D5 /* DeviceDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceDataManager.swift; sourceTree = "<group>"; };
@@ -304,7 +302,6 @@
 			isa = PBXGroup;
 			children = (
 				A53FB3672C9B7807000EE49C /* HDHomeRunModel.swift */,
-				A5BF954D2CA4E8C4009195EB /* VideoPlayerViewModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -586,7 +583,6 @@
 				A5C2E5312CA35D29006F89D5 /* DeviceDataManager.swift in Sources */,
 				A5BF95542CA5162E009195EB /* CombinePlayer.swift in Sources */,
 				A53FB3652C9B6B5C000EE49C /* PlaysettingView.swift in Sources */,
-				A5BF954E2CA4E8C4009195EB /* VideoPlayerViewModel.swift in Sources */,
 				3A22DB642C826E53002A0050 /* LiveTV.xcdatamodeld in Sources */,
 				3A22DB5A2C826E51002A0050 /* MainView.swift in Sources */,
 				3A22DB582C826E51002A0050 /* LiveTVApp.swift in Sources */,

@@ -22,26 +22,6 @@ struct LiveView: View {
                     ForEach(model.channels, id: \.GuideNumber) { channel in
                         
 //                        NavigationLink(destination: AVPlayerView(streamURL: URL(string:"http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4")!)) {
-//                            HStack {
-//                                Text("\(channel.GuideNumber) - \(channel.GuideName)")
-//                                Spacer()
-//                                if channel.HD == 1 {
-//                                    Text("HD")
-//                                        .foregroundColor(.blue)
-//                                }
-//                            }       
-//                        }
-                        
-//                        NavigationLink(destination: PlaybackView(streamURL: URL(string: "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4")!)) {
-//                            HStack {
-//                                Text("\(channel.GuideNumber) - \(channel.GuideName)")
-//                                Spacer()
-//                                if channel.HD == 1 {
-//                                    Text("HD")
-//                                        .foregroundColor(.blue)
-//                                }
-//                            }
-//                        }
                         
                         NavigationLink(destination: ChannelDetailView(streamURL: channel.URL)) {
                             HStack {

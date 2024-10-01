@@ -38,7 +38,6 @@ class AVPlayerController: UIViewController {
     var documentPath: URL!
     
     
-    
     init(url: URL) {
         self.streamURL = url
         super.init(nibName: nil, bundle: nil)
@@ -49,69 +48,43 @@ class AVPlayerController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        documentPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
-        configureAudioSession()
+        documentPath = getDocumentsDirectory()
         processStream() // Start processing stream with FFmpeg
-        setupUI()
         setupAVPlayer() // Initialize AVPlayer immediately
         startLocalHTTPServer()
         
-        let outputStreamURL = documentPath.appendingPathComponent(playlistName)
-        
         DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: setupPlayerWithPlaylist)
-        
     }
     // Start local HTTP server to serve the HLS files
     func startLocalHTTPServer() {
         // Initialize the web server
         webServer = GCDWebServer()
 
-        // Serve files from the Document directory (HLS playlist and segments)
         webServer.addGETHandler(forBasePath: "/", directoryPath: documentPath.path, indexFilename: nil, cacheAge: 3600, allowRangeRequests: true)
-//        webServer.addHandler(forMethod: "GET", pathRegex: ".*\\.m3u8", request: GCDWebServerRequest.self) { (request) -> GCDWebServerResponse in
-//            let path = self.documentPath.appendingPathComponent(request.path).path
-//            return GCDWebServerFileResponse(file: path)!
-//        }
-//
-//        webServer.addHandler(forMethod: "GET", pathRegex: ".*\\.ts", request: GCDWebServerRequest.self) { (request) -> GCDWebServerResponse in
-//            let path = self.documentPath.appendingPathComponent(request.path).path
-//            return GCDWebServerFileResponse(file: path)!
-//        }
-        // Start the web server on port 9000
-        webServer.start(withPort: 9000, bonjourName: "Local WebServer")
+
+        webServer.start(withPort: 9090, bonjourName: "Local WebServer")
         
         print("Local server started at: \(webServer.serverURL?.absoluteString ?? "")")
     }
     
-    // Set up a loading indicator UI
-    func setupUI() {
-        let progressView = UIActivityIndicatorView(style: .large)
-        progressView.center = self.view.center
-        self.view.addSubview(progressView)
-        progressView.startAnimating()
-        self.progressView = progressView // Keep a reference to stop it later
-    }
-    
-    // Configure the audio session
-    func configureAudioSession() {
-        let audioSession = AVAudioSession.sharedInstance()
-        do {
-            try audioSession.setCategory(.playback, mode: .default, options: [])
-            try audioSession.setActive(true)
-        } catch {
-            print("Failed to set up audio session: \(error.localizedDescription)")
-        }
+    func stopWebServer() {
+        webServer?.stop()
     }
     
     // Process the stream using FFmpeg
     func processStream() {
         let inputUrlString = streamURL.absoluteString
 
-        let outputStreamURL = documentPath.appendingPathComponent(playlistName)
+        guard let outputDirectory = createHLSOutputDirectory() else {
+            print("Failed to create output directory")
+            return
+        }
+        
+        let outputStreamURL = outputDirectory.appendingPathComponent(playlistName)
         
         // FFmpeg command to create HLS
         let ffmpegCommand = """
-        -i \(inputUrlString) -codec: copy -start_number 0 -hls_time 5 -hls_list_size 0 -hls_flags delete_segments -f hls -hls_segment_filename "\(documentPath.appendingPathComponent("segment_%03d.ts").path)" "\(outputStreamURL.path)"
+        -i \(inputUrlString) -codec: copy -start_number 0 -hls_time 5 -hls_list_size 0 -hls_flags delete_segments -f hls -hls_segment_filename "\(outputDirectory.appendingPathComponent("segment_%03d.ts").path)" "\(outputStreamURL.path)"
         """
 
         // Execute the FFmpeg command
@@ -134,7 +107,6 @@ class AVPlayerController: UIViewController {
                 print("FFmpeg processing failed with return code: \(String(describing: returnCode))")
                 DispatchQueue.main.async {
                     self.isLoading = false
-                    self.progressView?.stopAnimating() // Stop loading indicator
                 }
             }
         }
@@ -177,9 +149,9 @@ class AVPlayerController: UIViewController {
             print("Web server is not running.")
             return
         }
-//        let hlsURL = serverURL.appendingPathComponent(playlistNam)
-        let hlsURL = serverURL.appendingPathComponent(playlistName)
-        // Create an AVPlayerItem using the .m3u8 HLS playlist
+        let hlsURL = serverURL.appendingPathComponent("HLSOutput/\(playlistName)")
+        print("Stream URL: \(hlsURL.absoluteString)")
+        
         let playerItem = AVPlayerItem(url: hlsURL)
         self.player?.replaceCurrentItem(with: playerItem) // Set the new item
 
@@ -191,8 +163,6 @@ class AVPlayerController: UIViewController {
                 switch status {
                 case .readyToPlay:
                     print("Player is ready to play")
-                    self.isLoading = false
-                    self.progressView?.stopAnimating() // Stop loading indicator
                     self.player?.play() // Start playback when ready
                 case .failed:
                     print("Player item failed with error: \(playerItem.error?.localizedDescription ?? "Unknown error")")
@@ -200,13 +170,11 @@ class AVPlayerController: UIViewController {
                         print("Detailed error information: \(error.localizedDescription)")
                     }
                     self.isLoading = false
-                    self.progressView?.stopAnimating() // Stop loading indicator
                 case .unknown:
                     self.isLoading = true
                 @unknown default:
                     print("Unknown status encountered")
                     self.isLoading = false
-                    self.progressView?.stopAnimating() // Stop loading indicator
                 }
             }
             .store(in: &cancellables)
@@ -232,5 +200,25 @@ class AVPlayerController: UIViewController {
                 }
             }
         }
+    }
+    
+    private func createHLSOutputDirectory() -> URL? {
+        let fileManager = FileManager.default
+        let outputDirectory = documentPath.appendingPathComponent("HLSOutput")
+
+        if !fileManager.fileExists(atPath: outputDirectory.path) {
+            do {
+                try fileManager.createDirectory(at: outputDirectory, withIntermediateDirectories: true, attributes: nil)
+                print("Directory created at: \(outputDirectory.path)")
+            } catch {
+                print("Failed to create directory: \(error)")
+                return nil
+            }
+        }
+        return outputDirectory
+    }
+
+    private func getDocumentsDirectory() -> URL {
+        return FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
     }
 }

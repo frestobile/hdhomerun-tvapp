@@ -38,6 +38,7 @@ class AVPlayerController: UIViewController {
     var webServer: GCDWebServer!
     let playlistName = "playlist.m3u8"
     var documentPath: URL!
+    private var ffmpegSession: FFmpegSession?
     
     
     init(url: URL) {
@@ -89,7 +90,7 @@ class AVPlayerController: UIViewController {
                 """
 
         // Execute the FFmpeg command
-        FFmpegKit.executeAsync(ffmpegCommand) { [weak self] session in
+        self.ffmpegSession = FFmpegKit.executeAsync(ffmpegCommand) { [weak self] session in
             guard let self = self else { return }
             let returnCode = session?.getReturnCode()
             
@@ -214,6 +215,11 @@ class AVPlayerController: UIViewController {
     // Clean up when the view is deallocated
     deinit {
         player?.removeObserver(self, forKeyPath: "status")
+        self.ffmpegSession?.cancel()
+        self.ffmpegSession = nil
+        
+        print("FFmpeg conversion stopped.")
+        
     }
     
     //MARK: - Local storage access

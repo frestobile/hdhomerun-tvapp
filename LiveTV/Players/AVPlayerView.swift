@@ -231,10 +231,10 @@ class AVPlayerController: UIViewController {
         }
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        playerLayer?.frame = view.bounds
-    }
+//    override func viewDidLayoutSubviews() {
+//        super.viewDidLayoutSubviews()
+//        playerLayer?.frame = view.bounds
+//    }
     
     //MARK: - Control playback actions
     func play() {
@@ -252,6 +252,7 @@ class AVPlayerController: UIViewController {
     //MARK: - Clean up when the view is deallocated
     deinit {
         self.stopWebServer()
+        player?.pause()
         player?.removeObserver(self, forKeyPath: "status")
         player = nil
         self.ffmpegSession?.cancel()

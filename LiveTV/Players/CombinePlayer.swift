@@ -69,6 +69,7 @@ class CombineController: UIViewController, VLCMediaPlayerDelegate {
         super.viewDidLoad()
         documentPath = getDocumentsDirectory()
         checkAvailableStorage()
+        startLocalHTTPServer()
         processStream()
         setupAVPlayerLayer()  // Set up the AVPlayerLayer for remote control
         setupGestureRecognizers()  // Set up gesture recognizers for rewind/forward
@@ -76,7 +77,7 @@ class CombineController: UIViewController, VLCMediaPlayerDelegate {
 //        setupActivityIndicator()  // Set up activity indicator for loading
         setupUIComponents()
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: setupPlayer)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5, execute: setupPlayer)
     }
     
     func checkAvailableStorage() {
@@ -136,11 +137,16 @@ class CombineController: UIViewController, VLCMediaPlayerDelegate {
     func processStream() {
         let inputUrlString = streamURL.absoluteString
 
-        let outputStreamURL = documentPath.appendingPathComponent("HLSOutput/\(playlistName)")
+        guard let outputDirectory = createHLSOutputDirectory() else {
+            print("Failed to create output directory")
+            return
+        }
+        
+        let outputStreamURL = outputDirectory.appendingPathComponent(playlistName)
         
         // FFmpeg command to create HLS
         let ffmpegCommand = """
-        -i \(inputUrlString) -codec: copy -start_number 0 -hls_time 5 -hls_list_size 0 -hls_flags delete_segments -f hls -hls_segment_filename "\(documentPath.appendingPathComponent("segment_%03d.ts").path)" "\(outputStreamURL.path)"
+        -i \(inputUrlString) -codec: copy -start_number 0 -hls_time 5 -hls_list_size 0 -hls_flags delete_segments -f hls -hls_segment_filename "\(outputDirectory.appendingPathComponent("segment_%03d.ts").path)" "\(outputStreamURL.path)"
         """
 
         // Execute the FFmpeg command
@@ -156,9 +162,6 @@ class CombineController: UIViewController, VLCMediaPlayerDelegate {
             // Ensure FFmpeg processing succeeded
             if ReturnCode.isSuccess(returnCode) {
                 print("FFmpeg processing succeeded.")
-//                DispatchQueue.main.async {
-//                    self.waitForPlaylist(outputURL: outputStreamURL) // Wait for the playlist to be ready
-//                }
             } else {
                 print("FFmpeg processing failed with return code: \(String(describing: returnCode))")
                 DispatchQueue.main.async {

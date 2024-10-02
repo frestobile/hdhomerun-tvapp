@@ -49,6 +49,7 @@ class AVPlayerController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         documentPath = getDocumentsDirectory()
+        checkAvailableStorage()
         processStream() // Start processing stream with FFmpeg
         setupAVPlayer() // Initialize AVPlayer immediately
         startLocalHTTPServer()
@@ -221,5 +222,16 @@ class AVPlayerController: UIViewController {
     private func getDocumentsDirectory() -> URL {
 //        return FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
         return FileManager.default.temporaryDirectory
+    }
+    
+    func checkAvailableStorage() {
+        do {
+            let systemAttributes = try FileManager.default.attributesOfFileSystem(forPath: getDocumentsDirectory().path)
+            if let freeSpace = systemAttributes[.systemFreeSize] as? NSNumber {
+                print("Available storage: \(freeSpace.int64Value / (1024 * 1024)) MB")
+            }
+        } catch {
+            print("Error retrieving file system attributes: \(error)")
+        }
     }
 }

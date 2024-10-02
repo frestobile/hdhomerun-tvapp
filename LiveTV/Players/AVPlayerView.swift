@@ -27,6 +27,7 @@ struct AVPlayerView: UIViewControllerRepresentable {
 class AVPlayerController: UIViewController {
     var player: AVPlayer?
     var playerLayer: AVPlayerLayer?
+    var playerViewController: AVPlayerViewController!
     var statusLabel: UILabel = UILabel()  // Label for playback status feedback
     
     var isLoading = true
@@ -178,16 +179,30 @@ class AVPlayerController: UIViewController {
     // Setup AVPlayer with stream URL
     func setupPlayer(with url: URL) {
         player = AVPlayer(url: url)
-        playerLayer = AVPlayerLayer(player: player)
+//        playerLayer = AVPlayerLayer(player: player)
 
-        playerLayer?.videoGravity = .resizeAspect
-        playerLayer?.cornerRadius = 10
-        playerLayer?.masksToBounds = true
+        playerViewController = AVPlayerViewController()
+        playerViewController.player = player
+        playerViewController.showsPlaybackControls = true  // Enable default playback controls
+
+        // Add AVPlayerViewController as a child to this custom controller
+        addChild(playerViewController)
+        view.addSubview(playerViewController.view)
+
+        // Set the playerViewController's frame to match the view
+        playerViewController.view.frame = view.bounds
+        playerViewController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+
+        playerViewController.didMove(toParent: self)
+
+//        playerLayer?.videoGravity = .resizeAspect
+//        playerLayer?.cornerRadius = 10
+//        playerLayer?.masksToBounds = true
 
         // Add the playerLayer to the view's layer
-        if let playerLayer = playerLayer {
-           view.layer.addSublayer(playerLayer)
-        }
+//        if let playerLayer = playerLayer {
+//           view.layer.addSublayer(playerLayer)
+//        }
 
         updateStatusLabel(with: "Playing...")
         // Start playback

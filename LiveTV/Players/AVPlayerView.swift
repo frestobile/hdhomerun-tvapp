@@ -26,6 +26,8 @@ struct AVPlayerView: UIViewControllerRepresentable {
 
 class AVPlayerController: UIViewController {
     var player: AVPlayer?
+    var playerLayer: AVPlayerLayer?
+    
     var isLoading = true
     var cancellables = Set<AnyCancellable>()
     var loadingTimer: AnyCancellable?
@@ -41,6 +43,8 @@ class AVPlayerController: UIViewController {
     init(url: URL) {
         self.streamURL = url
         super.init(nibName: nil, bundle: nil)
+        documentPath = getDocumentsDirectory()
+        processStream() // Start processing stream with FFmpeg
     }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -48,13 +52,9 @@ class AVPlayerController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        documentPath = getDocumentsDirectory()
         checkAvailableStorage()
-        processStream() // Start processing stream with FFmpeg
-        setupAVPlayer() // Initialize AVPlayer immediately
         startLocalHTTPServer()
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: setupPlayerWithPlaylist)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: waitForPlaylist)
     }
     // Start local HTTP server to serve the HLS files
     func startLocalHTTPServer() {
@@ -112,15 +112,15 @@ class AVPlayerController: UIViewController {
             }
         }
     }
-    
-    // Set up the AVPlayer
-    func setupAVPlayer() {
-        // Create an AVPlayer instance without a URL initially
-        self.player = AVPlayer()
-    }
 
     // Wait for the playlist to become available and play
-    func waitForPlaylist(outputURL: URL) {
+    func waitForPlaylist() {
+        guard let outputDirectory = createHLSOutputDirectory() else {
+            print("Failed to create output directory")
+            return
+        }
+        let outputURL = outputDirectory.appendingPathComponent(playlistName)
+        
         loadingTimer = Timer.publish(every: 1.0, on: .main, in: .common)
             .autoconnect()
             .sink { [weak self] _ in
@@ -132,19 +132,17 @@ class AVPlayerController: UIViewController {
                     self.loadingTimer?.cancel() // Stop polling
                     self.loadingTimer = nil // Clean up timer
                     
-                    // Setup the player with the playlist
-                    self.setupPlayerWithPlaylist()
+                    // Setup the server with the playlist
+                    self.setupWebserverPlaylist()
                 } else {
                     print("Waiting for the playlist file to become available...")
                 }
             }
-        
-        // Store the cancellable in the set to manage its lifecycle
         cancellables.insert(loadingTimer!) // Store the cancellable
     }
 
     // Setup the player with the playlist
-    func setupPlayerWithPlaylist() {
+    func setupWebserverPlaylist() {
         // URL to the .m3u8 playlist on the local HTTP server
         guard let serverURL = webServer.serverURL else {
             print("Web server is not running.")
@@ -153,37 +151,29 @@ class AVPlayerController: UIViewController {
         let hlsURL = serverURL.appendingPathComponent("HLSOutput/\(playlistName)")
         print("Stream URL: \(hlsURL.absoluteString)")
         
-        let playerItem = AVPlayerItem(url: hlsURL)
-        self.player?.replaceCurrentItem(with: playerItem) // Set the new item
-
-        // Observe the status of the player item
-        playerItem.publisher(for: \.status)
-            .receive(on: DispatchQueue.main) // Ensure UI updates happen on the main thread
-            .sink { [weak self] status in
-                guard let self = self else { return }
-                switch status {
-                case .readyToPlay:
-                    print("Player is ready to play")
-                    self.player?.play() // Start playback when ready
-                case .failed:
-                    print("Player item failed with error: \(playerItem.error?.localizedDescription ?? "Unknown error")")
-                    if let error = playerItem.error {
-                        print("Detailed error information: \(error.localizedDescription)")
-                    }
-                    self.isLoading = false
-                case .unknown:
-                    self.isLoading = true
-                @unknown default:
-                    print("Unknown status encountered")
-                    self.isLoading = false
-                }
-            }
-            .store(in: &cancellables)
-
-
-        // Add observer for player item playback status
-        self.player?.addObserver(self, forKeyPath: "status", options: [.new, .old], context: nil)
+        setupPlayer(with: hlsURL)
+        
     }
+    
+    func setupPlayer(with url: URL) {
+       player = AVPlayer(url: url)
+       playerLayer = AVPlayerLayer(player: player)
+
+       playerLayer?.videoGravity = .resizeAspect
+       playerLayer?.cornerRadius = 10
+       playerLayer?.masksToBounds = true
+       
+       // Add the playerLayer to the view's layer
+       if let playerLayer = playerLayer {
+           view.layer.addSublayer(playerLayer)
+       }
+       
+       // Start playback
+       player?.play()
+
+       // Observer for player's status, e.g., ready to play
+       player?.addObserver(self, forKeyPath: "status", options: [.new, .initial], context: nil)
+   }
 
     // Observe player status changes
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
@@ -203,6 +193,30 @@ class AVPlayerController: UIViewController {
         }
     }
     
+    // Layout the player layer when the view layout changes
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        playerLayer?.frame = view.bounds
+    }
+    // Control playback actions
+    func play() {
+        player?.play()
+    }
+
+    func pause() {
+        player?.pause()
+    }
+
+    func seek(to time: CMTime) {
+        player?.seek(to: time)
+    }
+
+    // Clean up when the view is deallocated
+    deinit {
+        player?.removeObserver(self, forKeyPath: "status")
+    }
+    
+    //MARK: - Local storage access
     private func createHLSOutputDirectory() -> URL? {
         let fileManager = FileManager.default
         let outputDirectory = documentPath.appendingPathComponent("HLSOutput")

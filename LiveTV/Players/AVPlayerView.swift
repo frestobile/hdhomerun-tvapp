@@ -42,7 +42,7 @@ class AVPlayerController: UIViewController {
     init(url: URL) {
         self.streamURL = url
         super.init(nibName: nil, bundle: nil)
-        cleanupOldSegments()
+        deleteHLSOutputFolder()
         processStream() // Start processing stream with FFmpeg
     }
     required init?(coder: NSCoder) {
@@ -238,9 +238,11 @@ class AVPlayerController: UIViewController {
     deinit {
         self.stopWebServer()
         player?.removeObserver(self, forKeyPath: "status")
+        player = nil
         self.ffmpegSession?.cancel()
         self.ffmpegSession = nil
-        self.cleanupOldSegments()
+//        self.cleanupOldSegments()
+        self.deleteHLSOutputFolder()
         
         self.progressView?.stopAnimating()
     }
@@ -275,6 +277,27 @@ class AVPlayerController: UIViewController {
             }
         } catch {
             print("Error retrieving file system attributes: \(error)")
+        }
+    }
+    
+    func deleteHLSOutputFolder() {
+        let fileManager = FileManager.default
+        let tmpDirectory = NSTemporaryDirectory()
+        
+        // Path to the "HLSOutput" subfolder in the tmp directory
+        let hlsOutputPath = (tmpDirectory as NSString).appendingPathComponent("HLSOutput")
+        
+        // Check if the folder exists
+        if fileManager.fileExists(atPath: hlsOutputPath) {
+            do {
+                // Delete the folder and all its contents
+                try fileManager.removeItem(atPath: hlsOutputPath)
+                print("HLSOutput folder deleted successfully.")
+            } catch {
+                print("Failed to delete HLSOutput folder: \(error.localizedDescription)")
+            }
+        } else {
+            print("HLSOutput folder does not exist.")
         }
     }
     

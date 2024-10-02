@@ -373,3 +373,31 @@ class AVPlayerController: UIViewController {
         }
     }
 }
+
+extension AVPlayerController {
+    func selectAudioTrack(_ languageCode: String) {
+        guard let currentItem = player?.currentItem,
+              let group = currentItem.asset.mediaSelectionGroup(forMediaCharacteristic: .audible) else {
+            return
+        }
+
+        for option in group.options {
+            if option.extendedLanguageTag == languageCode {
+                currentItem.select(option, in: group)
+            }
+        }
+    }
+
+    func selectSubtitleTrack(_ languageCode: String) {
+        guard let currentItem = player?.currentItem,
+              let group = currentItem.asset.mediaSelectionGroup(forMediaCharacteristic: .legible) else {
+            return
+        }
+
+        for option in group.options {
+            if option.extendedLanguageTag == languageCode {
+                currentItem.select(option, in: group)
+            }
+        }
+    }
+}

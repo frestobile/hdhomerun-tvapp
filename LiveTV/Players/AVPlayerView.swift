@@ -27,6 +27,7 @@ struct AVPlayerView: UIViewControllerRepresentable {
 class AVPlayerController: UIViewController {
     var player: AVPlayer?
     var playerLayer: AVPlayerLayer?
+    var statusLabel: UILabel = UILabel()  // Label for playback status feedback
     
     var isLoading = true
     var cancellables = Set<AnyCancellable>()
@@ -36,13 +37,12 @@ class AVPlayerController: UIViewController {
     
     var webServer: GCDWebServer!
     let playlistName = "playlist.m3u8"
-    var documentPath: URL!
     private var ffmpegSession: FFmpegSession?
     
     init(url: URL) {
         self.streamURL = url
         super.init(nibName: nil, bundle: nil)
-        documentPath = getDocumentsDirectory()
+        cleanupOldSegments()
         processStream() // Start processing stream with FFmpeg
     }
     required init?(coder: NSCoder) {
@@ -51,9 +51,29 @@ class AVPlayerController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupUI()
         checkAvailableStorage()
         startLocalHTTPServer()
         DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: waitForPlaylist)
+    }
+    
+    // Set up a loading indicator UI
+    func setupUI() {
+        let progressView = UIActivityIndicatorView(style: .large)
+        progressView.center = self.view.center
+        self.view.addSubview(progressView)
+        progressView.startAnimating()
+        self.progressView = progressView // Keep a reference to stop it later
+        
+        statusLabel.frame = CGRect(x: 20, y: 20, width: 300, height: 50)
+        statusLabel.textColor = .white
+        statusLabel.font = UIFont.systemFont(ofSize: 24)
+        statusLabel.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+        statusLabel.textAlignment = .center
+        statusLabel.layer.cornerRadius = 10
+        statusLabel.clipsToBounds = true
+        self.view.addSubview(statusLabel)
+        updateStatusLabel(with: "Loading...")
     }
     
     //MARK: - Start local HTTP server to serve the HLS files
@@ -61,7 +81,7 @@ class AVPlayerController: UIViewController {
         // Initialize the web server
         webServer = GCDWebServer()
 
-        webServer.addGETHandler(forBasePath: "/", directoryPath: documentPath.path, indexFilename: nil, cacheAge: 3600, allowRangeRequests: true)
+        webServer.addGETHandler(forBasePath: "/", directoryPath: getDocumentsDirectory().path, indexFilename: nil, cacheAge: 3600, allowRangeRequests: true)
 
         webServer.start(withPort: 9090, bonjourName: "Local WebServer")
         
@@ -106,6 +126,7 @@ class AVPlayerController: UIViewController {
                 print("FFmpeg processing failed with return code: \(String(describing: returnCode))")
                 DispatchQueue.main.async {
                     self.isLoading = false
+                    self.progressView?.stopAnimating()
                 }
             }
         }
@@ -156,23 +177,25 @@ class AVPlayerController: UIViewController {
     
     // Setup AVPlayer with stream URL
     func setupPlayer(with url: URL) {
-       player = AVPlayer(url: url)
-       playerLayer = AVPlayerLayer(player: player)
+        player = AVPlayer(url: url)
+        playerLayer = AVPlayerLayer(player: player)
 
-       playerLayer?.videoGravity = .resizeAspect
-       playerLayer?.cornerRadius = 10
-       playerLayer?.masksToBounds = true
-       
-       // Add the playerLayer to the view's layer
-       if let playerLayer = playerLayer {
+        playerLayer?.videoGravity = .resizeAspect
+        playerLayer?.cornerRadius = 10
+        playerLayer?.masksToBounds = true
+
+        // Add the playerLayer to the view's layer
+        if let playerLayer = playerLayer {
            view.layer.addSublayer(playerLayer)
-       }
-       
-       // Start playback
-       player?.play()
+        }
 
-       // Observer for player's status, e.g., ready to play
-       player?.addObserver(self, forKeyPath: "status", options: [.new, .initial], context: nil)
+        updateStatusLabel(with: "Playing...")
+        // Start playback
+        player?.play()
+        progressView?.stopAnimating()
+        isLoading = false
+        // Observer for player's status, e.g., ready to play
+        player?.addObserver(self, forKeyPath: "status", options: [.new, .initial], context: nil)
    }
 
     //MARK: - Observe player status changes
@@ -213,17 +236,19 @@ class AVPlayerController: UIViewController {
 
     //MARK: - Clean up when the view is deallocated
     deinit {
-        stopWebServer()
+        self.stopWebServer()
         player?.removeObserver(self, forKeyPath: "status")
         self.ffmpegSession?.cancel()
         self.ffmpegSession = nil
-        cleanupOldSegments()
+        self.cleanupOldSegments()
+        
+        self.progressView?.stopAnimating()
     }
     
     //MARK: - Local storage access
     private func createHLSOutputDirectory() -> URL? {
         let fileManager = FileManager.default
-        let outputDirectory = documentPath.appendingPathComponent("HLSOutput")
+        let outputDirectory = getDocumentsDirectory().appendingPathComponent("HLSOutput")
 
         if !fileManager.fileExists(atPath: outputDirectory.path) {
             do {
@@ -293,6 +318,19 @@ class AVPlayerController: UIViewController {
         } catch {
             print("Error reading playlist: \(error)")
             return []
+        }
+    }
+    
+    func updateStatusLabel(with message: String) {
+        statusLabel.text = message
+        // Hide the label after 3 seconds unless buffering
+        if message != "Buffering..." && message != "Loading..." {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
+                if self?.statusLabel.text != "Buffering..." && self?.statusLabel.text != "Loading..." {
+                    self?.statusLabel.text = ""
+                    self?.statusLabel.alpha = 0.0
+                }
+            }
         }
     }
 }

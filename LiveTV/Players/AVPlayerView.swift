@@ -31,7 +31,6 @@ class AVPlayerController: UIViewController {
     var isLoading = true
     var cancellables = Set<AnyCancellable>()
     var loadingTimer: AnyCancellable?
-    
     var streamURL: URL
     var progressView: UIActivityIndicatorView?
     
@@ -39,7 +38,6 @@ class AVPlayerController: UIViewController {
     let playlistName = "playlist.m3u8"
     var documentPath: URL!
     private var ffmpegSession: FFmpegSession?
-    
     
     init(url: URL) {
         self.streamURL = url
@@ -57,7 +55,8 @@ class AVPlayerController: UIViewController {
         startLocalHTTPServer()
         DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: waitForPlaylist)
     }
-    // Start local HTTP server to serve the HLS files
+    
+    //MARK: - Start local HTTP server to serve the HLS files
     func startLocalHTTPServer() {
         // Initialize the web server
         webServer = GCDWebServer()
@@ -74,7 +73,7 @@ class AVPlayerController: UIViewController {
         webServer = nil
     }
     
-    // Process the stream using FFmpeg
+    //MARK: - Process the stream using FFmpeg
     func processStream() {
         let inputUrlString = streamURL.absoluteString
 
@@ -103,9 +102,6 @@ class AVPlayerController: UIViewController {
             // Ensure FFmpeg processing succeeded
             if ReturnCode.isSuccess(returnCode) {
                 print("FFmpeg processing succeeded.")
-//                DispatchQueue.main.async {
-//                    self.waitForPlaylist(outputURL: outputStreamURL) // Wait for the playlist to be ready
-//                }
             } else {
                 print("FFmpeg processing failed with return code: \(String(describing: returnCode))")
                 DispatchQueue.main.async {
@@ -115,6 +111,7 @@ class AVPlayerController: UIViewController {
         }
     }
 
+    //MARK: - AVPlayer setup
     // Wait for the playlist to become available and play
     func waitForPlaylist() {
         guard let outputDirectory = createHLSOutputDirectory() else {
@@ -143,7 +140,7 @@ class AVPlayerController: UIViewController {
         cancellables.insert(loadingTimer!) // Store the cancellable
     }
 
-    // Setup the player with the playlist
+    // Get stream URL with the playlist
     func setupWebserverPlaylist() {
         // URL to the .m3u8 playlist on the local HTTP server
         guard let serverURL = webServer.serverURL else {
@@ -157,6 +154,7 @@ class AVPlayerController: UIViewController {
         
     }
     
+    // Setup AVPlayer with stream URL
     func setupPlayer(with url: URL) {
        player = AVPlayer(url: url)
        playerLayer = AVPlayerLayer(player: player)
@@ -177,7 +175,7 @@ class AVPlayerController: UIViewController {
        player?.addObserver(self, forKeyPath: "status", options: [.new, .initial], context: nil)
    }
 
-    // Observe player status changes
+    //MARK: - Observe player status changes
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if keyPath == "status" {
             if let player = object as? AVPlayer {
@@ -195,12 +193,12 @@ class AVPlayerController: UIViewController {
         }
     }
     
-    // Layout the player layer when the view layout changes
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         playerLayer?.frame = view.bounds
     }
-    // Control playback actions
+    
+    //MARK: - Control playback actions
     func play() {
         player?.play()
     }
@@ -213,15 +211,13 @@ class AVPlayerController: UIViewController {
         player?.seek(to: time)
     }
 
-    // Clean up when the view is deallocated
+    //MARK: - Clean up when the view is deallocated
     deinit {
         stopWebServer()
         player?.removeObserver(self, forKeyPath: "status")
         self.ffmpegSession?.cancel()
         self.ffmpegSession = nil
-        
-        print("FFmpeg conversion stopped.")
-        
+        cleanupOldSegments()
     }
     
     //MARK: - Local storage access
@@ -242,10 +238,10 @@ class AVPlayerController: UIViewController {
     }
 
     private func getDocumentsDirectory() -> URL {
-//        return FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
         return FileManager.default.temporaryDirectory
     }
     
+    //MARK: - Check storage available
     func checkAvailableStorage() {
         do {
             let systemAttributes = try FileManager.default.attributesOfFileSystem(forPath: getDocumentsDirectory().path)
@@ -254,6 +250,49 @@ class AVPlayerController: UIViewController {
             }
         } catch {
             print("Error retrieving file system attributes: \(error)")
+        }
+    }
+    
+    //MARK: - Clean the segments files when player is closed
+    func cleanupOldSegments() {
+        guard let outputDirectory = createHLSOutputDirectory() else {
+            print("Failed to create output directory")
+            return
+        }
+        let playlistUrl = outputDirectory.appendingPathComponent(playlistName)
+
+        // Get the list of segments currently in the playlist
+        let activeSegments = getSegmentsFromPlaylist(playlistUrl: playlistUrl)
+        
+        do {
+            // List all files in the HLS output directory
+            let allFiles = try FileManager.default.contentsOfDirectory(atPath: outputDirectory.path)
+            
+            // Filter out only the .ts files (segments)
+            let segmentFiles = allFiles.filter { $0.hasSuffix(".ts") }
+            
+            for segment in segmentFiles {
+                // If a segment is not in the current playlist, delete it
+                if !activeSegments.contains(segment) {
+                    let segmentUrl = outputDirectory.appendingPathComponent(segment)
+                    try FileManager.default.removeItem(at: segmentUrl)
+                    print("Deleted old segment: \(segment)")
+                }
+            }
+        } catch {
+            print("Error during cleanup: \(error)")
+        }
+    }
+    
+    func getSegmentsFromPlaylist(playlistUrl: URL) -> [String] {
+        do {
+            let playlistContents = try String(contentsOf: playlistUrl, encoding: .utf8)
+            let lines = playlistContents.split(separator: "\n")
+            let segmentFiles = lines.filter { $0.hasSuffix(".ts") }
+            return segmentFiles.map { String($0) }
+        } catch {
+            print("Error reading playlist: \(error)")
+            return []
         }
     }
 }

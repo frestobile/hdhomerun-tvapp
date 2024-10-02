@@ -71,6 +71,7 @@ class AVPlayerController: UIViewController {
     
     func stopWebServer() {
         webServer?.stop()
+        webServer = nil
     }
     
     // Process the stream using FFmpeg
@@ -214,6 +215,7 @@ class AVPlayerController: UIViewController {
 
     // Clean up when the view is deallocated
     deinit {
+        stopWebServer()
         player?.removeObserver(self, forKeyPath: "status")
         self.ffmpegSession?.cancel()
         self.ffmpegSession = nil

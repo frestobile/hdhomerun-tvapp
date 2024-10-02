@@ -67,7 +67,8 @@ class CombineController: UIViewController, VLCMediaPlayerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        documentPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
+        documentPath = getDocumentsDirectory()
+        checkAvailableStorage()
         processStream()
         setupAVPlayerLayer()  // Set up the AVPlayerLayer for remote control
         setupGestureRecognizers()  // Set up gesture recognizers for rewind/forward
@@ -78,6 +79,17 @@ class CombineController: UIViewController, VLCMediaPlayerDelegate {
         DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: setupPlayer)
     }
     
+    func checkAvailableStorage() {
+        do {
+            let systemAttributes = try FileManager.default.attributesOfFileSystem(forPath: getDocumentsDirectory().path)
+            if let freeSpace = systemAttributes[.systemFreeSize] as? NSNumber {
+                print("Available storage: \(freeSpace.int64Value / (1024 * 1024)) MB")
+            }
+        } catch {
+            print("Error retrieving file system attributes: \(error)")
+        }
+    }
+    
     // MARK: - Setup the VLC player and delegate
     func setupPlayer() {
         videoView.frame = self.view.bounds
@@ -85,9 +97,9 @@ class CombineController: UIViewController, VLCMediaPlayerDelegate {
         
         mediaPlayer.drawable = videoView
 //        let outputStreamURL = documentPath.appendingPathComponent(playlistName)
-        let outputStreamURL = webServer.serverURL?.appendingPathComponent(playlistName)
+        let outputStreamURL = webServer.serverURL?.appendingPathComponent("HLSOutput/\(playlistName)")
         
-        print(outputStreamURL?.absoluteString as Any)
+        print("Stram URL: \(outputStreamURL!.absoluteString)")
         
         let media = VLCMedia(url: outputStreamURL!)
 
@@ -115,8 +127,8 @@ class CombineController: UIViewController, VLCMediaPlayerDelegate {
         webServer = GCDWebServer()
         // Serve files from the Document directory (HLS playlist and segments)
         webServer.addGETHandler(forBasePath: "/", directoryPath: documentPath.path, indexFilename: nil, cacheAge: 3600, allowRangeRequests: true)
-        // Start the web server on port 9000
-        webServer.start(withPort: 9000, bonjourName: "Local WebServer")
+        // Start the web server on port 9090
+        webServer.start(withPort: 9090, bonjourName: "Local WebServer")
         print("Local server started at: \(webServer.serverURL?.absoluteString ?? "")")
     }
     
@@ -124,7 +136,7 @@ class CombineController: UIViewController, VLCMediaPlayerDelegate {
     func processStream() {
         let inputUrlString = streamURL.absoluteString
 
-        let outputStreamURL = documentPath.appendingPathComponent(playlistName)
+        let outputStreamURL = documentPath.appendingPathComponent("HLSOutput/\(playlistName)")
         
         // FFmpeg command to create HLS
         let ffmpegCommand = """
@@ -425,5 +437,25 @@ class CombineController: UIViewController, VLCMediaPlayerDelegate {
         totalTimeLabel.text = formatTime(milliseconds: Int(total))
     }
     
+    private func createHLSOutputDirectory() -> URL? {
+        let fileManager = FileManager.default
+        let outputDirectory = documentPath.appendingPathComponent("HLSOutput")
+
+        if !fileManager.fileExists(atPath: outputDirectory.path) {
+            do {
+                try fileManager.createDirectory(at: outputDirectory, withIntermediateDirectories: true, attributes: nil)
+                print("Directory created at: \(outputDirectory.path)")
+            } catch {
+                print("Failed to create directory: \(error)")
+                return nil
+            }
+        }
+        return outputDirectory
+    }
+
+    private func getDocumentsDirectory() -> URL {
+//        return FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        return FileManager.default.temporaryDirectory
+    }
 }
 

@@ -84,7 +84,7 @@ class AVPlayerController: UIViewController {
         
         // FFmpeg command to create HLS
         let ffmpegCommand = """
-        -i \(inputUrlString) -codec: copy -start_number 0 -hls_time 5 -hls_list_size 0 -hls_flags delete_segments -f hls -hls_segment_filename "\(outputDirectory.appendingPathComponent("segment_%03d.ts").path)" "\(outputStreamURL.path)"
+        -i \(inputUrlString) -codec: copy -start_number 0 -hls_time 5 -hls_list_size 5 -hls_flags delete_segments -f hls -hls_segment_filename "\(outputDirectory.appendingPathComponent("segment_%03d.ts").path)" "\(outputStreamURL.path)"
         """
 
         // Execute the FFmpeg command
@@ -219,6 +219,7 @@ class AVPlayerController: UIViewController {
     }
 
     private func getDocumentsDirectory() -> URL {
-        return FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+//        return FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        return FileManager.default.temporaryDirectory
     }
 }

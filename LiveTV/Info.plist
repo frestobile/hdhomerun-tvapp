@@ -6,9 +6,11 @@
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
+        <key>NSAllowsLocalNetworking</key>
+        <true/>
 		<key>NSExceptionDomains</key>
 		<dict>
-			<key>http://192.168.8.154:9090/</key>
+			<key>http://192.168.8.134:9090/</key>
 			<dict>
 				<key>NSExceptionAllowsInsecureHTTPLoads</key>
 				<true/>

@@ -11,24 +11,24 @@
 #include "../libhdhomerun/hdhomerun.h"
 
 //tvOS Frameworks
-#include "../frameworks/ffmpegkit.xcframework/tvos-arm64/ffmpegkit.framework/Headers/FFmpegKit.h"
-#include "../frameworks/libavcodec.xcframework/tvos-arm64/libavcodec.framework/Headers/avcodec.h"
-#include "../frameworks/libavdevice.xcframework/tvos-arm64/libavdevice.framework/Headers/avdevice.h"
-#include "../frameworks/libavfilter.xcframework/tvos-arm64/libavfilter.framework/Headers/avfilter.h"
-#include "../frameworks/libavformat.xcframework/tvos-arm64/libavformat.framework/Headers/avformat.h"
-#include "../frameworks/libavutil.xcframework/tvos-arm64/libavutil.framework/Headers/avutil.h"
-#include "../frameworks/libswscale.xcframework/tvos-arm64/libswscale.framework/Headers/swscale.h"
-#include "../frameworks/libswresample.xcframework/tvos-arm64/libswresample.framework/Headers/swresample.h"
+#include "../frameworks/device/ffmpegkit.framework/Headers/FFmpegKit.h"
+#include "../frameworks/device/libavcodec.framework/Headers/avcodec.h"
+#include "../frameworks/device/libavdevice.framework/Headers/avdevice.h"
+#include "../frameworks/device/libavfilter.framework/Headers/avfilter.h"
+#include "../frameworks/device/libavformat.framework/Headers/avformat.h"
+#include "../frameworks/device/libavutil.framework/Headers/avutil.h"
+#include "../frameworks/device/libswscale.framework/Headers/swscale.h"
+#include "../frameworks/device/libswresample.framework/Headers/swresample.h"
 
 //tvOS Simulator Frameworks
-#include "../frameworks/ffmpegkit.xcframework/tvos-arm64_x86_64-simulator/ffmpegkit.framework/Headers/FFmpegKit.h"
-#include "../frameworks/libavcodec.xcframework/tvos-arm64_x86_64-simulator/libavcodec.framework/Headers/avcodec.h"
-#include "../frameworks/libavdevice.xcframework/tvos-arm64_x86_64-simulator/libavdevice.framework/Headers/avdevice.h"
-#include "../frameworks/libavfilter.xcframework/tvos-arm64_x86_64-simulator/libavfilter.framework/Headers/avfilter.h"
-#include "../frameworks/libavformat.xcframework/tvos-arm64_x86_64-simulator/libavformat.framework/Headers/avformat.h"
-#include "../frameworks/libavutil.xcframework/tvos-arm64_x86_64-simulator/libavutil.framework/Headers/avutil.h"
-#include "../frameworks/libswscale.xcframework/tvos-arm64_x86_64-simulator/libswscale.framework/Headers/swscale.h"
-#include "../frameworks/libswresample.xcframework/tvos-arm64_x86_64-simulator/libswresample.framework/Headers/swresample.h"
+//#include "../frameworks/simulator/ffmpegkit.framework/Headers/FFmpegKit.h"
+//#include "../frameworks/simulator/libavcodec.framework/Headers/avcodec.h"
+//#include "../frameworks/simulator/libavdevice.framework/Headers/avdevice.h"
+//#include "../frameworks/simulator/libavfilter.framework/Headers/avfilter.h"
+//#include "../frameworks/simulator/libavformat.framework/Headers/avformat.h"
+//#include "../frameworks/simulator/libavutil.framework/Headers/avutil.h"
+//#include "../frameworks/simulator/libswscale.framework/Headers/swscale.h"
+//#include "../frameworks/simulator/libswresample.framework/Headers/swresample.h"
 
 
 #endif /* HDHomeRun_Bridging_Header_h */

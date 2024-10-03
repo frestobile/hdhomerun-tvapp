@@ -19,27 +19,27 @@
 		3A22DB782C826E53002A0050 /* LiveTVUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A22DB772C826E53002A0050 /* LiveTVUITests.swift */; };
 		3A22DB7A2C826E53002A0050 /* LiveTVUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A22DB792C826E53002A0050 /* LiveTVUITestsLaunchTests.swift */; };
 		7C3CCB98EDB2F7DA7DFDB9AF /* Pods_LiveTVTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E4422798AC23C7D2176DD7A /* Pods_LiveTVTests.framework */; };
-		9A8187602CAE22660050A880 /* libavcodec.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A8187562CAE22660050A880 /* libavcodec.framework */; };
-		9A8187612CAE22660050A880 /* libavcodec.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9A8187562CAE22660050A880 /* libavcodec.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		9A8187622CAE22660050A880 /* libswresample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A8187572CAE22660050A880 /* libswresample.framework */; };
-		9A8187632CAE22660050A880 /* libswresample.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9A8187572CAE22660050A880 /* libswresample.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		9A8187642CAE22660050A880 /* libavutil.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A8187582CAE22660050A880 /* libavutil.framework */; };
-		9A8187652CAE22660050A880 /* libavutil.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9A8187582CAE22660050A880 /* libavutil.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		9A8187682CAE22660050A880 /* libavdevice.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A81875A2CAE22660050A880 /* libavdevice.framework */; };
-		9A8187692CAE22660050A880 /* libavdevice.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9A81875A2CAE22660050A880 /* libavdevice.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		9A81876C2CAE22660050A880 /* libavfilter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A81875C2CAE22660050A880 /* libavfilter.framework */; };
-		9A81876D2CAE22660050A880 /* libavfilter.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9A81875C2CAE22660050A880 /* libavfilter.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		9A81876E2CAE22660050A880 /* libavformat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A81875D2CAE22660050A880 /* libavformat.framework */; };
-		9A81876F2CAE22660050A880 /* libavformat.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9A81875D2CAE22660050A880 /* libavformat.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		9A8187702CAE22660050A880 /* libswscale.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A81875E2CAE22660050A880 /* libswscale.framework */; };
-		9A8187712CAE22660050A880 /* libswscale.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9A81875E2CAE22660050A880 /* libswscale.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		9A8187722CAE22660050A880 /* TVVLCKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A81875F2CAE22660050A880 /* TVVLCKit.framework */; };
-		9A8187732CAE22660050A880 /* TVVLCKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9A81875F2CAE22660050A880 /* TVVLCKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		9A8187782CAE258A0050A880 /* ffmpegkit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A8187772CAE258A0050A880 /* ffmpegkit.framework */; };
-		9A8187792CAE258A0050A880 /* ffmpegkit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9A8187772CAE258A0050A880 /* ffmpegkit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		9A81877B2CAE26940050A880 /* HDHomeRun_tvOS_Framework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A81877A2CAE26940050A880 /* HDHomeRun_tvOS_Framework.framework */; };
-		9A81877C2CAE26940050A880 /* HDHomeRun_tvOS_Framework.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9A81877A2CAE26940050A880 /* HDHomeRun_tvOS_Framework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A5195A772C9A644E003194DF /* libpthread.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = A5195A762C9A6445003194DF /* libpthread.tbd */; };
+		A526DAF02CAE2826007239A5 /* libswscale.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A526DAE62CAE2825007239A5 /* libswscale.framework */; };
+		A526DAF12CAE2826007239A5 /* libswscale.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A526DAE62CAE2825007239A5 /* libswscale.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		A526DAF22CAE2826007239A5 /* HDHomeRun_tvOS_Framework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A526DAE72CAE2825007239A5 /* HDHomeRun_tvOS_Framework.framework */; };
+		A526DAF32CAE2827007239A5 /* HDHomeRun_tvOS_Framework.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A526DAE72CAE2825007239A5 /* HDHomeRun_tvOS_Framework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		A526DAF42CAE2827007239A5 /* libavformat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A526DAE82CAE2825007239A5 /* libavformat.framework */; };
+		A526DAF52CAE2827007239A5 /* libavformat.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A526DAE82CAE2825007239A5 /* libavformat.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		A526DAF62CAE2827007239A5 /* libavdevice.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A526DAE92CAE2825007239A5 /* libavdevice.framework */; };
+		A526DAF72CAE2827007239A5 /* libavdevice.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A526DAE92CAE2825007239A5 /* libavdevice.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		A526DAF82CAE2827007239A5 /* libavcodec.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A526DAEA2CAE2826007239A5 /* libavcodec.framework */; };
+		A526DAF92CAE2827007239A5 /* libavcodec.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A526DAEA2CAE2826007239A5 /* libavcodec.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		A526DAFA2CAE2827007239A5 /* ffmpegkit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A526DAEB2CAE2826007239A5 /* ffmpegkit.framework */; };
+		A526DAFB2CAE2827007239A5 /* ffmpegkit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A526DAEB2CAE2826007239A5 /* ffmpegkit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		A526DAFC2CAE2827007239A5 /* libavfilter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A526DAEC2CAE2826007239A5 /* libavfilter.framework */; };
+		A526DAFD2CAE2827007239A5 /* libavfilter.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A526DAEC2CAE2826007239A5 /* libavfilter.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		A526DAFE2CAE2827007239A5 /* libswresample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A526DAED2CAE2826007239A5 /* libswresample.framework */; };
+		A526DAFF2CAE2827007239A5 /* libswresample.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A526DAED2CAE2826007239A5 /* libswresample.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		A526DB002CAE2827007239A5 /* libavutil.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A526DAEE2CAE2826007239A5 /* libavutil.framework */; };
+		A526DB012CAE2827007239A5 /* libavutil.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A526DAEE2CAE2826007239A5 /* libavutil.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		A526DB022CAE2827007239A5 /* TVVLCKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A526DAEF2CAE2826007239A5 /* TVVLCKit.framework */; };
+		A526DB032CAE2827007239A5 /* TVVLCKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A526DAEF2CAE2826007239A5 /* TVVLCKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A53FB35C2C9B675D000EE49C /* LiveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A53FB35B2C9B675D000EE49C /* LiveView.swift */; };
 		A53FB35E2C9B67EA000EE49C /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A53FB35D2C9B67EA000EE49C /* SettingsView.swift */; };
 		A53FB3612C9B6B02000EE49C /* TunersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A53FB3602C9B6B02000EE49C /* TunersView.swift */; };
@@ -79,16 +79,16 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				9A8187712CAE22660050A880 /* libswscale.framework in Embed Frameworks */,
-				9A81876F2CAE22660050A880 /* libavformat.framework in Embed Frameworks */,
-				9A8187612CAE22660050A880 /* libavcodec.framework in Embed Frameworks */,
-				9A8187632CAE22660050A880 /* libswresample.framework in Embed Frameworks */,
-				9A8187732CAE22660050A880 /* TVVLCKit.framework in Embed Frameworks */,
-				9A81876D2CAE22660050A880 /* libavfilter.framework in Embed Frameworks */,
-				9A8187652CAE22660050A880 /* libavutil.framework in Embed Frameworks */,
-				9A8187792CAE258A0050A880 /* ffmpegkit.framework in Embed Frameworks */,
-				9A81877C2CAE26940050A880 /* HDHomeRun_tvOS_Framework.framework in Embed Frameworks */,
-				9A8187692CAE22660050A880 /* libavdevice.framework in Embed Frameworks */,
+				A526DAF32CAE2827007239A5 /* HDHomeRun_tvOS_Framework.framework in Embed Frameworks */,
+				A526DAF12CAE2826007239A5 /* libswscale.framework in Embed Frameworks */,
+				A526DAFB2CAE2827007239A5 /* ffmpegkit.framework in Embed Frameworks */,
+				A526DAFD2CAE2827007239A5 /* libavfilter.framework in Embed Frameworks */,
+				A526DAF52CAE2827007239A5 /* libavformat.framework in Embed Frameworks */,
+				A526DB032CAE2827007239A5 /* TVVLCKit.framework in Embed Frameworks */,
+				A526DB012CAE2827007239A5 /* libavutil.framework in Embed Frameworks */,
+				A526DAFF2CAE2827007239A5 /* libswresample.framework in Embed Frameworks */,
+				A526DAF92CAE2827007239A5 /* libavcodec.framework in Embed Frameworks */,
+				A526DAF72CAE2827007239A5 /* libavdevice.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -112,18 +112,18 @@
 		66090673310749C5C4C4713B /* Pods_LiveTV.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LiveTV.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7FE684795F37DF163CC0465E /* Pods-LiveTV-LiveTVUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LiveTV-LiveTVUITests.release.xcconfig"; path = "Target Support Files/Pods-LiveTV-LiveTVUITests/Pods-LiveTV-LiveTVUITests.release.xcconfig"; sourceTree = "<group>"; };
 		8E4422798AC23C7D2176DD7A /* Pods_LiveTVTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LiveTVTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		9A8187562CAE22660050A880 /* libavcodec.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libavcodec.framework; path = frameworks/simulator/libavcodec.framework; sourceTree = "<group>"; };
-		9A8187572CAE22660050A880 /* libswresample.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libswresample.framework; path = frameworks/simulator/libswresample.framework; sourceTree = "<group>"; };
-		9A8187582CAE22660050A880 /* libavutil.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libavutil.framework; path = frameworks/simulator/libavutil.framework; sourceTree = "<group>"; };
-		9A81875A2CAE22660050A880 /* libavdevice.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libavdevice.framework; path = frameworks/simulator/libavdevice.framework; sourceTree = "<group>"; };
-		9A81875C2CAE22660050A880 /* libavfilter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libavfilter.framework; path = frameworks/simulator/libavfilter.framework; sourceTree = "<group>"; };
-		9A81875D2CAE22660050A880 /* libavformat.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libavformat.framework; path = frameworks/simulator/libavformat.framework; sourceTree = "<group>"; };
-		9A81875E2CAE22660050A880 /* libswscale.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libswscale.framework; path = frameworks/simulator/libswscale.framework; sourceTree = "<group>"; };
-		9A81875F2CAE22660050A880 /* TVVLCKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TVVLCKit.framework; path = frameworks/simulator/TVVLCKit.framework; sourceTree = "<group>"; };
-		9A8187772CAE258A0050A880 /* ffmpegkit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ffmpegkit.framework; path = frameworks/simulator/ffmpegkit.framework; sourceTree = "<group>"; };
-		9A81877A2CAE26940050A880 /* HDHomeRun_tvOS_Framework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HDHomeRun_tvOS_Framework.framework; path = frameworks/simulator/HDHomeRun_tvOS_Framework.framework; sourceTree = "<group>"; };
 		A5195A762C9A6445003194DF /* libpthread.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libpthread.tbd; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS.sdk/usr/lib/libpthread.tbd; sourceTree = DEVELOPER_DIR; };
 		A5195A782C9A65AF003194DF /* HDHomeRun-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "HDHomeRun-Bridging-Header.h"; sourceTree = "<group>"; };
+		A526DAE62CAE2825007239A5 /* libswscale.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libswscale.framework; path = frameworks/simulator/libswscale.framework; sourceTree = "<group>"; };
+		A526DAE72CAE2825007239A5 /* HDHomeRun_tvOS_Framework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HDHomeRun_tvOS_Framework.framework; path = frameworks/simulator/HDHomeRun_tvOS_Framework.framework; sourceTree = "<group>"; };
+		A526DAE82CAE2825007239A5 /* libavformat.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libavformat.framework; path = frameworks/simulator/libavformat.framework; sourceTree = "<group>"; };
+		A526DAE92CAE2825007239A5 /* libavdevice.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libavdevice.framework; path = frameworks/simulator/libavdevice.framework; sourceTree = "<group>"; };
+		A526DAEA2CAE2826007239A5 /* libavcodec.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libavcodec.framework; path = frameworks/simulator/libavcodec.framework; sourceTree = "<group>"; };
+		A526DAEB2CAE2826007239A5 /* ffmpegkit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ffmpegkit.framework; path = frameworks/simulator/ffmpegkit.framework; sourceTree = "<group>"; };
+		A526DAEC2CAE2826007239A5 /* libavfilter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libavfilter.framework; path = frameworks/simulator/libavfilter.framework; sourceTree = "<group>"; };
+		A526DAED2CAE2826007239A5 /* libswresample.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libswresample.framework; path = frameworks/simulator/libswresample.framework; sourceTree = "<group>"; };
+		A526DAEE2CAE2826007239A5 /* libavutil.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libavutil.framework; path = frameworks/simulator/libavutil.framework; sourceTree = "<group>"; };
+		A526DAEF2CAE2826007239A5 /* TVVLCKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TVVLCKit.framework; path = frameworks/simulator/TVVLCKit.framework; sourceTree = "<group>"; };
 		A53FB35B2C9B675D000EE49C /* LiveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveView.swift; sourceTree = "<group>"; };
 		A53FB35D2C9B67EA000EE49C /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		A53FB3602C9B6B02000EE49C /* TunersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TunersView.swift; sourceTree = "<group>"; };
@@ -150,18 +150,18 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9A8187642CAE22660050A880 /* libavutil.framework in Frameworks */,
-				9A8187602CAE22660050A880 /* libavcodec.framework in Frameworks */,
-				9A81876C2CAE22660050A880 /* libavfilter.framework in Frameworks */,
-				9A8187722CAE22660050A880 /* TVVLCKit.framework in Frameworks */,
-				9A81877B2CAE26940050A880 /* HDHomeRun_tvOS_Framework.framework in Frameworks */,
-				9A8187622CAE22660050A880 /* libswresample.framework in Frameworks */,
-				9A81876E2CAE22660050A880 /* libavformat.framework in Frameworks */,
+				A526DAF82CAE2827007239A5 /* libavcodec.framework in Frameworks */,
+				A526DAF22CAE2826007239A5 /* HDHomeRun_tvOS_Framework.framework in Frameworks */,
+				A526DAF62CAE2827007239A5 /* libavdevice.framework in Frameworks */,
+				A526DB002CAE2827007239A5 /* libavutil.framework in Frameworks */,
+				A526DAFE2CAE2827007239A5 /* libswresample.framework in Frameworks */,
+				A526DB022CAE2827007239A5 /* TVVLCKit.framework in Frameworks */,
+				A526DAF42CAE2827007239A5 /* libavformat.framework in Frameworks */,
+				A526DAFC2CAE2827007239A5 /* libavfilter.framework in Frameworks */,
+				A526DAFA2CAE2827007239A5 /* ffmpegkit.framework in Frameworks */,
+				A526DAF02CAE2826007239A5 /* libswscale.framework in Frameworks */,
 				A5195A772C9A644E003194DF /* libpthread.tbd in Frameworks */,
-				9A8187782CAE258A0050A880 /* ffmpegkit.framework in Frameworks */,
-				9A8187702CAE22660050A880 /* libswscale.framework in Frameworks */,
 				22D4DA874F66E42559CA5328 /* Pods_LiveTV.framework in Frameworks */,
-				9A8187682CAE22660050A880 /* libavdevice.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -267,16 +267,16 @@
 		A5195A712C9A63ED003194DF /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				9A81877A2CAE26940050A880 /* HDHomeRun_tvOS_Framework.framework */,
-				9A8187772CAE258A0050A880 /* ffmpegkit.framework */,
-				9A8187562CAE22660050A880 /* libavcodec.framework */,
-				9A81875A2CAE22660050A880 /* libavdevice.framework */,
-				9A81875C2CAE22660050A880 /* libavfilter.framework */,
-				9A81875D2CAE22660050A880 /* libavformat.framework */,
-				9A8187582CAE22660050A880 /* libavutil.framework */,
-				9A8187572CAE22660050A880 /* libswresample.framework */,
-				9A81875E2CAE22660050A880 /* libswscale.framework */,
-				9A81875F2CAE22660050A880 /* TVVLCKit.framework */,
+				A526DAEB2CAE2826007239A5 /* ffmpegkit.framework */,
+				A526DAE72CAE2825007239A5 /* HDHomeRun_tvOS_Framework.framework */,
+				A526DAEA2CAE2826007239A5 /* libavcodec.framework */,
+				A526DAE92CAE2825007239A5 /* libavdevice.framework */,
+				A526DAEC2CAE2826007239A5 /* libavfilter.framework */,
+				A526DAE82CAE2825007239A5 /* libavformat.framework */,
+				A526DAEE2CAE2826007239A5 /* libavutil.framework */,
+				A526DAED2CAE2826007239A5 /* libswresample.framework */,
+				A526DAE62CAE2825007239A5 /* libswscale.framework */,
+				A526DAEF2CAE2826007239A5 /* TVVLCKit.framework */,
 				A5195A762C9A6445003194DF /* libpthread.tbd */,
 				66090673310749C5C4C4713B /* Pods_LiveTV.framework */,
 				D92270C1BC60AB0E84C00DFF /* Pods_LiveTV_LiveTVUITests.framework */,

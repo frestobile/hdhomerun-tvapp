@@ -24,9 +24,8 @@ struct AVPlayerView: UIViewControllerRepresentable {
     }
 }
 
-class AVPlayerController: UIViewController {
+class AVPlayerController: UIViewController, ObservableObject {
     var player: AVPlayer?
-    var playerLayer: AVPlayerLayer?
     var playerViewController: AVPlayerViewController!
     var statusLabel: UILabel = UILabel()  // Label for playback status feedback
     
@@ -39,6 +38,12 @@ class AVPlayerController: UIViewController {
     var webServer: GCDWebServer!
     let playlistName = "playlist.m3u8"
     private var ffmpegSession: FFmpegSession?
+    
+    @Published var audioOptions: [AVMediaSelectionOption] = []
+    @Published var subtitleOptions: [AVMediaSelectionOption] = []
+    
+    @Published var selectedAudioOption: AVMediaSelectionOption? = nil
+    @Published var selectedSubtitleOption: AVMediaSelectionOption? = nil
     
     init(url: URL) {
         self.streamURL = url
@@ -179,30 +184,21 @@ class AVPlayerController: UIViewController {
     // Setup AVPlayer with stream URL
     func setupPlayer(with url: URL) {
         player = AVPlayer(url: url)
-//        playerLayer = AVPlayerLayer(player: player)
 
         playerViewController = AVPlayerViewController()
         playerViewController.player = player
         playerViewController.showsPlaybackControls = true  // Enable default playback controls
 
-        // Add AVPlayerViewController as a child to this custom controller
-        addChild(playerViewController)
-        view.addSubview(playerViewController.view)
+        // Add AVPlayerViewController as a child view controller
+        
+        if let playerViewController = playerViewController {
+            addChild(playerViewController)
+            playerViewController.view.frame = self.view.bounds
+            self.view.addSubview(playerViewController.view)
+            playerViewController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
 
-        // Set the playerViewController's frame to match the view
-        playerViewController.view.frame = view.bounds
-        playerViewController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-
-        playerViewController.didMove(toParent: self)
-
-//        playerLayer?.videoGravity = .resizeAspect
-//        playerLayer?.cornerRadius = 10
-//        playerLayer?.masksToBounds = true
-
-        // Add the playerLayer to the view's layer
-//        if let playerLayer = playerLayer {
-//           view.layer.addSublayer(playerLayer)
-//        }
+            playerViewController.didMove(toParent: self)
+        }
 
         updateStatusLabel(with: "Playing...")
         // Start playback
@@ -211,6 +207,9 @@ class AVPlayerController: UIViewController {
         isLoading = false
         // Observer for player's status, e.g., ready to play
         player?.addObserver(self, forKeyPath: "status", options: [.new, .initial], context: nil)
+        
+        // Setup audio and subtitle track selection
+        setupMediaSelection()
    }
 
     //MARK: - Observe player status changes
@@ -231,11 +230,7 @@ class AVPlayerController: UIViewController {
         }
     }
     
-//    override func viewDidLayoutSubviews() {
-//        super.viewDidLayoutSubviews()
-//        playerLayer?.frame = view.bounds
-//    }
-    
+
     //MARK: - Control playback actions
     func play() {
         player?.play()
@@ -372,32 +367,39 @@ class AVPlayerController: UIViewController {
             }
         }
     }
-}
+    
+    // Set up available media tracks (audio and subtitles)
+    func setupMediaSelection() {
+        guard let currentItem = player?.currentItem else { return }
 
-extension AVPlayerController {
-    func selectAudioTrack(_ languageCode: String) {
-        guard let currentItem = player?.currentItem,
-              let group = currentItem.asset.mediaSelectionGroup(forMediaCharacteristic: .audible) else {
-            return
+        // Get available audio tracks
+        if let audioGroup = currentItem.asset.mediaSelectionGroup(forMediaCharacteristic: .audible) {
+            audioOptions = audioGroup.options
+            selectedAudioOption = currentItem.selectedMediaOption(in: audioGroup)
         }
 
-        for option in group.options {
-            if option.extendedLanguageTag == languageCode {
-                currentItem.select(option, in: group)
-            }
+        // Get available subtitle tracks
+        if let subtitleGroup = currentItem.asset.mediaSelectionGroup(forMediaCharacteristic: .legible) {
+            subtitleOptions = subtitleGroup.options
+            selectedSubtitleOption = currentItem.selectedMediaOption(in: subtitleGroup)
+        }
+    }
+
+    // Select the chosen audio or subtitle track
+    func selectAudioTrack(_ option: AVMediaSelectionOption) {
+        guard let currentItem = player?.currentItem else { return }
+        if let audioGroup = currentItem.asset.mediaSelectionGroup(forMediaCharacteristic: .audible) {
+            currentItem.select(option, in: audioGroup)
+            print("Selected audio track: \(option.displayName)")
         }
     }
 
-    func selectSubtitleTrack(_ languageCode: String) {
-        guard let currentItem = player?.currentItem,
-              let group = currentItem.asset.mediaSelectionGroup(forMediaCharacteristic: .legible) else {
-            return
-        }
-
-        for option in group.options {
-            if option.extendedLanguageTag == languageCode {
-                currentItem.select(option, in: group)
-            }
+    func selectSubtitleTrack(_ option: AVMediaSelectionOption) {
+        guard let currentItem = player?.currentItem else { return }
+        if let subtitleGroup = currentItem.asset.mediaSelectionGroup(forMediaCharacteristic: .legible) {
+            currentItem.select(option, in: subtitleGroup)
+            print("Selected subtitle track: \(option.displayName)")
         }
     }
 }
+

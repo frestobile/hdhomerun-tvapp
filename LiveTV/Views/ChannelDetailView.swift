@@ -9,16 +9,45 @@ import SwiftUI
 
 struct ChannelDetailView: View {
     let streamURL: String  // Pass the stream URL from the channel list
+    @State private var showOverlay = false
     var body: some View {
         VStack {
             // Check if the URL is valid before creating the player view
             
             if let url = URL(string: streamURL) {
-                AVPlayerView(streamURL: url)
-                    .edgesIgnoringSafeArea(.all)
+                ZStack {
+                    // Background player view
+                    AVPlayerView(streamURL: url)
+
+                    // Overlay the TrackSelectionView on top of the player view
+                    if showOverlay {
+                        TrackSelectionView(avController: AVPlayerController(url: url))
+                            .transition(.move(edge: .bottom))  // Overlay transition effect
+                    }
+
+                    // Toggle button to show or hide the overlay
+                    VStack {
+                        Spacer()
+                        HStack {
+                            Spacer()
+                            Button(action: {
+                                withAnimation {
+                                    showOverlay.toggle()
+                                }
+                            }) {
+                                Image(systemName: showOverlay ? "xmark.circle.fill" : "line.horizontal.3.decrease.circle.fill")
+                                    .font(.system(size: 40))
+                                    .padding()
+                                    .foregroundColor(.white)
+                            }
+                        }
+                    }
+                }
+                .edgesIgnoringSafeArea(.all)
             } else {
                 Text("Invalid stream URL")
             }
+            
         }
         
     }

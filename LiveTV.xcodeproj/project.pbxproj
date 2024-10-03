@@ -40,6 +40,7 @@
 		A526DB012CAE2827007239A5 /* libavutil.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A526DAEE2CAE2826007239A5 /* libavutil.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A526DB022CAE2827007239A5 /* TVVLCKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A526DAEF2CAE2826007239A5 /* TVVLCKit.framework */; };
 		A526DB032CAE2827007239A5 /* TVVLCKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A526DAEF2CAE2826007239A5 /* TVVLCKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		A526DB052CAE2D8F007239A5 /* TrackSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A526DB042CAE2D8F007239A5 /* TrackSelectionView.swift */; };
 		A53FB35C2C9B675D000EE49C /* LiveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A53FB35B2C9B675D000EE49C /* LiveView.swift */; };
 		A53FB35E2C9B67EA000EE49C /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A53FB35D2C9B67EA000EE49C /* SettingsView.swift */; };
 		A53FB3612C9B6B02000EE49C /* TunersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A53FB3602C9B6B02000EE49C /* TunersView.swift */; };
@@ -124,6 +125,7 @@
 		A526DAED2CAE2826007239A5 /* libswresample.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libswresample.framework; path = frameworks/simulator/libswresample.framework; sourceTree = "<group>"; };
 		A526DAEE2CAE2826007239A5 /* libavutil.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libavutil.framework; path = frameworks/simulator/libavutil.framework; sourceTree = "<group>"; };
 		A526DAEF2CAE2826007239A5 /* TVVLCKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TVVLCKit.framework; path = frameworks/simulator/TVVLCKit.framework; sourceTree = "<group>"; };
+		A526DB042CAE2D8F007239A5 /* TrackSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackSelectionView.swift; sourceTree = "<group>"; };
 		A53FB35B2C9B675D000EE49C /* LiveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveView.swift; sourceTree = "<group>"; };
 		A53FB35D2C9B67EA000EE49C /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		A53FB3602C9B6B02000EE49C /* TunersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TunersView.swift; sourceTree = "<group>"; };
@@ -294,6 +296,7 @@
 				A53FB3622C9B6B32000EE49C /* SourcesView.swift */,
 				A53FB3642C9B6B5B000EE49C /* PlaysettingView.swift */,
 				A54660762C9D9D5B005F60B1 /* ChannelDetailView.swift */,
+				A526DB042CAE2D8F007239A5 /* TrackSelectionView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -583,6 +586,7 @@
 				A5C2E5312CA35D29006F89D5 /* DeviceDataManager.swift in Sources */,
 				A5BF95542CA5162E009195EB /* CombinePlayer.swift in Sources */,
 				A53FB3652C9B6B5C000EE49C /* PlaysettingView.swift in Sources */,
+				A526DB052CAE2D8F007239A5 /* TrackSelectionView.swift in Sources */,
 				3A22DB642C826E53002A0050 /* LiveTV.xcdatamodeld in Sources */,
 				3A22DB5A2C826E51002A0050 /* MainView.swift in Sources */,
 				3A22DB582C826E51002A0050 /* LiveTVApp.swift in Sources */,

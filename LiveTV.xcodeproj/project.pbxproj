@@ -38,6 +38,8 @@
 		A526DADF2CAE1567007239A5 /* libswresample.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A526DADD2CAE1567007239A5 /* libswresample.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A526DAE12CAE157B007239A5 /* libswscale.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A526DAE02CAE157A007239A5 /* libswscale.framework */; };
 		A526DAE22CAE157B007239A5 /* libswscale.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A526DAE02CAE157A007239A5 /* libswscale.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		A526DAE42CAE1721007239A5 /* libavfilter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A526DAE32CAE1721007239A5 /* libavfilter.framework */; };
+		A526DAE52CAE1721007239A5 /* libavfilter.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A526DAE32CAE1721007239A5 /* libavfilter.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A53FB35C2C9B675D000EE49C /* LiveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A53FB35B2C9B675D000EE49C /* LiveView.swift */; };
 		A53FB35E2C9B67EA000EE49C /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A53FB35D2C9B67EA000EE49C /* SettingsView.swift */; };
 		A53FB3612C9B6B02000EE49C /* TunersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A53FB3602C9B6B02000EE49C /* TunersView.swift */; };
@@ -106,6 +108,7 @@
 				A573095B2CAB114600B6CC48 /* libavutil.framework in Embed Frameworks */,
 				9A0878492CA25B6A00188B37 /* TVVLCKit.framework in Embed Frameworks */,
 				A573094C2CAB10F200B6CC48 /* ffmpegkit.framework in Embed Frameworks */,
+				A526DAE52CAE1721007239A5 /* libavfilter.framework in Embed Frameworks */,
 				A57309522CAB111200B6CC48 /* libavdevice.framework in Embed Frameworks */,
 				A526DADF2CAE1567007239A5 /* libswresample.framework in Embed Frameworks */,
 				A57309582CAB113800B6CC48 /* libavformat.framework in Embed Frameworks */,
@@ -140,11 +143,11 @@
 		A526DAC02CAE14BB007239A5 /* ffmpegkit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ffmpegkit.framework; path = "frameworks/ffmpegkit.xcframework/tvos-arm64/ffmpegkit.framework"; sourceTree = "<group>"; };
 		A526DAC32CAE14D6007239A5 /* libavcodec.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libavcodec.framework; path = "frameworks/libavcodec.xcframework/tvos-arm64/libavcodec.framework"; sourceTree = "<group>"; };
 		A526DAD12CAE1501007239A5 /* libavdevice.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libavdevice.framework; path = "frameworks/libavdevice.xcframework/tvos-arm64/libavdevice.framework"; sourceTree = "<group>"; };
-		A526DAD42CAE1515007239A5 /* libavfilter.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = libavfilter.xcframework; path = frameworks/libavfilter.xcframework; sourceTree = "<group>"; };
 		A526DAD72CAE1547007239A5 /* libavformat.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libavformat.framework; path = "frameworks/libavformat.xcframework/tvos-arm64/libavformat.framework"; sourceTree = "<group>"; };
 		A526DADA2CAE1556007239A5 /* libavutil.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libavutil.framework; path = "frameworks/libavutil.xcframework/tvos-arm64/libavutil.framework"; sourceTree = "<group>"; };
 		A526DADD2CAE1567007239A5 /* libswresample.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libswresample.framework; path = "frameworks/libswresample.xcframework/tvos-arm64/libswresample.framework"; sourceTree = "<group>"; };
 		A526DAE02CAE157A007239A5 /* libswscale.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libswscale.framework; path = "frameworks/libswscale.xcframework/tvos-arm64/libswscale.framework"; sourceTree = "<group>"; };
+		A526DAE32CAE1721007239A5 /* libavfilter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libavfilter.framework; path = "frameworks/libavfilter.xcframework/tvos-arm64/libavfilter.framework"; sourceTree = "<group>"; };
 		A53FB35B2C9B675D000EE49C /* LiveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveView.swift; sourceTree = "<group>"; };
 		A53FB35D2C9B67EA000EE49C /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		A53FB3602C9B6B02000EE49C /* TunersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TunersView.swift; sourceTree = "<group>"; };
@@ -188,6 +191,7 @@
 				A57309682CAB116F00B6CC48 /* libswresample.framework in Frameworks */,
 				9A08783E2CA2594200188B37 /* HDHomeRun_tvOS_Framework.framework in Frameworks */,
 				A57309542CAB112200B6CC48 /* libavfilter.framework in Frameworks */,
+				A526DAE42CAE1721007239A5 /* libavfilter.framework in Frameworks */,
 				A526DADB2CAE1556007239A5 /* libavutil.framework in Frameworks */,
 				A526DADE2CAE1567007239A5 /* libswresample.framework in Frameworks */,
 				A526DAD82CAE1547007239A5 /* libavformat.framework in Frameworks */,
@@ -303,11 +307,11 @@
 		A5195A712C9A63ED003194DF /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A526DAE32CAE1721007239A5 /* libavfilter.framework */,
 				A526DAE02CAE157A007239A5 /* libswscale.framework */,
 				A526DADD2CAE1567007239A5 /* libswresample.framework */,
 				A526DADA2CAE1556007239A5 /* libavutil.framework */,
 				A526DAD72CAE1547007239A5 /* libavformat.framework */,
-				A526DAD42CAE1515007239A5 /* libavfilter.xcframework */,
 				A526DAD12CAE1501007239A5 /* libavdevice.framework */,
 				A526DAC32CAE14D6007239A5 /* libavcodec.framework */,
 				A526DAC02CAE14BB007239A5 /* ffmpegkit.framework */,
@@ -818,6 +822,7 @@
 					"$(PROJECT_DIR)/frameworks/libavutil.xcframework/tvos-arm64",
 					"$(PROJECT_DIR)/frameworks/libswresample.xcframework/tvos-arm64",
 					"$(PROJECT_DIR)/frameworks/libswscale.xcframework/tvos-arm64",
+					"$(PROJECT_DIR)/frameworks/libavfilter.xcframework/tvos-arm64",
 				);
 				GENERATE_INFOPLIST_FILE = YES;
 				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/libhdhomerun/**";
@@ -873,6 +878,7 @@
 					"$(PROJECT_DIR)/frameworks/libavutil.xcframework/tvos-arm64",
 					"$(PROJECT_DIR)/frameworks/libswresample.xcframework/tvos-arm64",
 					"$(PROJECT_DIR)/frameworks/libswscale.xcframework/tvos-arm64",
+					"$(PROJECT_DIR)/frameworks/libavfilter.xcframework/tvos-arm64",
 				);
 				GENERATE_INFOPLIST_FILE = YES;
 				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/libhdhomerun/**";

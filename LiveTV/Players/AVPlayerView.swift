@@ -111,8 +111,11 @@ class AVPlayerController: UIViewController, ObservableObject {
         let outputStreamURL = outputDirectory.appendingPathComponent(playlistName)
         
         // FFmpeg command to create HLS
+//        let ffmpegCommand = """
+//                -i \(inputUrlString) -c:v h264_videotoolbox -b:v 5000k -c:a aac -b:a 128k -ac 2 -start_number 0 -hls_time 5 -hls_list_size 0 -hls_flags delete_segments -f hls -hls_segment_filename "\(outputDirectory.appendingPathComponent("segment_%03d.ts").path)" "\(outputStreamURL.path)"
+//                """
         let ffmpegCommand = """
-                -i \(inputUrlString) -c:v h264_videotoolbox -b:v 5000k -c:a aac -b:a 128k -ac 2 -start_number 0 -hls_time 5 -hls_list_size 0 -hls_flags delete_segments -f hls -hls_segment_filename "\(outputDirectory.appendingPathComponent("segment_%03d.ts").path)" "\(outputStreamURL.path)"
+                -i \(inputUrlString) -c:v h264_videotoolbox -b:v 5000k -map 0:v -map 0:a -map 0:s -c:a copy -c:s copy -start_number 0 -hls_time 5 -hls_list_size 0 -hls_flags delete_segments -f hls -hls_segment_filename "\(outputDirectory.appendingPathComponent("segment_%03d.ts").path)" "\(outputStreamURL.path)"
                 """
 
         // Execute the FFmpeg command

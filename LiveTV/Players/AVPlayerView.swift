@@ -57,10 +57,11 @@ class AVPlayerController: UIViewController, ObservableObject {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        startLocalHTTPServer()
         setupUI()
         checkAvailableStorage()
-        startLocalHTTPServer()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: waitForPlaylist)
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: waitForPlaylist)
+        DispatchQueue.main.asyncAfter(deadline: .now(), execute: waitForPlaylist)
     }
     
     // Set up a loading indicator UI
@@ -115,7 +116,7 @@ class AVPlayerController: UIViewController, ObservableObject {
 //                -i \(inputUrlString) -c:v h264_videotoolbox -b:v 5000k -c:a aac -b:a 128k -ac 2 -start_number 0 -hls_time 5 -hls_list_size 0 -hls_flags delete_segments -f hls -hls_segment_filename "\(outputDirectory.appendingPathComponent("segment_%03d.ts").path)" "\(outputStreamURL.path)"
 //                """
         let ffmpegCommand = """
-                -i \(inputUrlString) -c:v h264_videotoolbox -b:v 5000k -map 0:v -map 0:a -map 0:s -c:a copy -c:s copy -start_number 0 -hls_time 5 -hls_list_size 0 -hls_flags delete_segments -f hls -hls_segment_filename "\(outputDirectory.appendingPathComponent("segment_%03d.ts").path)" "\(outputStreamURL.path)"
+                -i \(inputUrlString) -c:v h264_videotoolbox -vf yadif -crf 0 -b:v 9000k -c:a copy -start_number 0 -hls_time 1 -hls_list_size 0 -hls_flags delete_segments -f hls -hls_segment_filename "\(outputDirectory.appendingPathComponent("segment_%03d.ts").path)" "\(outputStreamURL.path)"
                 """
 
         // Execute the FFmpeg command
@@ -150,7 +151,7 @@ class AVPlayerController: UIViewController, ObservableObject {
         }
         let outputURL = outputDirectory.appendingPathComponent(playlistName)
         
-        loadingTimer = Timer.publish(every: 1.0, on: .main, in: .common)
+        loadingTimer = Timer.publish(every: 0.1, on: .main, in: .common)
             .autoconnect()
             .sink { [weak self] _ in
                 guard let self = self else { return }
@@ -375,6 +376,7 @@ class AVPlayerController: UIViewController, ObservableObject {
     func setupMediaSelection() {
         guard let currentItem = player?.currentItem else { return }
 
+        print("Audio and subtitls tracking test!!!")
         // Get available audio tracks
         if let audioGroup = currentItem.asset.mediaSelectionGroup(forMediaCharacteristic: .audible) {
             audioOptions = audioGroup.options

@@ -51,10 +51,7 @@
 		A54660732C9D7A3C005F60B1 /* device.json in Resources */ = {isa = PBXBuildFile; fileRef = A54660702C9D7A3C005F60B1 /* device.json */; };
 		A54660752C9D9C9E005F60B1 /* ServerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A54660742C9D9C9E005F60B1 /* ServerManager.swift */; };
 		A54660772C9D9D5B005F60B1 /* ChannelDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A54660762C9D9D5B005F60B1 /* ChannelDetailView.swift */; };
-		A59F6EBB2CB4D0FE00B77587 /* PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59F6EBA2CB4D0FE00B77587 /* PlayerView.swift */; };
-		A59F6EBD2CB4EF1A00B77587 /* PlayerUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59F6EBC2CB4EF1A00B77587 /* PlayerUIView.swift */; };
 		A5BF95522CA51073009195EB /* AVPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5BF95512CA51073009195EB /* AVPlayerView.swift */; };
-		A5BF95542CA5162E009195EB /* CombinePlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5BF95532CA5162E009195EB /* CombinePlayer.swift */; };
 		A5C2E5312CA35D29006F89D5 /* DeviceDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5C2E5302CA35D29006F89D5 /* DeviceDataManager.swift */; };
 /* End PBXBuildFile section */
 
@@ -139,10 +136,7 @@
 		A54660742C9D9C9E005F60B1 /* ServerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerManager.swift; sourceTree = "<group>"; };
 		A54660762C9D9D5B005F60B1 /* ChannelDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelDetailView.swift; sourceTree = "<group>"; };
 		A54660782C9DA2CD005F60B1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		A59F6EBA2CB4D0FE00B77587 /* PlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerView.swift; sourceTree = "<group>"; };
-		A59F6EBC2CB4EF1A00B77587 /* PlayerUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerUIView.swift; sourceTree = "<group>"; };
 		A5BF95512CA51073009195EB /* AVPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVPlayerView.swift; sourceTree = "<group>"; };
-		A5BF95532CA5162E009195EB /* CombinePlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombinePlayer.swift; sourceTree = "<group>"; };
 		A5C2E5302CA35D29006F89D5 /* DeviceDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceDataManager.swift; sourceTree = "<group>"; };
 		BA87FA179A8A1ECD7BF9D475 /* Pods-LiveTV.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LiveTV.debug.xcconfig"; path = "Target Support Files/Pods-LiveTV/Pods-LiveTV.debug.xcconfig"; sourceTree = "<group>"; };
 		C742A02AF7754211F3E92C9F /* Pods-LiveTV.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LiveTV.release.xcconfig"; path = "Target Support Files/Pods-LiveTV/Pods-LiveTV.release.xcconfig"; sourceTree = "<group>"; };
@@ -301,7 +295,6 @@
 				A53FB3642C9B6B5B000EE49C /* PlaysettingView.swift */,
 				A54660762C9D9D5B005F60B1 /* ChannelDetailView.swift */,
 				A526DB042CAE2D8F007239A5 /* TrackSelectionView.swift */,
-				A59F6EBC2CB4EF1A00B77587 /* PlayerUIView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -336,8 +329,6 @@
 			isa = PBXGroup;
 			children = (
 				A5BF95512CA51073009195EB /* AVPlayerView.swift */,
-				A59F6EBA2CB4D0FE00B77587 /* PlayerView.swift */,
-				A5BF95532CA5162E009195EB /* CombinePlayer.swift */,
 			);
 			path = Players;
 			sourceTree = "<group>";
@@ -590,17 +581,14 @@
 				3A22DB612C826E53002A0050 /* Persistence.swift in Sources */,
 				A54660752C9D9C9E005F60B1 /* ServerManager.swift in Sources */,
 				A5C2E5312CA35D29006F89D5 /* DeviceDataManager.swift in Sources */,
-				A5BF95542CA5162E009195EB /* CombinePlayer.swift in Sources */,
 				A53FB3652C9B6B5C000EE49C /* PlaysettingView.swift in Sources */,
 				A526DB052CAE2D8F007239A5 /* TrackSelectionView.swift in Sources */,
-				A59F6EBB2CB4D0FE00B77587 /* PlayerView.swift in Sources */,
 				3A22DB642C826E53002A0050 /* LiveTV.xcdatamodeld in Sources */,
 				3A22DB5A2C826E51002A0050 /* MainView.swift in Sources */,
 				3A22DB582C826E51002A0050 /* LiveTVApp.swift in Sources */,
 				A53FB3632C9B6B32000EE49C /* SourcesView.swift in Sources */,
 				A53FB3682C9B7807000EE49C /* HDHomeRunModel.swift in Sources */,
 				A53FB3612C9B6B02000EE49C /* TunersView.swift in Sources */,
-				A59F6EBD2CB4EF1A00B77587 /* PlayerUIView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

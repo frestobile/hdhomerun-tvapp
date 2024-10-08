@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ChannelDetailView: View {
+    @ObservedObject var serverManager = ServerManager.shared
     let streamURL: String  // Pass the stream URL from the channel list
     @State private var showOverlay = false
     var body: some View {
@@ -16,7 +17,6 @@ struct ChannelDetailView: View {
             
             if let url = URL(string: streamURL) {
                 ZStack {
-                    // Background player view
                     AVPlayerView(streamURL: url)
 
                     // Overlay the TrackSelectionView on top of the player view
@@ -48,6 +48,12 @@ struct ChannelDetailView: View {
                 Text("Invalid stream URL")
             }
             
+        }
+        .onAppear {
+            if !serverManager.isServerRunning {
+                serverManager.startWebServer()
+                print("Local webserver is starting now")
+            }
         }
         
     }

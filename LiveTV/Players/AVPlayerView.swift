@@ -36,7 +36,6 @@ class AVPlayerController: UIViewController, ObservableObject, AVPlayerItemLegibl
     var streamURL: URL
     var progressView: UIActivityIndicatorView?
     
-//    var webServer: GCDWebServer!
     let playlistName = "master.m3u8"
     let videolistName = "video_stream.m3u8"
     let audiolistName = "audio_stream.m3u8"
@@ -60,7 +59,6 @@ class AVPlayerController: UIViewController, ObservableObject, AVPlayerItemLegibl
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        startLocalHTTPServer()
         setupUI()
         checkAvailableStorage()
         DispatchQueue.main.asyncAfter(deadline: .now(), execute: waitForPlaylist)
@@ -84,23 +82,6 @@ class AVPlayerController: UIViewController, ObservableObject, AVPlayerItemLegibl
         self.view.addSubview(statusLabel)
         updateStatusLabel(with: "Loading...")
     }
-    
-    //MARK: - Start local HTTP server to serve the HLS files
-//    func startLocalHTTPServer() {
-//        // Initialize the web server
-//        webServer = GCDWebServer()
-//
-//        webServer.addGETHandler(forBasePath: "/", directoryPath: getDocumentsDirectory().path, indexFilename: nil, cacheAge: 3600, allowRangeRequests: true)
-//
-//        webServer.start(withPort: 9090, bonjourName: "Local WebServer")
-//        
-//        print("Local server started at: \(webServer.serverURL?.absoluteString ?? "")")
-//    }
-//    
-//    func stopWebServer() {
-//        webServer?.stop()
-//        webServer = nil
-//    }
     
     //MARK: - Process the stream using FFmpeg
     func processStream() {
@@ -152,20 +133,6 @@ class AVPlayerController: UIViewController, ObservableObject, AVPlayerItemLegibl
         self.ffmpegSession = FFmpegKit.executeAsync(ffmpegCommand) { [weak self] session in
             guard let self = self else { return }
             let returnCode = session?.getReturnCode()
-            
-//            // Log the FFmpeg output
-//            session?.getLogs()?.forEach { log in
-//                print((log as AnyObject).getMessage() as Any)
-//            }
-            
-            // Safely unwrap and log FFmpeg output
-            if let logs = session?.getLogs() {
-                for log in logs {
-                    if let logMessage = (log as? Log)?.getMessage() {
-                        print("FFmpeg Log: \(logMessage)")
-                    }
-                }
-            }
             
             // Ensure FFmpeg processing succeeded
             if ReturnCode.isSuccess(returnCode) {
@@ -242,7 +209,6 @@ class AVPlayerController: UIViewController, ObservableObject, AVPlayerItemLegibl
         print("Stream URL: \(hlsURL.absoluteString)")
         
         setupPlayer(with: hlsURL)
-        
     }
     
     // Setup AVPlayer with stream URL
@@ -328,7 +294,6 @@ class AVPlayerController: UIViewController, ObservableObject, AVPlayerItemLegibl
 
     //MARK: - Clean up when the view is deallocated
     deinit {
-//        self.stopWebServer()
         player?.pause()
         player?.removeObserver(self, forKeyPath: "status")
         player = nil

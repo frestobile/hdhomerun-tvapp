@@ -20,9 +20,7 @@ struct LiveView: View {
             } else {
                 List {
                     ForEach(model.channels, id: \.GuideNumber) { channel in
-                        
-//                        NavigationLink(destination: AVPlayerView(streamURL: URL(string:"http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4")!)) {
-                        
+                
                         NavigationLink(destination: ChannelDetailView(streamURL: channel.URL)) {
                             HStack {
                                 Text("\(channel.GuideNumber) - \(channel.GuideName)")
@@ -39,7 +37,6 @@ struct LiveView: View {
         }
         .onAppear {
             model.getChannelList(lineupUrl: lineupUrl)
-//            model.loadChanneldata()
         }
         .alert(isPresented: $model.showAlert) {
             Alert(

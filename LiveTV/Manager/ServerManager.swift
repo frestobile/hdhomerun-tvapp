@@ -20,7 +20,7 @@ class ServerManager: ObservableObject {
     let videolistName = "video_stream.m3u8"
     let audiolistName = "audio_stream.m3u8"
     
-    private var ffmpegSession: FFmpegSession?
+    var ffmpegSession: FFmpegSession?
     var isLoading = true
     var cancellables = Set<AnyCancellable>()
     var loadingTimer: AnyCancellable?

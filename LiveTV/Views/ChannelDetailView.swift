@@ -26,7 +26,10 @@ struct ChannelDetailView: View {
             DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: serverManager.waitForPlaylist)
         }
         .onDisappear {
+            serverManager.isLoading = true
             serverManager.deleteHLSOutputFolder()
+            serverManager.ffmpegSession?.cancel()
+            serverManager.ffmpegSession = nil
         }
         
     }

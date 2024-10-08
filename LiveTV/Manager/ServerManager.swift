@@ -36,10 +36,8 @@ class ServerManager: ObservableObject {
                 GCDWebServerOption_Port: 9090,
                 GCDWebServerOption_BindToLocalhost: true
             ])
-            print("Web server started on port \(webServer.serverURL!)")
             
             if webServer.isRunning {
-//                self.streamURL = webServer.serverURL?.appendingPathComponent("playlist.m3u8")
                 self.isServerRunning = true
             }
         } catch {

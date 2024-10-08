@@ -14,7 +14,7 @@ struct ChannelDetailView: View {
     var body: some View {
         VStack {
             // Check if the URL is valid before creating the player view
-            if serverManager.isLoading {
+            if serverManager.isLoading && serverManager.isServerRunning {
                 ProgressView("Converting...")
             } else {
                 PlayerView(streamURL: serverManager.streamURL!)

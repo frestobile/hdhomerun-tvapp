@@ -18,6 +18,9 @@ struct ChannelDetailView: View {
                 ProgressView("Converting...")
             } else {
                 PlayerView(streamURL: serverManager.streamURL!)
+                    .onDisappear {
+                        print("Playerview dismissed")
+                    }
             }
             
         }

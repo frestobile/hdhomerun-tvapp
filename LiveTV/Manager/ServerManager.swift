@@ -46,6 +46,7 @@ class ServerManager: ObservableObject {
             print("Error starting web server: \(error)")
             self.isServerRunning = false
         }
+       
     }
 
     // Stop the web server

@@ -237,12 +237,8 @@ class AVPlayerController: UIViewController, ObservableObject, AVPlayerItemLegibl
 
     // Get stream URL with the playlist
     func setupWebserverPlaylist() {
-        // URL to the .m3u8 playlist on the local HTTP server
-        guard let serverURL = serverManager.streamURL else {
-            print("Web server is not running.")
-            return
-        }
-        let hlsURL = serverURL.appendingPathComponent("HLSOutput/\(playlistName)")
+        let serverUrl = URL(string: "http://localhost:9090/")!
+        let hlsURL = serverUrl.appendingPathComponent("HLSOutput/\(playlistName)")
         print("Stream URL: \(hlsURL.absoluteString)")
         
         setupPlayer(with: hlsURL)

@@ -39,7 +39,9 @@ class ServerManager: ObservableObject {
             
             if webServer.isRunning {
                 self.isServerRunning = true
+                streamURL = webServer.serverURL
             }
+            
         } catch {
             print("Error starting web server: \(error)")
             self.isServerRunning = false

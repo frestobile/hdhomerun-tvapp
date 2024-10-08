@@ -25,7 +25,7 @@ struct AVPlayerView: UIViewControllerRepresentable {
 }
 
 class AVPlayerController: UIViewController, ObservableObject, AVPlayerItemLegibleOutputPushDelegate {
-
+    @ObservedObject var serverManager = ServerManager.shared
     var player: AVPlayer?
     var playerViewController: AVPlayerViewController!
     var statusLabel: UILabel = UILabel()  // Label for playback status feedback
@@ -36,7 +36,7 @@ class AVPlayerController: UIViewController, ObservableObject, AVPlayerItemLegibl
     var streamURL: URL
     var progressView: UIActivityIndicatorView?
     
-    var webServer: GCDWebServer!
+//    var webServer: GCDWebServer!
     let playlistName = "master.m3u8"
     let videolistName = "video_stream.m3u8"
     let audiolistName = "audio_stream.m3u8"
@@ -60,7 +60,7 @@ class AVPlayerController: UIViewController, ObservableObject, AVPlayerItemLegibl
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        startLocalHTTPServer()
+//        startLocalHTTPServer()
         setupUI()
         checkAvailableStorage()
         DispatchQueue.main.asyncAfter(deadline: .now(), execute: waitForPlaylist)
@@ -86,21 +86,21 @@ class AVPlayerController: UIViewController, ObservableObject, AVPlayerItemLegibl
     }
     
     //MARK: - Start local HTTP server to serve the HLS files
-    func startLocalHTTPServer() {
-        // Initialize the web server
-        webServer = GCDWebServer()
-
-        webServer.addGETHandler(forBasePath: "/", directoryPath: getDocumentsDirectory().path, indexFilename: nil, cacheAge: 3600, allowRangeRequests: true)
-
-        webServer.start(withPort: 9090, bonjourName: "Local WebServer")
-        
-        print("Local server started at: \(webServer.serverURL?.absoluteString ?? "")")
-    }
-    
-    func stopWebServer() {
-        webServer?.stop()
-        webServer = nil
-    }
+//    func startLocalHTTPServer() {
+//        // Initialize the web server
+//        webServer = GCDWebServer()
+//
+//        webServer.addGETHandler(forBasePath: "/", directoryPath: getDocumentsDirectory().path, indexFilename: nil, cacheAge: 3600, allowRangeRequests: true)
+//
+//        webServer.start(withPort: 9090, bonjourName: "Local WebServer")
+//        
+//        print("Local server started at: \(webServer.serverURL?.absoluteString ?? "")")
+//    }
+//    
+//    func stopWebServer() {
+//        webServer?.stop()
+//        webServer = nil
+//    }
     
     //MARK: - Process the stream using FFmpeg
     func processStream() {
@@ -238,7 +238,7 @@ class AVPlayerController: UIViewController, ObservableObject, AVPlayerItemLegibl
     // Get stream URL with the playlist
     func setupWebserverPlaylist() {
         // URL to the .m3u8 playlist on the local HTTP server
-        guard let serverURL = webServer.serverURL else {
+        guard let serverURL = serverManager.streamURL else {
             print("Web server is not running.")
             return
         }
@@ -332,7 +332,7 @@ class AVPlayerController: UIViewController, ObservableObject, AVPlayerItemLegibl
 
     //MARK: - Clean up when the view is deallocated
     deinit {
-        self.stopWebServer()
+//        self.stopWebServer()
         player?.pause()
         player?.removeObserver(self, forKeyPath: "status")
         player = nil

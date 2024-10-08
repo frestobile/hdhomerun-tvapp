@@ -24,7 +24,8 @@ struct AVPlayerView: UIViewControllerRepresentable {
     }
 }
 
-class AVPlayerController: UIViewController, ObservableObject {
+class AVPlayerController: UIViewController, ObservableObject, AVPlayerItemLegibleOutputPushDelegate {
+
     var player: AVPlayer?
     var playerViewController: AVPlayerViewController!
     var statusLabel: UILabel = UILabel()  // Label for playback status feedback
@@ -36,7 +37,9 @@ class AVPlayerController: UIViewController, ObservableObject {
     var progressView: UIActivityIndicatorView?
     
     var webServer: GCDWebServer!
-    let playlistName = "playlist.m3u8"
+    let playlistName = "master.m3u8"
+    let videolistName = "video_stream.m3u8"
+    let audiolistName = "audio_stream.m3u8"
     private var ffmpegSession: FFmpegSession?
     
     @Published var audioOptions: [AVMediaSelectionOption] = []
@@ -60,7 +63,6 @@ class AVPlayerController: UIViewController, ObservableObject {
         startLocalHTTPServer()
         setupUI()
         checkAvailableStorage()
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: waitForPlaylist)
         DispatchQueue.main.asyncAfter(deadline: .now(), execute: waitForPlaylist)
     }
     
@@ -108,25 +110,61 @@ class AVPlayerController: UIViewController, ObservableObject {
             print("Failed to create output directory")
             return
         }
-        
-        let outputStreamURL = outputDirectory.appendingPathComponent(playlistName)
+
         
         // FFmpeg command to create HLS
-//        let ffmpegCommand = """
-//                -i \(inputUrlString) -c:v h264_videotoolbox -b:v 5000k -c:a aac -b:a 128k -ac 2 -start_number 0 -hls_time 5 -hls_list_size 0 -hls_flags delete_segments -f hls -hls_segment_filename "\(outputDirectory.appendingPathComponent("segment_%03d.ts").path)" "\(outputStreamURL.path)"
-//                """
+        let videoOutputPath = outputDirectory.appendingPathComponent(videolistName).path
+        let audioOutputPath = outputDirectory.appendingPathComponent(audiolistName).path
+        let masterPlaylistPath = outputDirectory.appendingPathComponent(playlistName).path
+        
+        createMasterPlaylist(masterPlaylistPath: masterPlaylistPath)
+
+
         let ffmpegCommand = """
-                -i \(inputUrlString) -c:v h264_videotoolbox -vf yadif -crf 0 -b:v 9000k -c:a copy -start_number 0 -hls_time 1 -hls_list_size 0 -hls_flags delete_segments -f hls -hls_segment_filename "\(outputDirectory.appendingPathComponent("segment_%03d.ts").path)" "\(outputStreamURL.path)"
-                """
+            -i "\(inputUrlString)" \
+            -map 0:0 -c:v h264_videotoolbox -vf yadif -crf 0 -b:v 9000k \
+            -f hls -hls_time 1 -hls_list_size 0 -hls_flags delete_segments \
+            -hls_segment_filename "\(outputDirectory.appendingPathComponent("segment_%03d.ts").path)" "\(videoOutputPath)" \
+            -map 0:1 -c:a aac -b:a 128k -ac 2 \
+            -f hls -hls_time 1 -hls_list_size 0 -hls_flags delete_segments \
+            -hls_segment_filename "\(outputDirectory.appendingPathComponent("audio_segment_%03d.aac").path)" "\(audioOutputPath)"
+        """
+
+        // Set log level to AV_LOG_VERBOSE
+        FFmpegKitConfig.setLogLevel(48)  // 32 is the value for AV_LOG_VERBOSE
+        //        0 = AV_LOG_QUIET
+        //        8 = AV_LOG_PANIC
+        //        16 = AV_LOG_FATAL
+        //        24 = AV_LOG_ERROR
+        //        32 = AV_LOG_VERBOSE
+        //        48 = AV_LOG_DEBUG
+        //        56 = AV_LOG_TRACE
+                
+        // Enable log callback to capture and print FFmpeg logs
+        FFmpegKitConfig.enableLogCallback { log in
+            if let logMessage = log?.getMessage() {
+                print("FFmpegLOG: \(logMessage)")
+            }
+        }
+        
 
         // Execute the FFmpeg command
         self.ffmpegSession = FFmpegKit.executeAsync(ffmpegCommand) { [weak self] session in
             guard let self = self else { return }
             let returnCode = session?.getReturnCode()
             
-            // Log the FFmpeg output
-            session?.getLogs()?.forEach { log in
-                print((log as AnyObject).getMessage() as Any)
+//            // Log the FFmpeg output
+//            session?.getLogs()?.forEach { log in
+//                print((log as AnyObject).getMessage() as Any)
+//            }
+            
+            // Safely unwrap and log FFmpeg output
+            if let logs = session?.getLogs() {
+                for log in logs {
+                    if let logMessage = (log as? Log)?.getMessage() {
+                        print("FFmpeg Log: \(logMessage)")
+                    }
+                }
             }
             
             // Ensure FFmpeg processing succeeded
@@ -141,6 +179,32 @@ class AVPlayerController: UIViewController, ObservableObject {
             }
         }
     }
+    
+    // This creates the master playlist (playlist.m3u8) before starting FFmpeg process
+    func createMasterPlaylist(masterPlaylistPath: String) {
+        let masterPlaylistContent = """
+        #EXTM3U
+        #EXT-X-VERSION:3
+
+        # Declare the audio streams
+        #EXT-X-MEDIA:TYPE=AUDIO,GROUP-ID="audio",LANGUAGE="en",NAME="English Stereo",AUTOSELECT=YES,DEFAULT=YES,URI="audio_stream.m3u8"
+
+
+        # Video stream that includes the audio and subtitle tracks
+        #EXT-X-STREAM-INF:BANDWIDTH=5000000,AUDIO="audio"
+        video_stream.m3u8
+        """
+
+        // Write the master playlist to file
+        do {
+            try masterPlaylistContent.write(toFile: masterPlaylistPath, atomically: true, encoding: .utf8)
+            print("Master playlist created at: \(masterPlaylistPath)")
+        } catch {
+            print("Failed to create master playlist: \(error)")
+        }
+    }
+    
+    
 
     //MARK: - AVPlayer setup
     // Wait for the playlist to become available and play
@@ -149,9 +213,9 @@ class AVPlayerController: UIViewController, ObservableObject {
             print("Failed to create output directory")
             return
         }
-        let outputURL = outputDirectory.appendingPathComponent(playlistName)
+        let outputURL = outputDirectory.appendingPathComponent(videolistName)
         
-        loadingTimer = Timer.publish(every: 0.1, on: .main, in: .common)
+        loadingTimer = Timer.publish(every: 0.1, on: .main, in: .common) 
             .autoconnect()
             .sink { [weak self] _ in
                 guard let self = self else { return }
@@ -209,12 +273,30 @@ class AVPlayerController: UIViewController, ObservableObject {
         player?.play()
         progressView?.stopAnimating()
         isLoading = false
+        
+        addExternalSubtitle(url: getDocumentsDirectory().appendingPathComponent("HLSOutput/segment_000.vtt"))
+        
         // Observer for player's status, e.g., ready to play
         player?.addObserver(self, forKeyPath: "status", options: [.new, .initial], context: nil)
         
         // Setup audio and subtitle track selection
         setupMediaSelection()
    }
+    
+    
+    func addExternalSubtitle(url: URL) {
+        guard let playerItem = player?.currentItem else { return }
+        
+        let subtitleAsset = AVURLAsset(url: url)
+        let subtitleItem = AVPlayerItem(asset: subtitleAsset)
+        
+        let legibleOutput = AVPlayerItemLegibleOutput()
+        legibleOutput.setDelegate(self, queue: DispatchQueue.main)
+        playerItem.add(legibleOutput)
+        
+        print("Subtitle added: \(url.absoluteString)")
+    }
+    
 
     //MARK: - Observe player status changes
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
@@ -256,7 +338,6 @@ class AVPlayerController: UIViewController, ObservableObject {
         player = nil
         self.ffmpegSession?.cancel()
         self.ffmpegSession = nil
-//        self.cleanupOldSegments()
         self.deleteHLSOutputFolder()
         
         self.progressView?.stopAnimating()
@@ -316,49 +397,6 @@ class AVPlayerController: UIViewController, ObservableObject {
         }
     }
     
-    //MARK: - Clean the segments files when player is closed
-    func cleanupOldSegments() {
-        guard let outputDirectory = createHLSOutputDirectory() else {
-            print("Failed to create output directory")
-            return
-        }
-        let playlistUrl = outputDirectory.appendingPathComponent(playlistName)
-
-        // Get the list of segments currently in the playlist
-        let activeSegments = getSegmentsFromPlaylist(playlistUrl: playlistUrl)
-        
-        do {
-            // List all files in the HLS output directory
-            let allFiles = try FileManager.default.contentsOfDirectory(atPath: outputDirectory.path)
-            
-            // Filter out only the .ts files (segments)
-            let segmentFiles = allFiles.filter { $0.hasSuffix(".ts") }
-            
-            for segment in segmentFiles {
-                // If a segment is not in the current playlist, delete it
-                if !activeSegments.contains(segment) {
-                    let segmentUrl = outputDirectory.appendingPathComponent(segment)
-                    try FileManager.default.removeItem(at: segmentUrl)
-                    print("Deleted old segment: \(segment)")
-                }
-            }
-        } catch {
-            print("Error during cleanup: \(error)")
-        }
-    }
-    
-    func getSegmentsFromPlaylist(playlistUrl: URL) -> [String] {
-        do {
-            let playlistContents = try String(contentsOf: playlistUrl, encoding: .utf8)
-            let lines = playlistContents.split(separator: "\n")
-            let segmentFiles = lines.filter { $0.hasSuffix(".ts") }
-            return segmentFiles.map { String($0) }
-        } catch {
-            print("Error reading playlist: \(error)")
-            return []
-        }
-    }
-    
     func updateStatusLabel(with message: String) {
         statusLabel.text = message
         // Hide the label after 3 seconds unless buffering
@@ -376,7 +414,6 @@ class AVPlayerController: UIViewController, ObservableObject {
     func setupMediaSelection() {
         guard let currentItem = player?.currentItem else { return }
 
-        print("Audio and subtitls tracking test!!!")
         // Get available audio tracks
         if let audioGroup = currentItem.asset.mediaSelectionGroup(forMediaCharacteristic: .audible) {
             audioOptions = audioGroup.options
@@ -407,4 +444,3 @@ class AVPlayerController: UIViewController, ObservableObject {
         }
     }
 }
-

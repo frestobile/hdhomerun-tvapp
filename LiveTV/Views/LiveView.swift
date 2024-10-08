@@ -23,7 +23,7 @@ struct LiveView: View {
                         
 //                        NavigationLink(destination: AVPlayerView(streamURL: URL(string:"http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4")!)) {
                         
-                        NavigationLink(destination: ChannelDetailView(streamURL: channel.URL)) {
+                        NavigationLink(destination: PlayerUIView(streamURL: channel.URL)) {
                             HStack {
                                 Text("\(channel.GuideNumber) - \(channel.GuideName)")
                                 Spacer()

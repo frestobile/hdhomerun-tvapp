@@ -79,8 +79,8 @@ class ServerManager: ObservableObject {
     }
     
     //MARK: - Process the stream using FFmpeg
-    func processStream(streamURL: URL) {
-        let inputUrlString = streamURL.absoluteString
+    func processStream(streamURL: String) {
+       
 
         guard let outputDirectory = createHLSOutputDirectory() else {
             print("Failed to create output directory")
@@ -96,7 +96,7 @@ class ServerManager: ObservableObject {
 
 
         let ffmpegCommand = """
-            -i "\(inputUrlString)" \
+            -i "\(streamURL)" \
             -map 0:0 -c:v h264_videotoolbox -vf yadif -crf 0 -b:v 9000k \
             -f hls -hls_time 1 -hls_list_size 0 -hls_flags delete_segments \
             -hls_segment_filename "\(outputDirectory.appendingPathComponent("segment_%03d.ts").path)" "\(videoOutputPath)" \

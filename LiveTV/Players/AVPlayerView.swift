@@ -9,7 +9,6 @@ import Combine
 import AVKit
 import SwiftUI
 import ffmpegkit
-import GCDWebServer
 
 struct AVPlayerView: UIViewControllerRepresentable {
     let streamURL: URL
@@ -100,16 +99,41 @@ class AVPlayerController: UIViewController, ObservableObject, AVPlayerItemLegibl
         
         createMasterPlaylist(masterPlaylistPath: masterPlaylistPath)
 
+//
+//        let ffmpegCommand = """
+//            -i "\(inputUrlString)" \
+//            -map 0:0 -c:v h264_videotoolbox -vf yadif -crf 0 -b:v 9000k \
+//            -f hls -hls_time 1 -hls_list_size 0 -hls_flags delete_segments \
+//            -hls_segment_filename "\(outputDirectory.appendingPathComponent("segment_%03d.ts").path)" "\(videoOutputPath)" \
+//            -map 0:1 -c:a aac -b:a 128k -ac 2 \
+//            -f hls -hls_time 1 -hls_list_size 0 -hls_flags delete_segments \
+//            -hls_segment_filename "\(outputDirectory.appendingPathComponent("audio_segment_%03d.aac").path)" "\(audioOutputPath)"
+//        """
+        let ffmpegCommand = [
+            "-i", inputUrlString,
+            "-map", "0:0",
+            "-c:v", "h264_videotoolbox",
+            "-vf", "yadif",
+//            "-crf", "0",
+            "-b:v", "9000k",
+            "-f", "hls",
+            "-hls_time", "1",
+            "-hls_list_size", "0",
+            "-hls_flags", "delete_segments",
+            "-hls_segment_filename", outputDirectory.appendingPathComponent("segment_%03d.ts").path,
+            videoOutputPath,
+            "-map", "0:1",
+            "-c:a", "aac",
+            "-b:a", "128k",
+            "-ac", "2",
+            "-f", "hls",
+            "-hls_time", "1",
+            "-hls_list_size", "0",
+            "-hls_flags", "delete_segments",
+            "-hls_segment_filename", outputDirectory.appendingPathComponent("audio_segment_%03d.aac").path,
+            audioOutputPath
+        ]
 
-        let ffmpegCommand = """
-            -i "\(inputUrlString)" \
-            -map 0:0 -c:v h264_videotoolbox -vf yadif -crf 0 -b:v 9000k \
-            -f hls -hls_time 1 -hls_list_size 0 -hls_flags delete_segments \
-            -hls_segment_filename "\(outputDirectory.appendingPathComponent("segment_%03d.ts").path)" "\(videoOutputPath)" \
-            -map 0:1 -c:a aac -b:a 128k -ac 2 \
-            -f hls -hls_time 1 -hls_list_size 0 -hls_flags delete_segments \
-            -hls_segment_filename "\(outputDirectory.appendingPathComponent("audio_segment_%03d.aac").path)" "\(audioOutputPath)"
-        """
 
         // Set log level to AV_LOG_VERBOSE
         FFmpegKitConfig.setLogLevel(48)  // 32 is the value for AV_LOG_VERBOSE
@@ -130,7 +154,7 @@ class AVPlayerController: UIViewController, ObservableObject, AVPlayerItemLegibl
         
 
         // Execute the FFmpeg command
-        self.ffmpegSession = FFmpegKit.executeAsync(ffmpegCommand) { [weak self] session in
+        self.ffmpegSession = FFmpegKit.executeAsync(ffmpegCommand.joined(separator: " ")) { [weak self] session in
             guard let self = self else { return }
             let returnCode = session?.getReturnCode()
             
@@ -182,7 +206,7 @@ class AVPlayerController: UIViewController, ObservableObject, AVPlayerItemLegibl
         }
         let outputURL = outputDirectory.appendingPathComponent(videolistName)
         
-        loadingTimer = Timer.publish(every: 0.1, on: .main, in: .common) 
+        loadingTimer = Timer.publish(every: 0.5, on: .main, in: .common)
             .autoconnect()
             .sink { [weak self] _ in
                 guard let self = self else { return }
